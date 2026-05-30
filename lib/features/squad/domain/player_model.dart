@@ -31,6 +31,16 @@ class PlayerModel extends Equatable {
         bio: data['bio'] as String?,
       );
 
+  factory PlayerModel.fromSupabase(Map<String, dynamic> data) => PlayerModel(
+        id: data['id'] as String,
+        name: data['name'] as String? ?? '',
+        position: data['position'] as String? ?? '',
+        number: (data['number'] as num?)?.toInt() ?? 0,
+        photoUrl: data['image_url'] as String?,
+        nationality: data['nationality'] as String?,
+        age: _ageFromBirthDate(data['birth_date']),
+      );
+
   final String id;
   final String name;
   final String position;
@@ -45,4 +55,18 @@ class PlayerModel extends Equatable {
 
   @override
   List<Object?> get props => [id, name, number];
+}
+
+int? _ageFromBirthDate(Object? value) {
+  final birthDate = value is DateTime
+      ? value
+      : value is String
+          ? DateTime.tryParse(value)
+          : null;
+  if (birthDate == null) return null;
+
+  final today = DateTime.now();
+  final hadBirthday = today.month > birthDate.month ||
+      (today.month == birthDate.month && today.day >= birthDate.day);
+  return today.year - birthDate.year - (hadBirthday ? 0 : 1);
 }

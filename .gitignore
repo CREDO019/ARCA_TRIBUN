@@ -48,5 +48,6 @@ app.*.map.json
 /config/*.json
 !/config/*.example.json
 /supabase/.temp/
+/supabase/.branches/
 google-services.json
 GoogleService-Info.plist

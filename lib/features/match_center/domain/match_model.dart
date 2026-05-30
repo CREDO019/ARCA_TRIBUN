@@ -17,6 +17,18 @@ class MatchModel extends Equatable {
     this.competition,
   });
 
+  factory MatchModel.fromSupabase(Map<String, dynamic> data) => MatchModel(
+        id: data['id'] as String,
+        homeTeam: data['home_team'] as String? ?? '',
+        awayTeam: data['away_team'] as String? ?? '',
+        kickoffTime: _dateTimeFromSupabase(data['match_date']),
+        status: matchStatusFromSupabase(data['status'] as String?),
+        homeScore: (data['home_score'] as num?)?.toInt(),
+        awayScore: (data['away_score'] as num?)?.toInt(),
+        venue: data['stadium'] as String?,
+        competition: data['competition'] as String?,
+      );
+
   final String id;
   final String homeTeam;
   final String awayTeam;
@@ -72,7 +84,7 @@ class LiveMatchModel extends Equatable {
 
   factory LiveMatchModel.fromSupabase(Map<String, dynamic> data) =>
       LiveMatchModel(
-        matchId: data['match_id'] as String? ?? '',
+        matchId: data['match_id'] as String? ?? data['id'] as String? ?? '',
         minute: (data['minute'] as num?)?.toInt() ?? 0,
         homeScore: (data['home_score'] as num?)?.toInt() ?? 0,
         awayScore: (data['away_score'] as num?)?.toInt() ?? 0,
@@ -134,12 +146,14 @@ class MatchEventModel extends Equatable {
   factory MatchEventModel.fromSupabase(Map<String, dynamic> data) =>
       MatchEventModel(
         id: data['id'] as String,
-        type: _matchEventTypeFromSupabase(data['type'] as String?),
+        type: _matchEventTypeFromSupabase(
+          data['event_type'] as String? ?? data['type'] as String?,
+        ),
         minute: (data['minute'] as num?)?.toInt() ?? 0,
         playerName: data['player_name'] as String? ?? '',
-        teamId: data['team_id'] as String?,
+        teamId: data['team'] as String? ?? data['team_id'] as String?,
         assistPlayerName: data['assist_player_name'] as String?,
-        detail: data['detail'] as String?,
+        detail: data['description'] as String? ?? data['detail'] as String?,
       );
 
   final String id;
@@ -161,7 +175,24 @@ enum MatchEventType {
   redCard,
   substitution,
   penaltyGoal,
+  kickoff,
+  fullTime,
   other
+}
+
+MatchStatus matchStatusFromSupabase(String? value) {
+  switch (value) {
+    case 'live':
+      return MatchStatus.live;
+    case 'finished':
+      return MatchStatus.postMatch;
+    case 'cancelled':
+      return MatchStatus.cancelled;
+    case 'scheduled':
+    case 'postponed':
+    default:
+      return MatchStatus.scheduled;
+  }
 }
 
 MatchEventType _matchEventTypeFromSupabase(String? value) {
@@ -178,7 +209,17 @@ MatchEventType _matchEventTypeFromSupabase(String? value) {
       return MatchEventType.substitution;
     case 'penalty_goal':
       return MatchEventType.penaltyGoal;
+    case 'kickoff':
+      return MatchEventType.kickoff;
+    case 'fulltime':
+      return MatchEventType.fullTime;
     default:
       return MatchEventType.other;
   }
+}
+
+DateTime _dateTimeFromSupabase(Object? value) {
+  if (value is DateTime) return value;
+  if (value is String) return DateTime.parse(value);
+  return DateTime.now();
 }

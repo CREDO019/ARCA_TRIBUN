@@ -8,15 +8,15 @@ import '../../../core/constants/supabase_tables.dart';
 /// Canlı maç verisi — Supabase Realtime stream (Postgres Changes).
 ///
 /// Firebase: `FirebaseFirestore.instance.doc(path).snapshots()`
-/// Supabase:  `supabase.from(table).stream(primaryKey: ['id']).eq('match_id', id)`
+/// Supabase:  `supabase.from('matches').stream(primaryKey: ['id']).eq('id', id)`
 final liveMatchProvider = StreamProvider.family<LiveMatchModel?, String>(
   (ref, matchId) {
     final supabase = Supabase.instance.client;
 
     return supabase
-        .from(SupabaseTables.liveMatchState)
+        .from(SupabaseTables.matches)
         .stream(primaryKey: [SupabaseTables.colId])
-        .eq(SupabaseTables.colMatchId, matchId)
+        .eq(SupabaseTables.colId, matchId)
         .map((rows) {
           if (rows.isEmpty) return null;
           return LiveMatchModel.fromSupabase(rows.first);
@@ -56,10 +56,7 @@ final matchStatusProvider = StreamProvider.family<MatchStatus, String>(
         .map((rows) {
           if (rows.isEmpty) return MatchStatus.scheduled;
           final statusStr = rows.first[SupabaseTables.colStatus] as String?;
-          return MatchStatus.values.firstWhere(
-            (e) => e.name == statusStr,
-            orElse: () => MatchStatus.scheduled,
-          );
+          return matchStatusFromSupabase(statusStr);
         });
   },
 );

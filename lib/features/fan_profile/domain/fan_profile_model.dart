@@ -39,18 +39,18 @@ class FanProfileModel extends Equatable {
       FanProfileModel(
         uid: data['id'] as String? ?? '',
         displayName: data['display_name'] as String? ?? '',
-        fanPoints: (data['fan_points'] as num?)?.toInt() ?? 0,
-        fanLevel: (data['fan_level'] as num?)?.toInt() ?? 1,
-        fanLevelTitle: data['fan_level_title'] as String? ?? 'Bronz',
-        currentStreak: (data['current_streak'] as num?)?.toInt() ?? 0,
-        longestStreak: (data['longest_streak'] as num?)?.toInt() ?? 0,
+        fanPoints: (data['points'] as num?)?.toInt() ?? 0,
+        fanLevel: (data['level'] as num?)?.toInt() ?? 1,
+        fanLevelTitle: _fanLevelTitle((data['level'] as num?)?.toInt() ?? 1),
+        currentStreak: 0,
+        longestStreak: 0,
         earnedBadgeIds: List<String>.from(
-          data['earned_badge_ids'] as List? ?? [],
+          data['earned_badge_ids'] as List? ?? const [],
         ),
-        totalPredictions: (data['total_predictions'] as num?)?.toInt() ?? 0,
-        correctPredictions: (data['correct_predictions'] as num?)?.toInt() ?? 0,
-        lastCheckIn: _dateTimeFromSupabase(data['last_check_in']),
-        preferredLocale: data['preferred_locale'] as String? ?? 'tr',
+        totalPredictions: 0,
+        correctPredictions: 0,
+        lastCheckIn: DateTime(2000),
+        preferredLocale: 'tr',
       );
 
   final String uid;
@@ -82,10 +82,11 @@ class FanProfileModel extends Equatable {
   List<Object?> get props => [uid, fanPoints, fanLevel, currentStreak];
 }
 
-DateTime _dateTimeFromSupabase(Object? value) {
-  if (value is DateTime) return value;
-  if (value is String) return DateTime.parse(value);
-  return DateTime(2000);
+String _fanLevelTitle(int level) {
+  if (level >= 4) return 'Elmas';
+  if (level == 3) return 'Altın';
+  if (level == 2) return 'Gümüş';
+  return 'Bronz';
 }
 
 /// Rozet model

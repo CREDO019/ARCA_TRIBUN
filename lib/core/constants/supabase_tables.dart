@@ -16,7 +16,8 @@ class SupabaseTables {
   /// Ana maç bilgileri
   static const String matches = 'matches';
 
-  /// Canlı maç durumu (skor, dakika, son atış bilgileri)
+  /// Canlı maç durumu için salt okunur geçiş view'ı.
+  /// Realtime akışları doğrudan [matches] tablosunu izlemelidir.
   static const String liveMatchState = 'live_match_state';
 
   /// Maç olayları (gol, kart, değişiklik)
@@ -27,7 +28,7 @@ class SupabaseTables {
   /// Haberler
   static const String news = 'news';
 
-  /// Fikstür (gelecek ve geçmiş maçlar)
+  /// [matches] tablosunu sunan salt okunur geçiş view'ı.
   static const String fixtures = 'fixtures';
 
   /// Puan durumu
@@ -47,7 +48,7 @@ class SupabaseTables {
   /// Kullanıcı cihazları (FCM token yönetimi)
   static const String userDevices = 'user_devices';
 
-  /// Sıralama (liderboard)
+  /// Fan profillerinden üretilen salt okunur view.
   static const String leaderboard = 'leaderboard';
 
   // ── Kolon adları ──────────────────────────────────────────────────────
@@ -62,10 +63,10 @@ class SupabaseTables {
   static const String colStatus = 'status';
   static const String colScore = 'score';
   static const String colMinute = 'minute';
-  static const String colFcmToken = 'fcm_token';
+  static const String colDeviceToken = 'device_token';
   static const String colPlatform = 'platform';
-  static const String colFanPoints = 'fan_points';
-  static const String colFanLevel = 'fan_level';
+  static const String colPoints = 'points';
+  static const String colLevel = 'level';
   static const String colDisplayName = 'display_name';
   static const String colLastScorer = 'last_scorer';
   static const String colLastScoringTeam = 'last_scoring_team';

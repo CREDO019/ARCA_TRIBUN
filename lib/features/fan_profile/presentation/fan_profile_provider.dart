@@ -29,18 +29,27 @@ final fanProfileProvider = StreamProvider<FanProfileModel?>((ref) {
 
 /// Leaderboard provider — en yüksek puanlı 50 taraftar.
 ///
-/// Supabase Realtime stream ile canlı güncellenir.
+/// Güvenlik gereği bu sprintte yalnızca kullanıcının kendi satırını döndürür.
 final leaderboardProvider =
     FutureProvider<List<Map<String, dynamic>>>((ref) async {
   final supabase = Supabase.instance.client;
 
   final rows = await supabase
       .from(SupabaseTables.leaderboard)
-      .select('user_id, ${SupabaseTables.colDisplayName}, total_points, rank')
+      .select('user_id, ${SupabaseTables.colDisplayName}, points, rank')
       .order('rank', ascending: true)
       .limit(50);
 
-  return List<Map<String, dynamic>>.from(rows);
+  return rows
+      .map(
+        (row) => <String, dynamic>{
+          'userId': row[SupabaseTables.colUserId],
+          'displayName': row[SupabaseTables.colDisplayName],
+          'fanPoints': row[SupabaseTables.colPoints],
+          'rank': row['rank'],
+        },
+      )
+      .toList();
 });
 
 /// Kullanıcının sıralama pozisyonu provider
