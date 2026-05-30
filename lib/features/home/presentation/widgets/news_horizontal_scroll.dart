@@ -6,6 +6,7 @@ import '../../../../core/router/route_names.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_typography.dart';
+import '../../../../shared/widgets/content_state.dart';
 import '../../../news/presentation/news_provider.dart';
 
 /// Son haberler yatay kaydırmalı liste
@@ -58,13 +59,7 @@ class NewsHorizontalScroll extends ConsumerWidget {
               borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
               border: Border.all(color: AppColors.border),
             ),
-            child: const Center(
-              child: Text(
-                'İçerik yüklenemedi. Lütfen tekrar deneyin.',
-                style: TextStyle(color: AppColors.secondaryGray),
-                textAlign: TextAlign.center,
-              ),
-            ),
+            child: const ContentErrorState(compact: true),
           ),
           data: (newsList) {
             if (newsList.isEmpty) {
@@ -77,11 +72,11 @@ class NewsHorizontalScroll extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
                   border: Border.all(color: AppColors.border),
                 ),
-                child: const Center(
-                  child: Text(
-                    'Henüz haber bulunmuyor.',
-                    style: TextStyle(color: AppColors.secondaryGray),
-                  ),
+                child: const BrandedEmptyState(
+                  icon: Icons.campaign_outlined,
+                  title: 'Tribün gündemi hazırlanıyor',
+                  message: 'Yeni haberler yakında burada olacak.',
+                  compact: true,
                 ),
               );
             }
@@ -91,17 +86,20 @@ class NewsHorizontalScroll extends ConsumerWidget {
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 itemCount: newsList.length,
-                separatorBuilder: (_, __) => const SizedBox(width: AppSpacing.md),
+                separatorBuilder: (_, __) =>
+                    const SizedBox(width: AppSpacing.md),
                 itemBuilder: (context, index) {
                   final item = newsList[index];
                   return GestureDetector(
-                    onTap: () => context.push(RouteNames.newsDetailPath(item.id)),
+                    onTap: () =>
+                        context.push(RouteNames.newsDetailPath(item.id)),
                     child: Container(
                       width: 220,
                       padding: const EdgeInsets.all(AppSpacing.md),
                       decoration: BoxDecoration(
                         color: AppColors.cardBg,
-                        borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
+                        borderRadius:
+                            BorderRadius.circular(AppSpacing.radiusLg),
                         border: Border.all(color: AppColors.border),
                       ),
                       child: Column(
@@ -112,7 +110,8 @@ class NewsHorizontalScroll extends ConsumerWidget {
                                 horizontal: AppSpacing.sm,
                                 vertical: AppSpacing.xs),
                             decoration: BoxDecoration(
-                              color: AppColors.primaryRed.withValues(alpha: 0.15),
+                              color:
+                                  AppColors.primaryRed.withValues(alpha: 0.15),
                               borderRadius:
                                   BorderRadius.circular(AppSpacing.radiusFull),
                             ),

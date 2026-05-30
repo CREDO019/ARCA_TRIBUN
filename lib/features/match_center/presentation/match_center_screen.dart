@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../shared/widgets/content_state.dart';
 import '../../../shared/widgets/loading_shimmer.dart';
 import '../domain/match_model.dart';
 import 'live/live_screen.dart';
@@ -25,15 +26,9 @@ class MatchCenterScreen extends ConsumerWidget {
         backgroundColor: AppColors.background,
         body: LoadingShimmer(),
       ),
-      error: (_, __) => Scaffold(
+      error: (_, __) => const Scaffold(
         backgroundColor: AppColors.background,
-        body: Center(
-          child: Text(
-            'İçerik yüklenemedi. Lütfen tekrar deneyin.',
-            style: const TextStyle(color: AppColors.white),
-            textAlign: TextAlign.center,
-          ),
-        ),
+        body: ContentErrorState(),
       ),
       data: (status) {
         return AnimatedSwitcher(

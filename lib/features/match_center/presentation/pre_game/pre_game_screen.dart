@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_typography.dart';
+import '../../../../shared/widgets/content_state.dart';
 import '../../../../shared/widgets/loading_shimmer.dart';
 import '../match_provider.dart';
 
@@ -22,26 +23,18 @@ class PreGameScreen extends ConsumerWidget {
         backgroundColor: AppColors.background,
         body: LoadingShimmer(itemCount: 4),
       ),
-      error: (_, __) => Scaffold(
+      error: (_, __) => const Scaffold(
         backgroundColor: AppColors.background,
-        appBar: AppBar(title: const Text('Maç Öncesi')),
-        body: const Center(
-          child: Text(
-            'İçerik yüklenemedi. Lütfen tekrar deneyin.',
-            style: TextStyle(color: AppColors.secondaryGray),
-          ),
-        ),
+        body: ContentErrorState(),
       ),
       data: (match) {
         if (match == null) {
-          return Scaffold(
+          return const Scaffold(
             backgroundColor: AppColors.background,
-            appBar: AppBar(title: const Text('Maç Öncesi')),
-            body: const Center(
-              child: Text(
-                'Maç bilgisi bulunamadı.',
-                style: TextStyle(color: AppColors.secondaryGray),
-              ),
+            body: BrandedEmptyState(
+              icon: Icons.stadium_outlined,
+              title: 'Maç merkezi hazırlanıyor',
+              message: 'Karşılaşma bilgileri eklendiğinde burada görünecek.',
             ),
           );
         }

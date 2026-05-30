@@ -5,6 +5,7 @@ import 'package:share_plus/share_plus.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_typography.dart';
+import '../../../shared/widgets/content_state.dart';
 import '../../../shared/widgets/loading_shimmer.dart';
 import 'news_provider.dart';
 
@@ -23,24 +24,20 @@ class NewsDetailScreen extends ConsumerWidget {
         backgroundColor: AppColors.background,
         body: LoadingShimmer(),
       ),
-      error: (_, __) => Scaffold(
+      error: (_, __) => const Scaffold(
         backgroundColor: AppColors.background,
-        body: Center(
-          child: Text(
-            'İçerik yüklenemedi. Lütfen tekrar deneyin.',
-            style: AppTypography.bodyMedium,
-            textAlign: TextAlign.center,
-          ),
-        ),
+        body: ContentErrorState(),
       ),
       data: (news) {
         if (news == null) {
-          return Scaffold(
+          return const Scaffold(
             backgroundColor: AppColors.background,
-            appBar: AppBar(),
-            body: const Center(
-                child: Text('Haber bulunamadı',
-                    style: TextStyle(color: AppColors.white))),
+            body: BrandedEmptyState(
+              icon: Icons.article_outlined,
+              title: 'Haber bulunamadı',
+              message:
+                  'Bu içerik kaldırılmış veya henüz yayınlanmamış olabilir.',
+            ),
           );
         }
 

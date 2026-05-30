@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_typography.dart';
+import '../../../shared/widgets/content_state.dart';
 import '../../../shared/widgets/loading_shimmer.dart';
 import '../domain/player_model.dart';
 import 'squad_provider.dart';
@@ -23,30 +24,18 @@ class PlayerDetailScreen extends ConsumerWidget {
         backgroundColor: AppColors.background,
         body: LoadingShimmer(itemCount: 4),
       ),
-      error: (_, __) => Scaffold(
+      error: (_, __) => const Scaffold(
         backgroundColor: AppColors.background,
-        appBar: AppBar(title: const Text('Oyuncu Profili')),
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(AppSpacing.screenPadding),
-            child: Text(
-              'İçerik yüklenemedi. Lütfen tekrar deneyin.',
-              style: AppTypography.bodyMedium,
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ),
+        body: ContentErrorState(),
       ),
       data: (player) {
         if (player == null) {
-          return Scaffold(
+          return const Scaffold(
             backgroundColor: AppColors.background,
-            appBar: AppBar(title: const Text('Oyuncu Profili')),
-            body: const Center(
-              child: Text(
-                'Oyuncu bilgisi bulunamadı.',
-                style: TextStyle(color: AppColors.secondaryGray),
-              ),
+            body: BrandedEmptyState(
+              icon: Icons.person_search_outlined,
+              title: 'Oyuncu bilgisi bulunamadı',
+              message: 'Kadro güncellendiğinde detaylar burada yer alacak.',
             ),
           );
         }

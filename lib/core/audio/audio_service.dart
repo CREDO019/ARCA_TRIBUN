@@ -22,6 +22,7 @@ class AudioService {
 
   /// Her ses tipi için ayrı player (eş zamanlı çalma desteği)
   final Map<SoundType, AudioPlayer> _players = {};
+  final Set<SoundType> _loadedSounds = {};
 
   bool _isInitialized = false;
 
@@ -59,8 +60,11 @@ class AudioService {
       _isInitialized = true;
       _logger.i('[AudioService] Audio initialized successfully');
     } catch (e, st) {
-      _logger.e('[AudioService] Failed to initialize audio',
-          error: e, stackTrace: st);
+      _logger.e(
+        '[AudioService] Failed to initialize audio',
+        error: e,
+        stackTrace: st,
+      );
     }
   }
 
@@ -69,6 +73,7 @@ class AudioService {
     for (final entry in soundPaths.entries) {
       try {
         await _players[entry.key]?.setAsset(entry.value);
+        _loadedSounds.add(entry.key);
       } catch (e) {
         _logger.w('[AudioService] Could not preload ${entry.key}: $e');
       }
@@ -92,7 +97,7 @@ class AudioService {
     }
 
     final player = _players[type];
-    if (player == null) return;
+    if (player == null || !_loadedSounds.contains(type)) return;
 
     try {
       await player.seek(Duration.zero);
@@ -133,6 +138,7 @@ class AudioService {
       await player.dispose();
     }
     _players.clear();
+    _loadedSounds.clear();
     _isInitialized = false;
   }
 }

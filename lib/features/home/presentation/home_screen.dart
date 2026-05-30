@@ -69,6 +69,9 @@ class HomeScreen extends ConsumerWidget {
                 padding: const EdgeInsets.all(AppSpacing.screenPadding),
                 sliver: SliverList(
                   delegate: SliverChildListDelegate([
+                    const _HomeWelcomeCard(),
+                    const SizedBox(height: AppSpacing.xl),
+
                     // Canlı Maç Hero Kartı
                     const LiveMatchHeroCard(),
                     const SizedBox(height: AppSpacing.xl),
@@ -100,6 +103,63 @@ class HomeScreen extends ConsumerWidget {
 
           // Offline banner üstte göster
           const Positioned(top: 0, left: 0, right: 0, child: OfflineBanner()),
+        ],
+      ),
+    );
+  }
+}
+
+class _HomeWelcomeCard extends StatelessWidget {
+  const _HomeWelcomeCard();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.cardPadding),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: AppColors.heroGradient,
+        ),
+        borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
+        border: Border.all(
+          color: AppColors.primaryRed.withValues(alpha: 0.35),
+        ),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 46,
+            height: 46,
+            decoration: BoxDecoration(
+              color: AppColors.primaryRed,
+              borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+            ),
+            child: Center(
+              child: Text(
+                'AT',
+                style: AppTypography.titleMedium.copyWith(
+                  color: AppColors.white,
+                  letterSpacing: 1.2,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: AppSpacing.md),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('ARCA TRİBÜN', style: AppTypography.headlineMedium),
+                const SizedBox(height: AppSpacing.xs),
+                Text(
+                  'Takımına dair gelişmeler burada seninle buluşacak.',
+                  style: AppTypography.bodyMedium,
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );

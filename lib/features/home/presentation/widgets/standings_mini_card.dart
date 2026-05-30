@@ -6,6 +6,7 @@ import '../../../../core/router/route_names.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_typography.dart';
+import '../../../../shared/widgets/content_state.dart';
 import '../../../standings/presentation/standings_provider.dart';
 
 /// Puan durumu mini kart widget'ı — home screen'de özet gösterir.
@@ -47,21 +48,16 @@ class StandingsMiniCard extends ConsumerWidget {
                 style: TextStyle(color: AppColors.secondaryGray),
               ),
             ),
-            error: (_, __) => const Padding(
-              padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
-              child: Text(
-                'İçerik yüklenemedi.',
-                style: TextStyle(color: AppColors.secondaryGray),
-              ),
+            error: (_, __) => const ContentErrorState(
+              compact: true,
             ),
             data: (teams) {
               if (teams.isEmpty) {
-                return const Padding(
-                  padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
-                  child: Text(
-                    'Henüz puan durumu bulunmuyor.',
-                    style: TextStyle(color: AppColors.secondaryGray),
-                  ),
+                return const BrandedEmptyState(
+                  icon: Icons.leaderboard_outlined,
+                  title: 'Lig tablosu hazırlanıyor',
+                  message: 'Puan durumu güncellendiğinde burada görünecek.',
+                  compact: true,
                 );
               }
 
@@ -71,7 +67,8 @@ class StandingsMiniCard extends ConsumerWidget {
                   final isOurTeam =
                       team.teamName.toLowerCase().contains('arca çorum');
                   return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: AppSpacing.xs),
                     child: Row(
                       children: [
                         SizedBox(
@@ -90,7 +87,8 @@ class StandingsMiniCard extends ConsumerWidget {
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        Text('${team.played} O', style: AppTypography.bodySmall),
+                        Text('${team.played} O',
+                            style: AppTypography.bodySmall),
                         const SizedBox(width: AppSpacing.md),
                         Text('${team.points} P',
                             style: AppTypography.titleMedium

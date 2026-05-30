@@ -6,6 +6,7 @@ import '../../../core/router/route_names.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_typography.dart';
+import '../../../shared/widgets/content_state.dart';
 import '../../../shared/widgets/loading_shimmer.dart';
 import '../../match_center/domain/match_model.dart';
 import '../../match_center/presentation/match_provider.dart';
@@ -24,7 +25,7 @@ class FixturesScreen extends ConsumerWidget {
       appBar: AppBar(title: const Text('Fikstür')),
       body: upcomingAsync.when(
         loading: () => const LoadingShimmer(itemCount: 6),
-        error: (_, __) => _ErrorState(
+        error: (_, __) => ContentErrorState(
           onRetry: () {
             ref.invalidate(upcomingMatchesProvider);
             ref.invalidate(recentMatchesProvider);
@@ -32,7 +33,7 @@ class FixturesScreen extends ConsumerWidget {
         ),
         data: (upcomingMatches) => recentAsync.when(
           loading: () => const LoadingShimmer(itemCount: 6),
-          error: (_, __) => _ErrorState(
+          error: (_, __) => ContentErrorState(
             onRetry: () {
               ref.invalidate(upcomingMatchesProvider);
               ref.invalidate(recentMatchesProvider);
@@ -45,18 +46,19 @@ class FixturesScreen extends ConsumerWidget {
             ];
 
             if (fixtures.isEmpty) {
-              return const Center(
-                child: Text(
-                  'Fikstür yakında eklenecek.',
-                  style: TextStyle(color: AppColors.secondaryGray),
-                ),
+              return const BrandedEmptyState(
+                icon: Icons.calendar_month_outlined,
+                title: 'Fikstür hazırlanıyor',
+                message:
+                    'Fikstür kulüp tarafından eklendiğinde burada görünecek.',
               );
             }
 
             return ListView.separated(
               padding: const EdgeInsets.all(AppSpacing.screenPadding),
               itemCount: fixtures.length,
-              separatorBuilder: (_, __) => const SizedBox(height: AppSpacing.sm),
+              separatorBuilder: (_, __) =>
+                  const SizedBox(height: AppSpacing.sm),
               itemBuilder: (context, index) {
                 final match = fixtures[index];
                 return GestureDetector(
@@ -71,7 +73,6 @@ class FixturesScreen extends ConsumerWidget {
       ),
     );
   }
-
 }
 
 class _FixtureTile extends StatelessWidget {
@@ -156,33 +157,3 @@ String _monthShort(int month) => [
       'Kas',
       'Ara'
     ][month];
-
-class _ErrorState extends StatelessWidget {
-  const _ErrorState({required this.onRetry});
-
-  final VoidCallback onRetry;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.screenPadding),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'İçerik yüklenemedi. Lütfen tekrar deneyin.',
-              style: AppTypography.bodyMedium,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: AppSpacing.md),
-            ElevatedButton(
-              onPressed: onRetry,
-              child: const Text('Tekrar Dene'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}

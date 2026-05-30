@@ -7,6 +7,7 @@ import '../../../core/router/route_names.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_typography.dart';
+import '../../../shared/widgets/content_state.dart';
 import 'news_provider.dart';
 
 /// Haber listesi ekranı — sayfalı, shimmer yükleme
@@ -22,30 +23,15 @@ class NewsListScreen extends ConsumerWidget {
       appBar: AppBar(title: const Text('Haberler')),
       body: newsAsync.when(
         loading: () => _buildShimmer(),
-        error: (_, __) => Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'İçerik yüklenemedi. Lütfen tekrar deneyin.',
-                style: AppTypography.bodyMedium,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: AppSpacing.md),
-              ElevatedButton(
-                onPressed: () => ref.invalidate(newsListProvider),
-                child: const Text('Tekrar Dene'),
-              ),
-            ],
-          ),
+        error: (_, __) => ContentErrorState(
+          onRetry: () => ref.invalidate(newsListProvider),
         ),
         data: (newsList) {
           if (newsList.isEmpty) {
-            return const Center(
-              child: Text(
-                'Henüz haber bulunmuyor.',
-                style: TextStyle(color: AppColors.secondaryGray),
-              ),
+            return const BrandedEmptyState(
+              icon: Icons.campaign_outlined,
+              title: 'Tribün gündemi hazırlanıyor',
+              message: 'Yeni haberler yakında burada olacak.',
             );
           }
 

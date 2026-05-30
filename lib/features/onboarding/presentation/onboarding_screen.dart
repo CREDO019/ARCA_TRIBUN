@@ -1,4 +1,5 @@
 import 'package:arca_tribun/core/router/route_names.dart';
+import 'package:arca_tribun/core/storage/onboarding_preferences.dart';
 import 'package:arca_tribun/core/theme/app_colors.dart';
 import 'package:arca_tribun/core/theme/app_spacing.dart';
 import 'package:arca_tribun/core/theme/app_typography.dart';
@@ -54,17 +55,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     super.dispose();
   }
 
-  void _goToLogin() {
+  Future<void> _goToLogin() async {
+    await OnboardingPreferences.markAsSeen();
+    if (!mounted) return;
     context.go(RouteNames.login);
   }
 
-  void _handlePrimaryAction() {
+  Future<void> _handlePrimaryAction() async {
     if (_isLastPage) {
-      _goToLogin();
+      await _goToLogin();
       return;
     }
 
-    _pageController.nextPage(
+    await _pageController.nextPage(
       duration: const Duration(milliseconds: 320),
       curve: Curves.easeOutCubic,
     );

@@ -24,6 +24,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
   bool _isLoading = false;
+  bool _isPasswordResetLoading = false;
 
   @override
   void dispose() {
@@ -58,9 +59,42 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   void _showError(Object error) {
     final message =
         error is Failure ? error.message.tr() : 'errors.unknown'.tr();
+    _showMessage(message, isError: true);
+  }
+
+  void _showMessage(String message, {bool isError = false}) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message), backgroundColor: AppColors.errorRed),
+      SnackBar(
+        content: Text(message),
+        backgroundColor: isError ? AppColors.errorRed : AppColors.cardBg2,
+      ),
     );
+  }
+
+  Future<void> _sendPasswordReset() async {
+    final email = _emailController.text.trim();
+    if (email.isEmpty || !email.contains('@')) {
+      _showMessage(
+        'Şifre yenileme bağlantısı için geçerli e-posta adresinizi yazın.',
+      );
+      return;
+    }
+
+    setState(() => _isPasswordResetLoading = true);
+    final result =
+        await ref.read(authRepositoryProvider).sendPasswordResetEmail(email);
+    if (!mounted) return;
+    setState(() => _isPasswordResetLoading = false);
+
+    result.fold(
+      _showError,
+      (_) => _showMessage(
+          'Şifre yenileme bağlantısı e-posta adresinize gönderildi.'),
+    );
+  }
+
+  void _showGuestInfo() {
+    _showMessage('Misafir erişimi yakında aktif olacak.');
   }
 
   @override
@@ -69,102 +103,106 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       backgroundColor: AppColors.background,
       body: SafeArea(
         child: SingleChildScrollView(
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           padding: const EdgeInsets.all(AppSpacing.screenPadding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const SizedBox(height: AppSpacing.huge),
+              const SizedBox(height: AppSpacing.xl),
 
               // ─── Logo & Title ─────────────────────────────────────────
-              Center(
-                child: Column(
-                  children: [
-                    Container(
-                      width: 80,
-                      height: 80,
-                      decoration: BoxDecoration(
-                        color: AppColors.primaryRed,
-                        borderRadius:
-                            BorderRadius.circular(AppSpacing.radiusLg),
-                      ),
-                      child: const Icon(
-                        Icons.sports_soccer,
-                        color: AppColors.white,
-                        size: 44,
-                      ),
-                    ),
-                    const SizedBox(height: AppSpacing.lg),
-                    Text('ARCA Tribün', style: AppTypography.displayMedium),
-                    const SizedBox(height: AppSpacing.sm),
-                    Text(
-                      'Arca Çorum FK',
-                      style: AppTypography.bodyMedium,
-                    ),
-                  ],
+              const _LoginHeader(),
+
+              const SizedBox(height: AppSpacing.xxl),
+
+              Container(
+                padding: const EdgeInsets.all(AppSpacing.cardPadding),
+                decoration: BoxDecoration(
+                  color: AppColors.cardBg,
+                  borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
+                  border: Border.all(color: AppColors.border),
                 ),
-              ),
-
-              const SizedBox(height: AppSpacing.xxxl),
-
-              // ─── Form ─────────────────────────────────────────────────
-              Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    TextFormField(
-                      controller: _emailController,
-                      keyboardType: TextInputType.emailAddress,
-                      style: AppTypography.bodyLarge,
-                      decoration: InputDecoration(
-                        labelText: 'auth.email'.tr(),
-                        prefixIcon: const Icon(Icons.email_outlined,
-                            color: AppColors.secondaryGray),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty)
-                          return 'Gerekli alan';
-                        if (!value.contains('@'))
-                          return 'Geçerli e-posta girin';
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: AppSpacing.md),
-                    TextFormField(
-                      controller: _passwordController,
-                      obscureText: _obscurePassword,
-                      style: AppTypography.bodyLarge,
-                      decoration: InputDecoration(
-                        labelText: 'auth.password'.tr(),
-                        prefixIcon: const Icon(Icons.lock_outlined,
-                            color: AppColors.secondaryGray),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _obscurePassword
-                                ? Icons.visibility_outlined
-                                : Icons.visibility_off_outlined,
-                            color: AppColors.secondaryGray,
+                child: Form(
+                  key: _formKey,
+                  child: AutofillGroup(
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          controller: _emailController,
+                          autofillHints: const [AutofillHints.email],
+                          keyboardType: TextInputType.emailAddress,
+                          textInputAction: TextInputAction.next,
+                          style: AppTypography.bodyLarge,
+                          decoration: InputDecoration(
+                            labelText: 'auth.email'.tr(),
+                            prefixIcon: const Icon(
+                              Icons.email_outlined,
+                              color: AppColors.secondaryGray,
+                            ),
                           ),
-                          onPressed: () => setState(
-                              () => _obscurePassword = !_obscurePassword),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Gerekli alan';
+                            }
+                            if (!value.contains('@')) {
+                              return 'Geçerli e-posta girin';
+                            }
+                            return null;
+                          },
                         ),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty)
-                          return 'Gerekli alan';
-                        if (value.length < 6)
-                          return 'Şifre en az 6 karakter olmalı';
-                        return null;
-                      },
+                        const SizedBox(height: AppSpacing.md),
+                        TextFormField(
+                          controller: _passwordController,
+                          autofillHints: const [AutofillHints.password],
+                          obscureText: _obscurePassword,
+                          textInputAction: TextInputAction.done,
+                          onFieldSubmitted: (_) => _loginWithEmail(),
+                          style: AppTypography.bodyLarge,
+                          decoration: InputDecoration(
+                            labelText: 'auth.password'.tr(),
+                            prefixIcon: const Icon(
+                              Icons.lock_outlined,
+                              color: AppColors.secondaryGray,
+                            ),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _obscurePassword
+                                    ? Icons.visibility_outlined
+                                    : Icons.visibility_off_outlined,
+                                color: AppColors.secondaryGray,
+                              ),
+                              onPressed: () => setState(
+                                () => _obscurePassword = !_obscurePassword,
+                              ),
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Gerekli alan';
+                            }
+                            if (value.length < 6) {
+                              return 'Şifre en az 6 karakter olmalı';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: AppSpacing.sm),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: TextButton(
+                            onPressed: _isPasswordResetLoading
+                                ? null
+                                : _sendPasswordReset,
+                            child: Text(
+                              _isPasswordResetLoading
+                                  ? 'Gönderiliyor...'
+                                  : 'auth.forgot_password'.tr(),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: AppSpacing.sm),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                        onPressed: () {},
-                        child: Text('auth.forgot_password'.tr()),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
 
@@ -204,7 +242,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
               // ─── Social Auth Buttons ───────────────────────────────────
               _SocialButton(
-                id: 'google_login_btn',
+                buttonKey: const Key('google_login_btn'),
                 icon: Icons.g_mobiledata,
                 label: 'auth.google'.tr(),
                 onPressed: () =>
@@ -212,7 +250,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               ),
               const SizedBox(height: AppSpacing.md),
               _SocialButton(
-                id: 'apple_login_btn',
+                buttonKey: const Key('apple_login_btn'),
                 icon: Icons.apple,
                 label: 'auth.apple'.tr(),
                 onPressed: () =>
@@ -220,14 +258,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               ),
               const SizedBox(height: AppSpacing.md),
               _SocialButton(
-                id: 'guest_login_btn',
+                buttonKey: const Key('guest_login_btn'),
                 icon: Icons.person_outline,
                 label: 'auth.guest'.tr(),
-                onPressed: () =>
-                    ref.read(authNotifierProvider.notifier).loginAsGuest(),
+                subtitle: 'Yakında',
+                onPressed: _showGuestInfo,
               ),
 
-              const SizedBox(height: AppSpacing.xxxl),
+              const SizedBox(height: AppSpacing.xl),
 
               // ─── Register Link ────────────────────────────────────────
               Row(
@@ -248,26 +286,89 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 }
 
+class _LoginHeader extends StatelessWidget {
+  const _LoginHeader();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          width: 78,
+          height: 78,
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(colors: AppColors.primaryGradient),
+            borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
+            border: Border.all(
+              color: AppColors.primaryRedLight.withValues(alpha: 0.45),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.primaryRed.withValues(alpha: 0.24),
+                blurRadius: 24,
+                spreadRadius: 2,
+              ),
+            ],
+          ),
+          child: Center(
+            child: Text(
+              'AT',
+              style: AppTypography.headlineLarge.copyWith(
+                color: AppColors.white,
+                letterSpacing: 1.8,
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: AppSpacing.lg),
+        Text('ARCA TRİBÜN', style: AppTypography.displayMedium),
+        const SizedBox(height: AppSpacing.xs),
+        Text(
+          'Kırmızı siyah ruhun dijital evi',
+          style: AppTypography.bodyMedium,
+          textAlign: TextAlign.center,
+        ),
+      ],
+    );
+  }
+}
+
 class _SocialButton extends StatelessWidget {
   const _SocialButton({
-    required this.id,
+    required this.buttonKey,
     required this.icon,
     required this.label,
     required this.onPressed,
+    this.subtitle,
   });
 
-  final String id;
+  final Key buttonKey;
   final IconData icon;
   final String label;
   final VoidCallback onPressed;
+  final String? subtitle;
 
   @override
   Widget build(BuildContext context) {
     return OutlinedButton.icon(
-      key: ValueKey(id),
+      key: buttonKey,
       onPressed: onPressed,
       icon: Icon(icon, color: AppColors.white),
-      label: Text(label),
+      label: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(label),
+          if (subtitle != null) ...[
+            const SizedBox(width: AppSpacing.sm),
+            Text(
+              subtitle!,
+              style: AppTypography.bodySmall.copyWith(
+                color: AppColors.secondaryGray,
+              ),
+            ),
+          ],
+        ],
+      ),
     );
   }
 }

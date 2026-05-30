@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
-import '../../../../core/theme/app_typography.dart';
+import '../../../../shared/widgets/content_state.dart';
 import '../../../../shared/widgets/loading_shimmer.dart';
 import '../match_provider.dart';
 import 'widgets/live_score_header.dart';
@@ -26,18 +26,14 @@ class LiveScreen extends ConsumerWidget {
       backgroundColor: AppColors.background,
       body: liveAsync.when(
         loading: () => const LoadingShimmer(),
-        error: (_, __) => Center(
-          child: Text(
-            'İçerik yüklenemedi. Lütfen tekrar deneyin.',
-            style: AppTypography.bodyMedium,
-            textAlign: TextAlign.center,
-          ),
-        ),
+        error: (_, __) => const ContentErrorState(),
         data: (liveMatch) {
           if (liveMatch == null) {
-            return const Center(
-                child: Text('Canlı veri bekleniyor...',
-                    style: TextStyle(color: AppColors.white)));
+            return const BrandedEmptyState(
+              icon: Icons.sensors_outlined,
+              title: 'Canlı yayın bekleniyor',
+              message: 'Maç başladığında anlık gelişmeler burada olacak.',
+            );
           }
 
           return CustomScrollView(

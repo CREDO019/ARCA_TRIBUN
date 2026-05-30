@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/router/route_names.dart';
+import '../../../core/storage/onboarding_preferences.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../auth/presentation/auth_provider.dart';
@@ -51,14 +52,23 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
     if (!mounted) return;
 
-    // Auth durumunu kontrol et
-    final authState = ref.read(authNotifierProvider);
-    final user = authState.valueOrNull;
+    final hasSeenOnboarding = await OnboardingPreferences.hasSeenOnboarding();
+
+    if (!mounted) return;
+
+    if (!hasSeenOnboarding) {
+      context.go(RouteNames.onboarding);
+      return;
+    }
+
+    final user = await ref.read(authNotifierProvider.future);
+
+    if (!mounted) return;
 
     if (user != null) {
       context.go(RouteNames.home);
     } else {
-      context.go(RouteNames.onboarding);
+      context.go(RouteNames.login);
     }
   }
 

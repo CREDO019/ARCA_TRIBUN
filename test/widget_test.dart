@@ -1,5 +1,7 @@
 import 'package:arca_tribun/core/router/route_names.dart';
+import 'package:arca_tribun/core/storage/onboarding_preferences.dart';
 import 'package:arca_tribun/features/onboarding/presentation/onboarding_screen.dart';
+import 'package:arca_tribun/features/splash/presentation/splash_screen.dart';
 import 'package:arca_tribun/main.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +19,10 @@ void main() {
       url: 'https://example.supabase.co',
       anonKey: 'test-publishable-key',
     );
+  });
+
+  setUp(() {
+    SharedPreferences.setMockInitialValues({});
   });
 
   testWidgets('app entry can be constructed', (WidgetTester tester) async {
@@ -65,6 +71,7 @@ void main() {
     await tester.tap(find.byKey(const Key('onboarding_primary_action')));
     await tester.pumpAndSettle();
     expect(find.text('LOGIN DESTINATION'), findsOneWidget);
+    expect(await OnboardingPreferences.hasSeenOnboarding(), isTrue);
   });
 
   testWidgets('onboarding skip navigates to login', (
@@ -80,12 +87,64 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('LOGIN DESTINATION'), findsOneWidget);
+    expect(await OnboardingPreferences.hasSeenOnboarding(), isTrue);
+  });
+
+  testWidgets('first launch routes from splash to onboarding', (
+    WidgetTester tester,
+  ) async {
+    final router = _createSplashTestRouter();
+    addTearDown(router.dispose);
+
+    await tester.pumpWidget(
+      ProviderScope(child: MaterialApp.router(routerConfig: router)),
+    );
+    await tester.pump(const Duration(seconds: 3));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(OnboardingScreen), findsOneWidget);
+  });
+
+  testWidgets('seen onboarding routes from splash to login', (
+    WidgetTester tester,
+  ) async {
+    await OnboardingPreferences.markAsSeen();
+    final router = _createSplashTestRouter();
+    addTearDown(router.dispose);
+
+    await tester.pumpWidget(
+      ProviderScope(child: MaterialApp.router(routerConfig: router)),
+    );
+    await tester.pump(const Duration(seconds: 3));
+    await tester.pumpAndSettle();
+
+    expect(find.text('LOGIN DESTINATION'), findsOneWidget);
   });
 }
 
 GoRouter _createOnboardingTestRouter() => GoRouter(
       initialLocation: RouteNames.onboarding,
       routes: [
+        GoRoute(
+          path: RouteNames.onboarding,
+          builder: (_, __) => const OnboardingScreen(),
+        ),
+        GoRoute(
+          path: RouteNames.login,
+          builder: (_, __) => const Scaffold(
+            body: Center(child: Text('LOGIN DESTINATION')),
+          ),
+        ),
+      ],
+    );
+
+GoRouter _createSplashTestRouter() => GoRouter(
+      initialLocation: RouteNames.splash,
+      routes: [
+        GoRoute(
+          path: RouteNames.splash,
+          builder: (_, __) => const SplashScreen(),
+        ),
         GoRoute(
           path: RouteNames.onboarding,
           builder: (_, __) => const OnboardingScreen(),

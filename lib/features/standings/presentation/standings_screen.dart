@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_typography.dart';
+import '../../../shared/widgets/content_state.dart';
 import '../../../shared/widgets/loading_shimmer.dart';
 import '../domain/standing_model.dart';
 import 'standings_provider.dart';
@@ -20,16 +21,15 @@ class StandingsScreen extends ConsumerWidget {
       appBar: AppBar(title: const Text('Puan Durumu')),
       body: standingsAsync.when(
         loading: () => const LoadingShimmer(itemCount: 10),
-        error: (_, __) => _ErrorState(
+        error: (_, __) => ContentErrorState(
           onRetry: () => ref.invalidate(seasonStandingsProvider),
         ),
         data: (teams) {
           if (teams.isEmpty) {
-            return const Center(
-              child: Text(
-                'Henüz puan durumu bulunmuyor.',
-                style: TextStyle(color: AppColors.secondaryGray),
-              ),
+            return const BrandedEmptyState(
+              icon: Icons.leaderboard_outlined,
+              title: 'Puan durumu hazırlanıyor',
+              message: 'Lig tablosu güncellendiğinde burada görünecek.',
             );
           }
 
@@ -121,13 +121,13 @@ class _StandingRow extends StatelessWidget {
         children: [
           SizedBox(
               width: 30,
-              child:
-                  Text('${team.position}', style: AppTypography.bodyMedium)),
+              child: Text('${team.position}', style: AppTypography.bodyMedium)),
           Expanded(
             child: Text(
               team.teamName,
               style: isOurTeam
-                  ? AppTypography.titleMedium.copyWith(color: AppColors.primaryRed)
+                  ? AppTypography.titleMedium
+                      .copyWith(color: AppColors.primaryRed)
                   : AppTypography.bodyMedium.copyWith(color: AppColors.white),
               overflow: TextOverflow.ellipsis,
             ),
@@ -151,39 +151,10 @@ class _StandingRow extends StatelessWidget {
           SizedBox(
               width: 30,
               child: Text('${team.points}',
-                  style: AppTypography.titleMedium.copyWith(color: AppColors.white),
+                  style: AppTypography.titleMedium
+                      .copyWith(color: AppColors.white),
                   textAlign: TextAlign.center)),
         ],
-      ),
-    );
-  }
-}
-
-class _ErrorState extends StatelessWidget {
-  const _ErrorState({required this.onRetry});
-
-  final VoidCallback onRetry;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.screenPadding),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'İçerik yüklenemedi. Lütfen tekrar deneyin.',
-              style: AppTypography.bodyMedium,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: AppSpacing.md),
-            ElevatedButton(
-              onPressed: onRetry,
-              child: const Text('Tekrar Dene'),
-            ),
-          ],
-        ),
       ),
     );
   }

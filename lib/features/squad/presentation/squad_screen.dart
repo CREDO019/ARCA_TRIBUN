@@ -6,6 +6,7 @@ import '../../../core/router/route_names.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_typography.dart';
+import '../../../shared/widgets/content_state.dart';
 import '../../../shared/widgets/loading_shimmer.dart';
 import '../domain/player_model.dart';
 import 'squad_provider.dart';
@@ -23,16 +24,15 @@ class SquadScreen extends ConsumerWidget {
       appBar: AppBar(title: const Text('Kadro')),
       body: squadAsync.when(
         loading: () => const LoadingShimmer(itemCount: 8),
-        error: (_, __) => _ErrorState(
+        error: (_, __) => ContentErrorState(
           onRetry: () => ref.invalidate(groupedSquadProvider),
         ),
         data: (positions) {
           if (positions.isEmpty) {
-            return const Center(
-              child: Text(
-                'Kadro bilgisi henüz eklenmedi.',
-                style: TextStyle(color: AppColors.secondaryGray),
-              ),
+            return const BrandedEmptyState(
+              icon: Icons.groups_outlined,
+              title: 'Kadro bilgileri hazırlanıyor',
+              message: 'Oyuncular eklendiğinde burada yerini alacak.',
             );
           }
 
@@ -116,36 +116,6 @@ class _PositionSection extends StatelessWidget {
         ),
         const SizedBox(height: AppSpacing.md),
       ],
-    );
-  }
-}
-
-class _ErrorState extends StatelessWidget {
-  const _ErrorState({required this.onRetry});
-
-  final VoidCallback onRetry;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.screenPadding),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'İçerik yüklenemedi. Lütfen tekrar deneyin.',
-              style: AppTypography.bodyMedium,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: AppSpacing.md),
-            ElevatedButton(
-              onPressed: onRetry,
-              child: const Text('Tekrar Dene'),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
