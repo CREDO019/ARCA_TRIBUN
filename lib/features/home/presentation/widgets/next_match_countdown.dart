@@ -18,27 +18,46 @@ class NextMatchCountdown extends StatefulWidget {
 }
 
 class _NextMatchCountdownState extends State<NextMatchCountdown> {
-  late DateTime _targetTime;
+  DateTime? _targetTime;
   Timer? _timer;
   Duration _remaining = Duration.zero;
 
   @override
   void initState() {
     super.initState();
-    // Demo: 3 gün sonrası
-    _targetTime = widget.matchTime ??
-        DateTime.now().add(const Duration(days: 3, hours: 14, minutes: 30));
-    _updateRemaining();
-    _timer =
-        Timer.periodic(const Duration(seconds: 1), (_) => _updateRemaining());
+    _targetTime = widget.matchTime;
+    _startTimerIfNeeded();
+  }
+
+  @override
+  void didUpdateWidget(covariant NextMatchCountdown oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.matchTime != widget.matchTime) {
+      _targetTime = widget.matchTime;
+      _timer?.cancel();
+      _timer = null;
+      _remaining = Duration.zero;
+      _startTimerIfNeeded();
+    }
   }
 
   void _updateRemaining() {
+    final targetTime = _targetTime;
+    if (targetTime == null) return;
     final now = DateTime.now();
-    final diff = _targetTime.difference(now);
+    final diff = targetTime.difference(now);
     if (mounted) {
       setState(() => _remaining = diff.isNegative ? Duration.zero : diff);
     }
+  }
+
+  void _startTimerIfNeeded() {
+    if (_targetTime == null) return;
+    _updateRemaining();
+    _timer = Timer.periodic(
+      const Duration(seconds: 1),
+      (_) => _updateRemaining(),
+    );
   }
 
   @override
@@ -49,6 +68,32 @@ class _NextMatchCountdownState extends State<NextMatchCountdown> {
 
   @override
   Widget build(BuildContext context) {
+    if (_targetTime == null) {
+      return Container(
+        padding: const EdgeInsets.all(AppSpacing.cardPadding),
+        decoration: BoxDecoration(
+          color: AppColors.cardBg,
+          borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
+          border: Border.all(color: AppColors.border),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'SIRADAKİ MAÇ',
+              style: AppTypography.labelSmall
+                  .copyWith(color: AppColors.secondaryGray),
+            ),
+            const SizedBox(height: AppSpacing.sm),
+            const Text(
+              'Fikstür yakında eklenecek.',
+              style: TextStyle(color: AppColors.secondaryGray),
+            ),
+          ],
+        ),
+      );
+    }
+
     final days = _remaining.inDays;
     final hours = _remaining.inHours.remainder(24);
     final minutes = _remaining.inMinutes.remainder(60);

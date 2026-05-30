@@ -1,13 +1,65 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_typography.dart';
+import '../../../shared/widgets/loading_shimmer.dart';
+import '../domain/player_model.dart';
+import 'squad_provider.dart';
 
 /// Oyuncu detay ekranı
-class PlayerDetailScreen extends StatelessWidget {
+class PlayerDetailScreen extends ConsumerWidget {
   const PlayerDetailScreen({super.key, required this.playerId});
 
   final String playerId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final playerAsync = ref.watch(playerDetailProvider(playerId));
+
+    return playerAsync.when(
+      loading: () => const Scaffold(
+        backgroundColor: AppColors.background,
+        body: LoadingShimmer(itemCount: 4),
+      ),
+      error: (_, __) => Scaffold(
+        backgroundColor: AppColors.background,
+        appBar: AppBar(title: const Text('Oyuncu Profili')),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(AppSpacing.screenPadding),
+            child: Text(
+              'İçerik yüklenemedi. Lütfen tekrar deneyin.',
+              style: AppTypography.bodyMedium,
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+      ),
+      data: (player) {
+        if (player == null) {
+          return Scaffold(
+            backgroundColor: AppColors.background,
+            appBar: AppBar(title: const Text('Oyuncu Profili')),
+            body: const Center(
+              child: Text(
+                'Oyuncu bilgisi bulunamadı.',
+                style: TextStyle(color: AppColors.secondaryGray),
+              ),
+            ),
+          );
+        }
+        return _PlayerDetailContent(player: player);
+      },
+    );
+  }
+}
+
+class _PlayerDetailContent extends StatelessWidget {
+  const _PlayerDetailContent({required this.player});
+
+  final PlayerModel player;
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +87,11 @@ class PlayerDetailScreen extends StatelessWidget {
                           size: 56, color: AppColors.white),
                     ),
                     const SizedBox(height: AppSpacing.md),
-                    Text('Oyuncu Adı', style: AppTypography.headlineLarge),
-                    Text('Orta Saha · #10', style: AppTypography.bodyMedium),
+                    Text(player.name, style: AppTypography.headlineLarge),
+                    Text(
+                      '${_positionText(player.position)} · #${player.number}',
+                      style: AppTypography.bodyMedium,
+                    ),
                   ],
                 ),
               ),
@@ -47,11 +102,11 @@ class PlayerDetailScreen extends StatelessWidget {
               padding: const EdgeInsets.all(AppSpacing.screenPadding),
               child: Row(
                 children: [
-                  _StatCard(label: 'Maç', value: '18'),
+                  _StatCard(label: 'Maç', value: '${player.appearances}'),
                   const SizedBox(width: AppSpacing.sm),
-                  _StatCard(label: 'Gol', value: '7'),
+                  _StatCard(label: 'Gol', value: '${player.goals}'),
                   const SizedBox(width: AppSpacing.sm),
-                  _StatCard(label: 'Asist', value: '5'),
+                  _StatCard(label: 'Asist', value: '${player.assists}'),
                 ],
               ),
             ),
@@ -61,10 +116,11 @@ class PlayerDetailScreen extends StatelessWidget {
               padding: const EdgeInsets.all(AppSpacing.screenPadding),
               child: Column(
                 children: [
-                  _InfoRow(label: 'Yaş', value: '24'),
-                  _InfoRow(label: 'Milliyet', value: '🇹🇷 Türkiye'),
-                  _InfoRow(label: 'Boy', value: '182 cm'),
-                  _InfoRow(label: 'Ayak', value: 'Sağ'),
+                  _InfoRow(label: 'Yaş', value: '${player.age ?? '-'}'),
+                  _InfoRow(
+                    label: 'Milliyet',
+                    value: player.nationality ?? '-',
+                  ),
                 ],
               ),
             ),
@@ -72,6 +128,21 @@ class PlayerDetailScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _positionText(String raw) {
+    switch (raw.toLowerCase()) {
+      case 'goalkeeper':
+        return 'Kaleci';
+      case 'defender':
+        return 'Defans';
+      case 'midfielder':
+        return 'Orta Saha';
+      case 'forward':
+        return 'Forvet';
+      default:
+        return raw;
+    }
   }
 }
 

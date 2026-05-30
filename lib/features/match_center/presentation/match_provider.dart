@@ -1,8 +1,32 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../data/match_repository.dart';
 import '../domain/match_model.dart';
-import '../../../core/constants/supabase_tables.dart';
+
+final matchRepositoryProvider = Provider<MatchRepository>(
+  (ref) => MatchRepository(),
+);
+
+final upcomingMatchesProvider = FutureProvider<List<MatchModel>>((ref) async {
+  final repository = ref.watch(matchRepositoryProvider);
+  return repository.fetchUpcomingMatches(limit: 20);
+});
+
+final recentMatchesProvider = FutureProvider<List<MatchModel>>((ref) async {
+  final repository = ref.watch(matchRepositoryProvider);
+  return repository.fetchRecentMatches(limit: 20);
+});
+
+final currentLiveMatchProvider = FutureProvider<MatchModel?>((ref) async {
+  final repository = ref.watch(matchRepositoryProvider);
+  return repository.fetchCurrentLiveMatch();
+});
+
+final matchDetailProvider =
+    FutureProvider.family<MatchModel?, String>((ref, matchId) async {
+  final repository = ref.watch(matchRepositoryProvider);
+  return repository.fetchMatchDetail(matchId);
+});
 
 // ─── Live Match Stream Provider ───────────────────────────────────────────
 /// Canlı maç verisi — Supabase Realtime stream (Postgres Changes).
@@ -11,16 +35,8 @@ import '../../../core/constants/supabase_tables.dart';
 /// Supabase:  `supabase.from('matches').stream(primaryKey: ['id']).eq('id', id)`
 final liveMatchProvider = StreamProvider.family<LiveMatchModel?, String>(
   (ref, matchId) {
-    final supabase = Supabase.instance.client;
-
-    return supabase
-        .from(SupabaseTables.matches)
-        .stream(primaryKey: [SupabaseTables.colId])
-        .eq(SupabaseTables.colId, matchId)
-        .map((rows) {
-          if (rows.isEmpty) return null;
-          return LiveMatchModel.fromSupabase(rows.first);
-        });
+    final repository = ref.watch(matchRepositoryProvider);
+    return repository.watchLiveMatch(matchId);
   },
 );
 
@@ -31,15 +47,8 @@ final liveMatchProvider = StreamProvider.family<LiveMatchModel?, String>(
 final matchEventsProvider =
     StreamProvider.family<List<MatchEventModel>, String>(
   (ref, matchId) {
-    final supabase = Supabase.instance.client;
-
-    return supabase
-        .from(SupabaseTables.matchEvents)
-        .stream(primaryKey: [SupabaseTables.colId])
-        .eq(SupabaseTables.colMatchId, matchId)
-        .order(SupabaseTables.colMinute)
-        .map((rows) =>
-            rows.map((row) => MatchEventModel.fromSupabase(row)).toList());
+    final repository = ref.watch(matchRepositoryProvider);
+    return repository.watchMatchEvents(matchId);
   },
 );
 
@@ -47,16 +56,7 @@ final matchEventsProvider =
 /// Maç durumu (scheduled, live, postMatch vb.) — Supabase Realtime.
 final matchStatusProvider = StreamProvider.family<MatchStatus, String>(
   (ref, matchId) {
-    final supabase = Supabase.instance.client;
-
-    return supabase
-        .from(SupabaseTables.matches)
-        .stream(primaryKey: [SupabaseTables.colId])
-        .eq(SupabaseTables.colId, matchId)
-        .map((rows) {
-          if (rows.isEmpty) return MatchStatus.scheduled;
-          final statusStr = rows.first[SupabaseTables.colStatus] as String?;
-          return matchStatusFromSupabase(statusStr);
-        });
+    final repository = ref.watch(matchRepositoryProvider);
+    return repository.watchMatchStatus(matchId);
   },
 );

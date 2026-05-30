@@ -1,32 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../core/router/route_names.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_typography.dart';
+import '../../../news/presentation/news_provider.dart';
 
 /// Son haberler yatay kaydırmalı liste
-class NewsHorizontalScroll extends StatelessWidget {
+class NewsHorizontalScroll extends ConsumerWidget {
   const NewsHorizontalScroll({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    // Demo haberler
-    final news = [
-      {
-        'title': 'Arca Çorum FK Şampiyonluk Yolunda Güçlü Başladı',
-        'category': 'Kulüp',
-        'time': '2 sa'
-      },
-      {
-        'title': 'Yeni Transfer Heyecanı: Yıldız Oyuncu Geliyor!',
-        'category': 'Transfer',
-        'time': '5 sa'
-      },
-      {
-        'title': 'Teknik Direktör Maç Öncesi Konuştu',
-        'category': 'Basın',
-        'time': '1 gün'
-      },
-    ];
+  Widget build(BuildContext context, WidgetRef ref) {
+    final newsAsync = ref.watch(latestNewsProvider);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,59 +25,131 @@ class NewsHorizontalScroll extends StatelessWidget {
             Text('SON HABERLER',
                 style: AppTypography.labelSmall
                     .copyWith(color: AppColors.secondaryGray)),
-            TextButton(onPressed: () {}, child: const Text('Tümünü Gör')),
+            TextButton(
+              onPressed: () => context.push(RouteNames.newsList),
+              child: const Text('Tümünü Gör'),
+            ),
           ],
         ),
         const SizedBox(height: AppSpacing.sm),
-        SizedBox(
-          height: AppSpacing.newsCardHeight,
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            itemCount: news.length,
-            separatorBuilder: (_, __) => const SizedBox(width: AppSpacing.md),
-            itemBuilder: (context, index) {
-              final item = news[index];
-              return Container(
+        newsAsync.when(
+          loading: () => SizedBox(
+            height: AppSpacing.newsCardHeight,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: 3,
+              separatorBuilder: (_, __) => const SizedBox(width: AppSpacing.md),
+              itemBuilder: (_, __) => Container(
                 width: 220,
+                decoration: BoxDecoration(
+                  color: AppColors.cardBg,
+                  borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
+                  border: Border.all(color: AppColors.border),
+                ),
+              ),
+            ),
+          ),
+          error: (_, __) => Container(
+            height: AppSpacing.newsCardHeight,
+            width: double.infinity,
+            padding: const EdgeInsets.all(AppSpacing.md),
+            decoration: BoxDecoration(
+              color: AppColors.cardBg,
+              borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
+              border: Border.all(color: AppColors.border),
+            ),
+            child: const Center(
+              child: Text(
+                'İçerik yüklenemedi. Lütfen tekrar deneyin.',
+                style: TextStyle(color: AppColors.secondaryGray),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+          data: (newsList) {
+            if (newsList.isEmpty) {
+              return Container(
+                height: AppSpacing.newsCardHeight,
+                width: double.infinity,
                 padding: const EdgeInsets.all(AppSpacing.md),
                 decoration: BoxDecoration(
                   color: AppColors.cardBg,
                   borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
                   border: Border.all(color: AppColors.border),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
-                      decoration: BoxDecoration(
-                        color: AppColors.primaryRed.withValues(alpha: 0.15),
-                        borderRadius:
-                            BorderRadius.circular(AppSpacing.radiusFull),
-                      ),
-                      child: Text(item['category'] as String,
-                          style: AppTypography.labelSmall
-                              .copyWith(color: AppColors.primaryRed)),
-                    ),
-                    const SizedBox(height: AppSpacing.sm),
-                    Expanded(
-                      child: Text(
-                        item['title'] as String,
-                        style: AppTypography.titleMedium,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    Text(item['time'] as String,
-                        style: AppTypography.bodySmall),
-                  ],
+                child: const Center(
+                  child: Text(
+                    'Henüz haber bulunmuyor.',
+                    style: TextStyle(color: AppColors.secondaryGray),
+                  ),
                 ),
               );
-            },
-          ),
+            }
+
+            return SizedBox(
+              height: AppSpacing.newsCardHeight,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemCount: newsList.length,
+                separatorBuilder: (_, __) => const SizedBox(width: AppSpacing.md),
+                itemBuilder: (context, index) {
+                  final item = newsList[index];
+                  return GestureDetector(
+                    onTap: () => context.push(RouteNames.newsDetailPath(item.id)),
+                    child: Container(
+                      width: 220,
+                      padding: const EdgeInsets.all(AppSpacing.md),
+                      decoration: BoxDecoration(
+                        color: AppColors.cardBg,
+                        borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
+                        border: Border.all(color: AppColors.border),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: AppSpacing.sm,
+                                vertical: AppSpacing.xs),
+                            decoration: BoxDecoration(
+                              color: AppColors.primaryRed.withValues(alpha: 0.15),
+                              borderRadius:
+                                  BorderRadius.circular(AppSpacing.radiusFull),
+                            ),
+                            child: Text(item.category,
+                                style: AppTypography.labelSmall
+                                    .copyWith(color: AppColors.primaryRed)),
+                          ),
+                          const SizedBox(height: AppSpacing.sm),
+                          Expanded(
+                            child: Text(
+                              item.title,
+                              style: AppTypography.titleMedium,
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          Text(
+                            _relativeDate(item.publishedAt),
+                            style: AppTypography.bodySmall,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            );
+          },
         ),
       ],
     );
+  }
+
+  String _relativeDate(DateTime publishedAt) {
+    final diff = DateTime.now().difference(publishedAt);
+    if (diff.inMinutes < 60) return '${diff.inMinutes} dk';
+    if (diff.inHours < 24) return '${diff.inHours} sa';
+    return '${diff.inDays} gün';
   }
 }

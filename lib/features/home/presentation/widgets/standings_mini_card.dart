@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../core/router/route_names.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_typography.dart';
+import '../../../standings/presentation/standings_provider.dart';
 
 /// Puan durumu mini kart widget'ı — home screen'de özet gösterir.
-class StandingsMiniCard extends StatelessWidget {
+class StandingsMiniCard extends ConsumerWidget {
   const StandingsMiniCard({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    // Demo data
-    final teams = [
-      {'name': 'Arca Çorum FK', 'played': 20, 'points': 42, 'position': 3},
-      {'name': 'Rakip 1', 'played': 20, 'points': 45, 'position': 1},
-      {'name': 'Rakip 2', 'played': 20, 'points': 44, 'position': 2},
-    ];
+  Widget build(BuildContext context, WidgetRef ref) {
+    final standingsAsync = ref.watch(seasonStandingsProvider);
 
     return Container(
       padding: const EdgeInsets.all(AppSpacing.cardPadding),
@@ -32,38 +32,76 @@ class StandingsMiniCard extends StatelessWidget {
               Text('PUAN DURUMU',
                   style: AppTypography.labelSmall
                       .copyWith(color: AppColors.secondaryGray)),
-              TextButton(onPressed: () {}, child: const Text('Tümü')),
+              TextButton(
+                onPressed: () => context.push(RouteNames.standings),
+                child: const Text('Tümü'),
+              ),
             ],
           ),
           const SizedBox(height: AppSpacing.sm),
-          ...teams.map((t) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: 24,
-                      child: Text('${t['position']}',
-                          style: AppTypography.bodyMedium),
+          standingsAsync.when(
+            loading: () => const Padding(
+              padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
+              child: Text(
+                'Yükleniyor...',
+                style: TextStyle(color: AppColors.secondaryGray),
+              ),
+            ),
+            error: (_, __) => const Padding(
+              padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
+              child: Text(
+                'İçerik yüklenemedi.',
+                style: TextStyle(color: AppColors.secondaryGray),
+              ),
+            ),
+            data: (teams) {
+              if (teams.isEmpty) {
+                return const Padding(
+                  padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
+                  child: Text(
+                    'Henüz puan durumu bulunmuyor.',
+                    style: TextStyle(color: AppColors.secondaryGray),
+                  ),
+                );
+              }
+
+              final visibleTeams = teams.take(3);
+              return Column(
+                children: visibleTeams.map((team) {
+                  final isOurTeam =
+                      team.teamName.toLowerCase().contains('arca çorum');
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 24,
+                          child: Text('${team.position}',
+                              style: AppTypography.bodyMedium),
+                        ),
+                        Expanded(
+                          child: Text(
+                            team.teamName,
+                            style: isOurTeam
+                                ? AppTypography.titleMedium
+                                    .copyWith(color: AppColors.primaryRed)
+                                : AppTypography.bodyMedium
+                                    .copyWith(color: AppColors.white),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Text('${team.played} O', style: AppTypography.bodySmall),
+                        const SizedBox(width: AppSpacing.md),
+                        Text('${team.points} P',
+                            style: AppTypography.titleMedium
+                                .copyWith(color: AppColors.white)),
+                      ],
                     ),
-                    Expanded(
-                      child: Text(
-                        t['name'] as String,
-                        style: t['name'] == 'Arca Çorum FK'
-                            ? AppTypography.titleMedium
-                                .copyWith(color: AppColors.primaryRed)
-                            : AppTypography.bodyMedium
-                                .copyWith(color: AppColors.white),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    Text('${t['played']} O', style: AppTypography.bodySmall),
-                    const SizedBox(width: AppSpacing.md),
-                    Text('${t['points']} P',
-                        style: AppTypography.titleMedium
-                            .copyWith(color: AppColors.white)),
-                  ],
-                ),
-              )),
+                  );
+                }).toList(),
+              );
+            },
+          ),
         ],
       ),
     );

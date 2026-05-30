@@ -7,6 +7,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../shared/widgets/offline_banner.dart';
+import '../../match_center/presentation/match_provider.dart';
 import 'widgets/fan_prediction_strip.dart';
 import 'widgets/live_match_hero_card.dart';
 import 'widgets/news_horizontal_scroll.dart';
@@ -20,6 +21,12 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final upcomingMatches = ref.watch(upcomingMatchesProvider).valueOrNull;
+    final nextMatchTime =
+        (upcomingMatches != null && upcomingMatches.isNotEmpty)
+            ? upcomingMatches.first.kickoffTime
+            : null;
+
     return Scaffold(
       backgroundColor: AppColors.background,
       body: Stack(
@@ -67,7 +74,7 @@ class HomeScreen extends ConsumerWidget {
                     const SizedBox(height: AppSpacing.xl),
 
                     // Sıradaki Maç Sayacı
-                    const NextMatchCountdown(),
+                    NextMatchCountdown(matchTime: nextMatchTime),
                     const SizedBox(height: AppSpacing.xl),
 
                     // Taraftar Tahmini

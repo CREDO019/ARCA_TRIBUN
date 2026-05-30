@@ -25,11 +25,14 @@ class MatchCenterScreen extends ConsumerWidget {
         backgroundColor: AppColors.background,
         body: LoadingShimmer(),
       ),
-      error: (error, _) => Scaffold(
+      error: (_, __) => Scaffold(
         backgroundColor: AppColors.background,
         body: Center(
-          child: Text('Hata: $error',
-              style: const TextStyle(color: AppColors.white)),
+          child: Text(
+            'İçerik yüklenemedi. Lütfen tekrar deneyin.',
+            style: const TextStyle(color: AppColors.white),
+            textAlign: TextAlign.center,
+          ),
         ),
       ),
       data: (status) {

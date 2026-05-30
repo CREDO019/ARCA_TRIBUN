@@ -23,11 +23,15 @@ class NewsDetailScreen extends ConsumerWidget {
         backgroundColor: AppColors.background,
         body: LoadingShimmer(),
       ),
-      error: (e, _) => Scaffold(
+      error: (_, __) => Scaffold(
         backgroundColor: AppColors.background,
         body: Center(
-            child:
-                Text('Haber yüklenemedi: $e', style: AppTypography.bodyMedium)),
+          child: Text(
+            'İçerik yüklenemedi. Lütfen tekrar deneyin.',
+            style: AppTypography.bodyMedium,
+            textAlign: TextAlign.center,
+          ),
+        ),
       ),
       data: (news) {
         if (news == null) {

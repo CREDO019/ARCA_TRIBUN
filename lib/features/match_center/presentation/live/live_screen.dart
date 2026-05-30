@@ -26,8 +26,13 @@ class LiveScreen extends ConsumerWidget {
       backgroundColor: AppColors.background,
       body: liveAsync.when(
         loading: () => const LoadingShimmer(),
-        error: (e, _) =>
-            Center(child: Text('Hata: $e', style: AppTypography.bodyMedium)),
+        error: (_, __) => Center(
+          child: Text(
+            'İçerik yüklenemedi. Lütfen tekrar deneyin.',
+            style: AppTypography.bodyMedium,
+            textAlign: TextAlign.center,
+          ),
+        ),
         data: (liveMatch) {
           if (liveMatch == null) {
             return const Center(
@@ -60,7 +65,13 @@ class LiveScreen extends ConsumerWidget {
               SliverToBoxAdapter(
                 child: eventsAsync.when(
                   loading: () => const LoadingShimmer(),
-                  error: (e, _) => const SizedBox.shrink(),
+                  error: (_, __) => const Padding(
+                    padding: EdgeInsets.all(AppSpacing.screenPadding),
+                    child: Text(
+                      'Maç olayları yüklenemedi.',
+                      style: TextStyle(color: AppColors.secondaryGray),
+                    ),
+                  ),
                   data: (events) => MatchEventsList(events: events),
                 ),
               ),

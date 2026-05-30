@@ -1,13 +1,74 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_typography.dart';
+import '../../../../shared/widgets/loading_shimmer.dart';
+import '../match_provider.dart';
 
 /// Maç sonu ekranı — özet, oyunun adamı, fan oylaması
-class PostMatchScreen extends StatelessWidget {
+class PostMatchScreen extends ConsumerWidget {
   const PostMatchScreen({super.key, required this.matchId});
 
   final String matchId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final matchAsync = ref.watch(matchDetailProvider(matchId));
+
+    return matchAsync.when(
+      loading: () => const Scaffold(
+        backgroundColor: AppColors.background,
+        body: LoadingShimmer(itemCount: 4),
+      ),
+      error: (_, __) => Scaffold(
+        backgroundColor: AppColors.background,
+        appBar: AppBar(title: const Text('Maç Sonu')),
+        body: const Center(
+          child: Text(
+            'İçerik yüklenemedi. Lütfen tekrar deneyin.',
+            style: TextStyle(color: AppColors.secondaryGray),
+          ),
+        ),
+      ),
+      data: (match) {
+        if (match == null) {
+          return Scaffold(
+            backgroundColor: AppColors.background,
+            appBar: AppBar(title: const Text('Maç Sonu')),
+            body: const Center(
+              child: Text(
+                'Maç bilgisi bulunamadı.',
+                style: TextStyle(color: AppColors.secondaryGray),
+              ),
+            ),
+          );
+        }
+
+        return _PostMatchContent(
+          homeTeam: match.homeTeam,
+          awayTeam: match.awayTeam,
+          homeScore: match.homeScore,
+          awayScore: match.awayScore,
+        );
+      },
+    );
+  }
+}
+
+class _PostMatchContent extends StatelessWidget {
+  const _PostMatchContent({
+    required this.homeTeam,
+    required this.awayTeam,
+    required this.homeScore,
+    required this.awayScore,
+  });
+
+  final String homeTeam;
+  final String awayTeam;
+  final int? homeScore;
+  final int? awayScore;
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +94,12 @@ class PostMatchScreen extends StatelessWidget {
                       style: AppTypography.labelSmall
                           .copyWith(color: AppColors.secondaryGray)),
                   const SizedBox(height: AppSpacing.sm),
-                  Text('2 - 1', style: AppTypography.scoreDisplay),
+                  Text(
+                    '${homeScore ?? 0} - ${awayScore ?? 0}',
+                    style: AppTypography.scoreDisplay,
+                  ),
                   const SizedBox(height: AppSpacing.sm),
-                  Text('Arca Çorum FK - Rakip Takım',
-                      style: AppTypography.bodyMedium),
+                  Text('$homeTeam - $awayTeam', style: AppTypography.bodyMedium),
                 ],
               ),
             ),

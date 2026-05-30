@@ -13,6 +13,7 @@ class MatchModel extends Equatable {
     required this.status,
     this.homeScore,
     this.awayScore,
+    this.minute,
     this.venue,
     this.competition,
   });
@@ -25,6 +26,7 @@ class MatchModel extends Equatable {
         status: matchStatusFromSupabase(data['status'] as String?),
         homeScore: (data['home_score'] as num?)?.toInt(),
         awayScore: (data['away_score'] as num?)?.toInt(),
+        minute: (data['minute'] as num?)?.toInt(),
         venue: data['stadium'] as String?,
         competition: data['competition'] as String?,
       );
@@ -36,6 +38,7 @@ class MatchModel extends Equatable {
   final MatchStatus status;
   final int? homeScore;
   final int? awayScore;
+  final int? minute;
   final String? venue;
   final String? competition;
 
@@ -46,7 +49,7 @@ class MatchModel extends Equatable {
 
   @override
   List<Object?> get props =>
-      [id, homeTeam, awayTeam, kickoffTime, status, homeScore, awayScore];
+      [id, homeTeam, awayTeam, kickoffTime, status, homeScore, awayScore, minute];
 }
 
 /// Canlı maç durumu
