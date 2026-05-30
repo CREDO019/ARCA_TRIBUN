@@ -216,6 +216,8 @@ for each row execute function public.set_updated_at();
 revoke all on function public.handle_new_user() from public, anon, authenticated;
 revoke all on function public.set_updated_at() from public, anon, authenticated;
 
+-- Temporary compatibility view for clients still reading "fixtures".
+-- Source of truth is "matches"; app code should migrate to "matches" directly.
 create view public.fixtures
 with (security_invoker = true)
 as
@@ -242,9 +244,9 @@ select
 from public.matches
 where status = 'live';
 
--- This security-invoker view intentionally inherits fan_profiles RLS.
--- It exposes only the authenticated user's own row until a privacy-reviewed
--- leaderboard RPC or read model is introduced.
+-- This is not a global leaderboard.
+-- Because it inherits fan_profiles RLS, it only returns rows visible to
+-- the caller. For global rankings, introduce a reviewed RPC/read model.
 create view public.leaderboard
 with (security_invoker = true)
 as
