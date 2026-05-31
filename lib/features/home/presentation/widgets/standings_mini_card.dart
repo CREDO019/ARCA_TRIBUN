@@ -64,7 +64,13 @@ class StandingsMiniCard extends ConsumerWidget {
                 );
               }
 
-              final visibleTeams = teams.take(3);
+              final visibleTeams = teams.take(3).toList();
+              final ourTeam = teams.where(
+                (team) => isArcaCorumFk(team.teamName),
+              );
+              if (ourTeam.isNotEmpty && !visibleTeams.contains(ourTeam.first)) {
+                visibleTeams.add(ourTeam.first);
+              }
               return Column(
                 children: visibleTeams.map((team) {
                   final isOurTeam = isArcaCorumFk(team.teamName);

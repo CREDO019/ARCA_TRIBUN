@@ -45,6 +45,25 @@ class StandingsScreen extends ConsumerWidget {
 
           return Column(
             children: [
+              const Padding(
+                padding: EdgeInsets.all(AppSpacing.screenPadding),
+                child: _VerifiedFinalContextCard(),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.screenPadding,
+                ),
+                child: Row(
+                  children: [
+                    Text(
+                      'TRENDYOL 1. LİG 2025/26 FİNAL TABLOSU',
+                      style: AppTypography.labelSmall.copyWith(
+                        color: colors.textSecondary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: AppSpacing.screenPadding,
@@ -140,9 +159,24 @@ class _StandingRow extends StatelessWidget {
     final colors = context.arcaColors;
 
     return Container(
-      color: isOurTeam
-          ? AppColors.primaryRed.withValues(alpha: 0.08)
-          : Colors.transparent,
+      decoration: BoxDecoration(
+        color: isOurTeam
+            ? AppColors.primaryRed.withValues(alpha: 0.1)
+            : Colors.transparent,
+        border: isOurTeam
+            ? const Border(
+                left: BorderSide(color: AppColors.primaryRed, width: 3),
+              )
+            : null,
+        boxShadow: isOurTeam
+            ? [
+                BoxShadow(
+                  color: AppColors.primaryRed.withValues(alpha: 0.12),
+                  blurRadius: 14,
+                ),
+              ]
+            : null,
+      ),
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.screenPadding,
         vertical: AppSpacing.md,
@@ -156,27 +190,38 @@ class _StandingRow extends StatelessWidget {
           TeamCrest(teamName: team.teamName, size: 30),
           const SizedBox(width: AppSpacing.sm),
           Expanded(
-            child: Row(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Flexible(
-                  child: Text(
-                    team.teamName,
-                    style: isOurTeam
-                        ? AppTypography.titleMedium
-                            .copyWith(color: AppColors.primaryRed)
-                        : AppTypography.bodyMedium
-                            .copyWith(color: colors.textPrimary),
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                Text(
+                  team.teamName,
+                  style: isOurTeam
+                      ? AppTypography.titleMedium
+                          .copyWith(color: AppColors.primaryRed)
+                      : AppTypography.bodyMedium
+                          .copyWith(color: colors.textPrimary),
+                  overflow: TextOverflow.ellipsis,
                 ),
-                if (isOurTeam) ...[
-                  const SizedBox(width: AppSpacing.xs),
-                  const Icon(
-                    Icons.verified,
-                    size: 15,
-                    color: AppColors.primaryRed,
+                if (isOurTeam)
+                  Container(
+                    margin: const EdgeInsets.only(top: 2),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSpacing.xs,
+                      vertical: 1,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.primaryRed.withValues(alpha: 0.16),
+                      borderRadius:
+                          BorderRadius.circular(AppSpacing.radiusFull),
+                    ),
+                    child: Text(
+                      'BİZİM TAKIM',
+                      style: AppTypography.labelSmall.copyWith(
+                        color: AppColors.primaryRed,
+                        fontSize: 8,
+                      ),
+                    ),
                   ),
-                ],
               ],
             ),
           ),
@@ -266,6 +311,19 @@ class _VerifiedFinalContextCard extends StatelessWidget {
           const SizedBox(height: AppSpacing.md),
           Text(
             'Çorum FK bu sonuçla Süper Lig’e yükseldi.',
+            style: AppTypography.bodySmall,
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          Text(
+            'Goller: 37’ Serdar Gürler · 53’ Mame Thiam',
+            style: AppTypography.bodySmall,
+          ),
+          Text(
+            'Kırmızı kart: 90+2’ Guélor Kanga · Esenler Erokspor',
+            style: AppTypography.bodySmall,
+          ),
+          Text(
+            'Medaş Konya Büyükşehir Stadyumu',
             style: AppTypography.bodySmall,
           ),
         ],

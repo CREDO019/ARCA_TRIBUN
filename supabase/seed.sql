@@ -15,6 +15,30 @@ insert into public.match_events (id, match_id, minute, event_type, team, player_
 ('30000000-0000-0000-0000-000000000003', '20000000-0000-0000-0000-000000000001', 92, 'red_card', 'Esenler Erokspor', 'Guélor Kanga', '90+2’ Guélor Kanga kırmızı kart gördü.')
 on conflict (id) do update set minute = excluded.minute, event_type = excluded.event_type, team = excluded.team, player_name = excluded.player_name, description = excluded.description;
 
+delete from public.standings where season = '2025/2026';
+
+insert into public.standings (season, team_name, position, played, won, drawn, lost, goals_for, goals_against, goal_difference, points) values
+('2025/2026', 'Erzurumspor FK', 1, 38, 23, 12, 3, 82, 27, 55, 81),
+('2025/2026', 'Amed SK', 2, 38, 21, 11, 6, 81, 42, 39, 74),
+('2025/2026', 'Esenler Erokspor', 3, 38, 21, 11, 6, 81, 35, 46, 74),
+('2025/2026', 'ARCA ÇORUM FK', 4, 38, 21, 8, 9, 63, 39, 24, 71),
+('2025/2026', 'Bodrum FK', 5, 38, 18, 10, 10, 71, 39, 32, 64),
+('2025/2026', 'Pendikspor', 6, 38, 16, 15, 7, 58, 33, 25, 63),
+('2025/2026', 'Keçiörengücü', 7, 38, 16, 12, 10, 73, 43, 30, 60),
+('2025/2026', 'Bandırmaspor', 8, 38, 16, 12, 10, 47, 34, 13, 60),
+('2025/2026', 'Manisa FK', 9, 38, 16, 7, 15, 57, 56, 1, 55),
+('2025/2026', 'Sivasspor', 10, 38, 14, 11, 13, 47, 43, 4, 53),
+('2025/2026', 'İstanbulspor', 11, 38, 13, 13, 12, 57, 55, 2, 52),
+('2025/2026', 'Sarıyer', 12, 38, 15, 7, 16, 44, 44, 0, 52),
+('2025/2026', 'Iğdır FK', 13, 38, 13, 11, 14, 52, 54, -2, 50),
+('2025/2026', 'Vanspor FK', 14, 38, 13, 10, 15, 52, 47, 5, 49),
+('2025/2026', 'Boluspor', 15, 38, 14, 6, 18, 61, 57, 4, 48),
+('2025/2026', 'Ümraniyespor', 16, 38, 13, 7, 18, 47, 51, -4, 46),
+('2025/2026', 'Serik Spor', 17, 38, 11, 6, 21, 44, 75, -31, 39),
+('2025/2026', 'Sakaryaspor', 18, 38, 8, 10, 20, 45, 72, -27, 34),
+('2025/2026', 'Hatayspor', 19, 38, 2, 8, 28, 33, 102, -69, 14),
+('2025/2026', 'Adana Demirspor', 20, 38, 1, 3, 34, 22, 169, -147, -57);
+
 -- Market value is intentionally omitted: the current schema has no verified field.
 insert into public.squad (id, name, number, position, nationality, status) values
 ('40000000-0000-0000-0000-000000000001', 'Ibrahim Sehic', 13, 'goalkeeper', 'Bosna-Hersek', 'active'),

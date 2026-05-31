@@ -17,6 +17,7 @@ class PlayerAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final number = player.number > 0 ? '${player.number}' : '-';
+    final assetPath = _assetPath(player.photoUrl);
 
     return SizedBox(
       width: size,
@@ -24,7 +25,47 @@ class PlayerAvatar extends StatelessWidget {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          ClubLogo(size: size, showShadow: true),
+          Container(
+            width: size,
+            height: size,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Color(0xFF111111), Color(0xFF76171C)],
+              ),
+            ),
+            child: assetPath == null
+                ? Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Opacity(
+                        opacity: 0.78,
+                        child: ClubLogo(size: size * 0.7, showShadow: true),
+                      ),
+                      Positioned(
+                        left: size * 0.1,
+                        bottom: size * 0.08,
+                        child: Text(
+                          _initials(player.name),
+                          style: AppTypography.labelSmall.copyWith(
+                            color: AppColors.white.withValues(alpha: 0.72),
+                            fontSize: size * 0.14,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                : ClipOval(
+                    child: Image.asset(
+                      assetPath,
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) =>
+                          ClubLogo(size: size * 0.7, showShadow: true),
+                    ),
+                  ),
+          ),
           Positioned(
             right: 0,
             bottom: 0,
@@ -49,5 +90,20 @@ class PlayerAvatar extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String? _assetPath(String? value) {
+    if (value == null || !value.startsWith('assets/')) return null;
+    return value;
+  }
+
+  String _initials(String value) {
+    return value
+        .split(RegExp(r'\s+'))
+        .where((part) => part.isNotEmpty)
+        .take(2)
+        .map((part) => part[0])
+        .join()
+        .toUpperCase();
   }
 }

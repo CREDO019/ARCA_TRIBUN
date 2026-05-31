@@ -170,6 +170,33 @@ class PilotData {
       'title': 'Kadro bilgileri güncellendi',
       'body': 'Doğrulanmış A takım kadrosu yayınlandı.',
     },
+    {
+      'title': 'Maç günü hava durumu',
+      'body': 'Maç günü hava durumu yakında burada.',
+    },
+  ];
+
+  static final standingsRows = <Map<String, dynamic>>[
+    _standing(1, 'Erzurumspor FK', 23, 12, 3, 82, 27, 55, 81),
+    _standing(2, 'Amed SK', 21, 11, 6, 81, 42, 39, 74),
+    _standing(3, 'Esenler Erokspor', 21, 11, 6, 81, 35, 46, 74),
+    _standing(4, clubName, 21, 8, 9, 63, 39, 24, 71),
+    _standing(5, 'Bodrum FK', 18, 10, 10, 71, 39, 32, 64),
+    _standing(6, 'Pendikspor', 16, 15, 7, 58, 33, 25, 63),
+    _standing(7, 'Keçiörengücü', 16, 12, 10, 73, 43, 30, 60),
+    _standing(8, 'Bandırmaspor', 16, 12, 10, 47, 34, 13, 60),
+    _standing(9, 'Manisa FK', 16, 7, 15, 57, 56, 1, 55),
+    _standing(10, 'Sivasspor', 14, 11, 13, 47, 43, 4, 53),
+    _standing(11, 'İstanbulspor', 13, 13, 12, 57, 55, 2, 52),
+    _standing(12, 'Sarıyer', 15, 7, 16, 44, 44, 0, 52),
+    _standing(13, 'Iğdır FK', 13, 11, 14, 52, 54, -2, 50),
+    _standing(14, 'Vanspor FK', 13, 10, 15, 52, 47, 5, 49),
+    _standing(15, 'Boluspor', 14, 6, 18, 61, 57, 4, 48),
+    _standing(16, 'Ümraniyespor', 13, 7, 18, 47, 51, -4, 46),
+    _standing(17, 'Serik Spor', 11, 6, 21, 44, 75, -31, 39),
+    _standing(18, 'Sakaryaspor', 8, 10, 20, 45, 72, -27, 34),
+    _standing(19, 'Hatayspor', 2, 8, 28, 33, 102, -69, 14),
+    _standing(20, 'Adana Demirspor', 1, 3, 34, 22, 169, -147, -57),
   ];
 
   static Map<String, dynamic>? matchById(String matchId) {
@@ -198,6 +225,33 @@ class PilotData {
       'position': position,
       'nationality': nationality,
       'status': 'active',
+    };
+  }
+
+  static Map<String, dynamic> _standing(
+    int position,
+    String teamName,
+    int won,
+    int drawn,
+    int lost,
+    int goalsFor,
+    int goalsAgainst,
+    int goalDifference,
+    int points,
+  ) {
+    return {
+      'id': '50000000-0000-0000-0000-${position.toString().padLeft(12, '0')}',
+      'season': '2025/2026',
+      'team_name': teamName,
+      'position': position,
+      'played': 38,
+      'won': won,
+      'drawn': drawn,
+      'lost': lost,
+      'goals_for': goalsFor,
+      'goals_against': goalsAgainst,
+      'goal_difference': goalDifference,
+      'points': points,
     };
   }
 

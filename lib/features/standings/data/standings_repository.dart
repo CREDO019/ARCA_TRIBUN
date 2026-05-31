@@ -1,4 +1,5 @@
 import 'package:arca_tribun/core/constants/supabase_tables.dart';
+import 'package:arca_tribun/core/pilot/pilot_data.dart';
 import 'package:arca_tribun/features/standings/domain/standing_model.dart';
 import 'package:arca_tribun/supabase_config.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -10,7 +11,9 @@ class StandingsRepository {
   final SupabaseClient _client;
 
   Future<List<StandingModel>> fetchSeasonStandings({String? season}) async {
-    if (SupabaseConfig.enablePilotDemo) return const <StandingModel>[];
+    if (SupabaseConfig.enablePilotDemo) {
+      return PilotData.standingsRows.map(StandingModel.fromSupabase).toList();
+    }
 
     final targetSeason = season ?? await _fetchLatestSeason();
     if (targetSeason == null) return const <StandingModel>[];

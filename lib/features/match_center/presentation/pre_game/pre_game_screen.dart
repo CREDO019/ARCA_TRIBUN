@@ -2,6 +2,7 @@ import 'package:arca_tribun/core/theme/app_colors.dart';
 import 'package:arca_tribun/core/theme/app_spacing.dart';
 import 'package:arca_tribun/core/theme/app_typography.dart';
 import 'package:arca_tribun/features/match_center/presentation/match_provider.dart';
+import 'package:arca_tribun/features/stadium/presentation/stadium_card.dart';
 import 'package:arca_tribun/shared/widgets/content_state.dart';
 import 'package:arca_tribun/shared/widgets/loading_shimmer.dart';
 import 'package:arca_tribun/shared/widgets/team_crest.dart';
@@ -150,46 +151,14 @@ class _PreGameContent extends StatelessWidget {
 
             const SizedBox(height: AppSpacing.xl),
 
-            // Hava durumu
+            // Stadyum ve maç günü hava durumu
             Text(
-              'HAVA DURUMU',
+              'STADYUM VE MAÇ GÜNÜ HAVA DURUMU',
               style: AppTypography.labelSmall
                   .copyWith(color: colors.textSecondary),
             ),
             const SizedBox(height: AppSpacing.md),
-            Container(
-              padding: const EdgeInsets.all(AppSpacing.cardPadding),
-              decoration: BoxDecoration(
-                color: colors.surface,
-                borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
-                border: Border.all(color: colors.border),
-              ),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.cloud_outlined,
-                    color: colors.textSecondary,
-                    size: 40,
-                  ),
-                  const SizedBox(width: AppSpacing.md),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Hava durumu verisi hazırlanıyor',
-                          style: AppTypography.titleLarge,
-                        ),
-                        Text(
-                          'Doğrulanmış bilgiler maç öncesinde yayınlanacak.',
-                          style: AppTypography.bodySmall,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            const StadiumCard(),
           ],
         ),
       ),

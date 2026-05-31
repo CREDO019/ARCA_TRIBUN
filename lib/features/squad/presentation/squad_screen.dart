@@ -81,8 +81,8 @@ class _PositionSection extends StatelessWidget {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            childAspectRatio: 0.75,
+            crossAxisCount: 2,
+            childAspectRatio: 0.82,
             crossAxisSpacing: AppSpacing.sm,
             mainAxisSpacing: AppSpacing.sm,
           ),
@@ -101,13 +101,31 @@ class _PositionSection extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    PlayerAvatar(player: player, size: 58),
+                    PlayerAvatar(player: player, size: 66),
                     const SizedBox(height: AppSpacing.sm),
                     Text(
                       player.name,
                       style: AppTypography.bodySmall,
                       textAlign: TextAlign.center,
                       maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: AppSpacing.xs),
+                    Text(
+                      _positionText(player.position),
+                      style: AppTypography.labelSmall.copyWith(
+                        color: AppColors.primaryRed,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      player.nationality ?? '-',
+                      style: AppTypography.bodySmall.copyWith(
+                        color: colors.textSecondary,
+                      ),
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),
@@ -118,5 +136,20 @@ class _PositionSection extends StatelessWidget {
         const SizedBox(height: AppSpacing.md),
       ],
     );
+  }
+
+  String _positionText(String raw) {
+    switch (raw.toLowerCase()) {
+      case 'goalkeeper':
+        return 'Kaleci';
+      case 'defender':
+        return 'Defans';
+      case 'midfielder':
+        return 'Orta Saha';
+      case 'forward':
+        return 'Forvet';
+      default:
+        return raw;
+    }
   }
 }

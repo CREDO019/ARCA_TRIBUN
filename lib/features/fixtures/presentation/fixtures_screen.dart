@@ -201,10 +201,19 @@ class _FixtureTile extends StatelessWidget {
               TeamCrest(teamName: match.awayTeam, size: 38),
             ],
           ),
-          if (!hasScore) ...[
+          if (hasScore) ...[
             const SizedBox(height: AppSpacing.sm),
             Text(
-              'Rakip, fikstür açıklandığında güncellenecek.',
+              'Süper Lig’e yükseliş · ${match.venue ?? 'Stat bilgisi bekleniyor'}',
+              style: AppTypography.bodySmall.copyWith(
+                color: AppColors.primaryRed,
+              ),
+            ),
+          ] else ...[
+            const SizedBox(height: AppSpacing.sm),
+            Text(
+              'Rakip, fikstür açıklandığında güncellenecek. '
+              '${match.venue ?? 'Stat bilgisi bekleniyor'}',
               style: AppTypography.bodySmall,
             ),
           ],

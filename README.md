@@ -109,6 +109,9 @@ proje kontrol edildikten sonra manuel olarak çalıştırılmalıdır.
   placeholder kullanır. Haber görseli de telifli ajans fotoğrafı yerine uygulama
   içinde çizilen kırmızı-siyah yükseliş grafiğidir.
 
+Pilot veri kaynakları, final tablo ve hava durumu servis sınırları:
+[docs/pilot_data_sources.md](docs/pilot_data_sources.md)
+
 Hesap silme akışının güvenlik sınırı ve deploy adımları:
 [docs/account_deletion.md](docs/account_deletion.md)
 

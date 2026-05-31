@@ -10,6 +10,7 @@ import 'package:arca_tribun/features/home/presentation/widgets/next_match_countd
 import 'package:arca_tribun/features/home/presentation/widgets/standings_mini_card.dart';
 import 'package:arca_tribun/features/home/presentation/widgets/store_banner_card.dart';
 import 'package:arca_tribun/features/match_center/presentation/match_provider.dart';
+import 'package:arca_tribun/features/stadium/presentation/stadium_card.dart';
 import 'package:arca_tribun/shared/widgets/offline_banner.dart';
 import 'package:arca_tribun/shared/widgets/pilot_demo_badge.dart';
 import 'package:arca_tribun/shared/widgets/club_logo.dart';
@@ -89,6 +90,17 @@ class HomeScreen extends ConsumerWidget {
 
                     // Puan Durumu Mini Kart
                     const StandingsMiniCard(),
+                    const SizedBox(height: AppSpacing.xl),
+
+                    // Stadyum ve güncel hava durumu
+                    Text(
+                      'STADYUMUMUZ',
+                      style: AppTypography.labelSmall.copyWith(
+                        color: colors.textSecondary,
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.sm),
+                    const StadiumCard(compact: true),
                     const SizedBox(height: AppSpacing.xl),
 
                     // Son Haberler
