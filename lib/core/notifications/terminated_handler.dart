@@ -1,7 +1,6 @@
+import 'package:arca_tribun/core/notifications/notification_router.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:logger/logger.dart';
-
-import 'notification_router.dart';
 
 /// Uygulama tamamen kapalıyken (terminated) bildirime tıklanınca çalışır.
 class TerminatedHandler {

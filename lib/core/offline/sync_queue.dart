@@ -1,10 +1,9 @@
 import 'dart:convert';
 
+import 'package:arca_tribun/core/constants/app_constants.dart';
+import 'package:arca_tribun/core/offline/connectivity_service.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:logger/logger.dart';
-
-import '../constants/app_constants.dart';
-import 'connectivity_service.dart';
 
 /// Offline iken gerçekleşen işlemleri kuyruğa alan sistem.
 /// Bağlantı gelince otomatik olarak işler.

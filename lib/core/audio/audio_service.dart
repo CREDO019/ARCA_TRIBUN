@@ -1,4 +1,5 @@
 import 'package:audio_session/audio_session.dart';
+import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:logger/logger.dart';
 
@@ -72,7 +73,18 @@ class AudioService {
     final soundPaths = _getSoundPaths();
     for (final entry in soundPaths.entries) {
       try {
-        await _players[entry.key]?.setAsset(entry.value);
+        final assetData = await rootBundle.load(entry.value);
+        if (assetData.lengthInBytes == 0) {
+          _logger.w(
+            '[AudioService] Skipping empty audio asset: ${entry.value}',
+          );
+          continue;
+        }
+
+        final player = _players[entry.key];
+        if (player == null) continue;
+
+        await player.setAsset(entry.value);
         _loadedSounds.add(entry.key);
       } catch (e) {
         _logger.w('[AudioService] Could not preload ${entry.key}: $e');
@@ -129,13 +141,21 @@ class AudioService {
 
   /// Ses seviyesini ayarla (0.0 - 1.0)
   Future<void> setVolume(SoundType type, double volume) async {
-    await _players[type]?.setVolume(volume.clamp(0.0, 1.0));
+    try {
+      await _players[type]?.setVolume(volume.clamp(0.0, 1.0));
+    } catch (e) {
+      _logger.w('[AudioService] Failed to set volume for $type: $e');
+    }
   }
 
   /// Tüm kaynakları serbest bırak
   Future<void> dispose() async {
     for (final player in _players.values) {
-      await player.dispose();
+      try {
+        await player.dispose();
+      } catch (e) {
+        _logger.w('[AudioService] Failed to dispose player: $e');
+      }
     }
     _players.clear();
     _loadedSounds.clear();

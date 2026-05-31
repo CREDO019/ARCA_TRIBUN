@@ -1,8 +1,7 @@
+import 'package:arca_tribun/core/theme/app_colors.dart';
+import 'package:arca_tribun/core/theme/app_spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-
-import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_spacing.dart';
 
 /// Shimmer yükleme placeholder widget'ı.
 /// AsyncValue.loading() durumunda kullanılır.

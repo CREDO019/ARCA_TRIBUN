@@ -1,9 +1,8 @@
+import 'package:arca_tribun/core/audio/goal_sound_engine.dart';
+import 'package:arca_tribun/core/theme/app_colors.dart';
+import 'package:arca_tribun/core/theme/app_typography.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-
-import '../../core/audio/goal_sound_engine.dart';
-import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_typography.dart';
 
 /// Gol kutlama overlay'i.
 /// GoalSoundEngine'den gelen event ile tetiklenir.
@@ -87,7 +86,7 @@ class _GoalCelebrationOverlayState extends State<GoalCelebrationOverlay>
           Positioned.fill(
             child: GestureDetector(
               onTap: () => setState(() => _isVisible = false),
-              child: Container(
+              child: ColoredBox(
                 color: Colors.black.withValues(alpha: 0.7),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -109,7 +108,7 @@ class _GoalCelebrationOverlayState extends State<GoalCelebrationOverlay>
                     Text('GOL!', style: AppTypography.goalDisplay),
 
                     // Gol atan oyuncu
-                    if (_currentEvent?.scorerName.isNotEmpty == true)
+                    if (_currentEvent?.scorerName.isNotEmpty ?? false)
                       Text(
                         _currentEvent!.scorerName,
                         style: AppTypography.headlineLarge,

@@ -1,7 +1,6 @@
+import 'package:arca_tribun/core/constants/app_constants.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:logger/logger.dart';
-
-import '../constants/app_constants.dart';
 
 /// FCM konularına (topics) abone olma/çıkma işlemlerini yönetir.
 class TopicManager {

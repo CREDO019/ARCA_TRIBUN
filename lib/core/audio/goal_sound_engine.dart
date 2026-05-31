@@ -1,9 +1,8 @@
+import 'package:arca_tribun/core/audio/sound_manager.dart';
+import 'package:arca_tribun/core/constants/app_constants.dart';
 import 'package:logger/logger.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:vibration/vibration.dart';
-
-import '../constants/app_constants.dart';
-import 'sound_manager.dart';
 
 /// Gol olayı callback tipi.
 typedef GoalEventCallback = void Function(GoalEvent event);

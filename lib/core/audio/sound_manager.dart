@@ -1,7 +1,6 @@
+import 'package:arca_tribun/core/audio/audio_preference_store.dart';
+import 'package:arca_tribun/core/audio/audio_service.dart';
 import 'package:logger/logger.dart';
-
-import 'audio_preference_store.dart';
-import 'audio_service.dart';
 
 /// Ses yönetim katmanı — kullanıcı tercihlerini dikkate alarak ses çalar.
 /// AudioService üzerinde soyutlama sağlar.
@@ -16,7 +15,7 @@ class SoundManager {
   final AudioPreferenceStore _preferenceStore = AudioPreferenceStore.instance;
 
   bool _isMuted = false;
-  double _volume = 1.0;
+  double _volume = 1;
 
   /// SoundManager'ı başlat (preferences yükle)
   Future<void> initialize() async {

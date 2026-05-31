@@ -1,7 +1,6 @@
+import 'package:arca_tribun/core/constants/supabase_tables.dart';
+import 'package:arca_tribun/features/news/domain/news_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-import '../../../core/constants/supabase_tables.dart';
-import '../domain/news_model.dart';
 
 class NewsRepository {
   NewsRepository({SupabaseClient? client})
@@ -17,7 +16,7 @@ class NewsRepository {
         .order(SupabaseTables.colPublishedAt, ascending: false)
         .limit(limit);
 
-    return rows.map((row) => NewsModel.fromSupabase(row)).toList();
+    return rows.map(NewsModel.fromSupabase).toList();
   }
 
   Future<List<NewsModel>> fetchLatestNews({int limit = 5}) {

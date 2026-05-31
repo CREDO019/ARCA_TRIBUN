@@ -1,9 +1,8 @@
+import 'package:arca_tribun/core/theme/app_colors.dart';
+import 'package:arca_tribun/core/theme/app_spacing.dart';
+import 'package:arca_tribun/core/theme/app_typography.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'app_colors.dart';
-import 'app_spacing.dart';
-import 'app_typography.dart';
 
 /// Uygulamanın ana ThemeData konfigürasyonu.
 /// Yalnızca karanlık tema kullanılır (dark-first design).
@@ -51,7 +50,6 @@ class AppTheme {
         secondary: AppColors.cardBg2,
         onSecondary: AppColors.white,
         surface: AppColors.cardBg,
-        onSurface: AppColors.white,
         error: AppColors.errorRed,
         onError: AppColors.white,
         outline: AppColors.border,

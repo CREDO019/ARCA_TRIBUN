@@ -113,6 +113,15 @@ Yedek görsel paket hazırlığı:
   etkinleştirilmemelidir.
 - Doğrulanmamış maç verisi veya sahte içerik sunum için kullanılmamalıdır.
 
+## Audio Pilot Notu
+
+`assets/sounds` altındaki ses yolları pilot altyapı için korunmaktadır. Onaylı
+ses dosyaları eklenene kadar 0-byte placeholder asset'ler oynatılmaz; ses
+katmanı kullanıcı akışını bozmadan sessizce devam eder.
+
+Ses servisi pilot build'de uygulama başlangıcına bağlanmamıştır. Onaylı ses
+asset'leri ve ürün kararı tamamlandıktan sonra açıkça etkinleştirilmelidir.
+
 ## Brand Disclaimer
 
 ARCA Tribün bir dijital taraftar platformu pilot çalışmasıdır. Kulüp onayı

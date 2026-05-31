@@ -1,9 +1,8 @@
+import 'package:arca_tribun/core/error/failure.dart';
+import 'package:arca_tribun/core/error/sentry_reporter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-import 'sentry_reporter.dart';
-import 'failure.dart';
 
 /// Tüm exception'ları [Failure] türlerine dönüştüren merkezi hata işleyici.
 ///
@@ -16,7 +15,7 @@ class ErrorHandler {
   ErrorHandler._();
 
   static final Logger _logger = Logger(
-    printer: PrettyPrinter(methodCount: 2),
+    printer: PrettyPrinter(),
     level: kDebugMode ? Level.debug : Level.error,
   );
 
@@ -40,7 +39,6 @@ class ErrorHandler {
         exception,
         stackTrace: stackTrace,
         context: context,
-        fatal: false,
       );
     }
 
@@ -72,7 +70,8 @@ class ErrorHandler {
     }
 
     return UnknownFailure(
-        message: 'errors.unknown', code: exception.toString());
+      code: exception.toString(),
+    );
   }
 
   /// Supabase Auth hata kodlarını [AuthFailure]'a map et.
@@ -92,7 +91,7 @@ class ErrorHandler {
         if (e.message.contains('Password should be at least')) {
           return const AuthFailure(message: 'errors.auth_weak_password');
         }
-        return AuthFailure(message: 'errors.auth_error', code: e.statusCode);
+        return AuthFailure(code: e.statusCode);
 
       case '422':
         // Email zaten kayıtlı
@@ -100,7 +99,7 @@ class ErrorHandler {
             e.message.contains('User already registered')) {
           return const AuthFailure(message: 'errors.auth_email_in_use');
         }
-        return AuthFailure(message: 'errors.auth_error', code: e.statusCode);
+        return AuthFailure(code: e.statusCode);
 
       case '429':
         return const RateLimitFailure();
@@ -110,7 +109,6 @@ class ErrorHandler {
 
       default:
         return AuthFailure(
-          message: 'errors.auth_error',
           code: e.statusCode ?? e.message,
         );
     }
@@ -139,7 +137,6 @@ class ErrorHandler {
           return const NetworkFailure();
         }
         return ServerFailure(
-          message: 'errors.server_error',
           code: e.code,
         );
     }

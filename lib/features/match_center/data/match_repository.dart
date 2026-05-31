@@ -1,7 +1,6 @@
+import 'package:arca_tribun/core/constants/supabase_tables.dart';
+import 'package:arca_tribun/features/match_center/domain/match_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-import '../../../core/constants/supabase_tables.dart';
-import '../domain/match_model.dart';
 
 class MatchRepository {
   MatchRepository({SupabaseClient? client})
@@ -18,7 +17,7 @@ class MatchRepository {
         .order('match_date', ascending: true)
         .limit(limit);
 
-    return rows.map((row) => MatchModel.fromSupabase(row)).toList();
+    return rows.map(MatchModel.fromSupabase).toList();
   }
 
   Future<List<MatchModel>> fetchRecentMatches({int limit = 20}) async {
@@ -30,7 +29,7 @@ class MatchRepository {
         .order('match_date', ascending: false)
         .limit(limit);
 
-    return rows.map((row) => MatchModel.fromSupabase(row)).toList();
+    return rows.map(MatchModel.fromSupabase).toList();
   }
 
   Future<MatchModel?> fetchCurrentLiveMatch() async {
@@ -64,7 +63,7 @@ class MatchRepository {
         .eq(SupabaseTables.colMatchId, matchId)
         .order(SupabaseTables.colMinute, ascending: true);
 
-    return rows.map((row) => MatchEventModel.fromSupabase(row)).toList();
+    return rows.map(MatchEventModel.fromSupabase).toList();
   }
 
   Stream<LiveMatchModel?> watchLiveMatch(String matchId) {
@@ -84,8 +83,9 @@ class MatchRepository {
         .stream(primaryKey: [SupabaseTables.colId])
         .eq(SupabaseTables.colMatchId, matchId)
         .order(SupabaseTables.colMinute)
-        .map((rows) =>
-            rows.map((row) => MatchEventModel.fromSupabase(row)).toList());
+        .map(
+          (rows) => rows.map(MatchEventModel.fromSupabase).toList(),
+        );
   }
 
   Stream<MatchStatus> watchMatchStatus(String matchId) {

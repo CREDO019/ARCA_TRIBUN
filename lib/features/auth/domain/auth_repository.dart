@@ -1,7 +1,6 @@
+import 'package:arca_tribun/core/error/failure.dart';
+import 'package:arca_tribun/features/auth/domain/user_model.dart';
 import 'package:dartz/dartz.dart';
-
-import '../../../../core/error/failure.dart';
-import 'user_model.dart';
 
 /// Auth repository soyut arayüzü.
 /// Sunum katmanı bu arayüz üzerinden çalışır.

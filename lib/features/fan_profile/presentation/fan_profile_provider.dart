@@ -1,10 +1,9 @@
+import 'package:arca_tribun/core/constants/supabase_tables.dart';
+import 'package:arca_tribun/features/auth/presentation/auth_provider.dart';
+import 'package:arca_tribun/features/fan_profile/data/fan_profile_repository.dart';
+import 'package:arca_tribun/features/fan_profile/domain/fan_profile_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-import '../../../core/constants/supabase_tables.dart';
-import '../../auth/presentation/auth_provider.dart';
-import '../data/fan_profile_repository.dart';
-import '../domain/fan_profile_model.dart';
 
 final fanProfileRepositoryProvider = Provider<FanProfileRepository>((ref) {
   return FanProfileRepository();

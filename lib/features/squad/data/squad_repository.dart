@@ -1,7 +1,6 @@
+import 'package:arca_tribun/core/constants/supabase_tables.dart';
+import 'package:arca_tribun/features/squad/domain/player_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-import '../../../core/constants/supabase_tables.dart';
-import '../domain/player_model.dart';
 
 class SquadRepository {
   SquadRepository({SupabaseClient? client})
@@ -17,7 +16,7 @@ class SquadRepository {
         .order('position', ascending: true)
         .order('number', ascending: true);
 
-    return rows.map((row) => PlayerModel.fromSupabase(row)).toList();
+    return rows.map(PlayerModel.fromSupabase).toList();
   }
 
   Future<Map<String, List<PlayerModel>>> fetchGroupedActivePlayers() async {

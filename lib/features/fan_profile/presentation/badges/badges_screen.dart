@@ -1,7 +1,7 @@
+import 'package:arca_tribun/core/theme/app_colors.dart';
+import 'package:arca_tribun/core/theme/app_spacing.dart';
+import 'package:arca_tribun/core/theme/app_typography.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_spacing.dart';
-import '../../../../core/theme/app_typography.dart';
 
 /// Rozetler ekranı — kazanılan ve kilitli rozetler
 class BadgesScreen extends StatelessWidget {
@@ -16,28 +16,28 @@ class BadgesScreen extends StatelessWidget {
         'name': 'İlk Adım',
         'desc': 'İlk maçını takip et',
         'earned': true,
-        'icon': '🏆'
+        'icon': '🏆',
       },
       {
         'id': 'badge_streak_7',
         'name': '7 Gün Serisi',
         'desc': '7 gün üst üste giriş yap',
         'earned': true,
-        'icon': '🔥'
+        'icon': '🔥',
       },
       {
         'id': 'badge_prediction_10',
         'name': 'Tahminci',
         'desc': '10 doğru tahmin yap',
         'earned': false,
-        'icon': '🎯'
+        'icon': '🎯',
       },
       {
         'id': 'badge_champion',
         'name': 'Efsane',
         'desc': 'Şampiyonluk sezonunu izle',
         'earned': false,
-        'icon': '👑'
+        'icon': '👑',
       },
     ];
 
@@ -48,7 +48,6 @@ class BadgesScreen extends StatelessWidget {
         padding: const EdgeInsets.all(AppSpacing.screenPadding),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          childAspectRatio: 1.0,
           crossAxisSpacing: AppSpacing.md,
           mainAxisSpacing: AppSpacing.md,
         ),
@@ -74,8 +73,9 @@ class BadgesScreen extends StatelessWidget {
                 Text(
                   badge['icon'] as String,
                   style: TextStyle(
-                      fontSize: 40,
-                      color: isEarned ? null : const Color(0x44FFFFFF)),
+                    fontSize: 40,
+                    color: isEarned ? null : const Color(0x44FFFFFF),
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.sm),
                 Text(
@@ -94,8 +94,11 @@ class BadgesScreen extends StatelessWidget {
                 ),
                 if (!isEarned) ...[
                   const SizedBox(height: AppSpacing.xs),
-                  const Icon(Icons.lock,
-                      color: AppColors.secondaryGray, size: 16),
+                  const Icon(
+                    Icons.lock,
+                    color: AppColors.secondaryGray,
+                    size: 16,
+                  ),
                 ],
               ],
             ),

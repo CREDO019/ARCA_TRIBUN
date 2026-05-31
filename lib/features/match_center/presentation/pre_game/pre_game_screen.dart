@@ -1,12 +1,11 @@
+import 'package:arca_tribun/core/theme/app_colors.dart';
+import 'package:arca_tribun/core/theme/app_spacing.dart';
+import 'package:arca_tribun/core/theme/app_typography.dart';
+import 'package:arca_tribun/features/match_center/presentation/match_provider.dart';
+import 'package:arca_tribun/shared/widgets/content_state.dart';
+import 'package:arca_tribun/shared/widgets/loading_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_spacing.dart';
-import '../../../../core/theme/app_typography.dart';
-import '../../../../shared/widgets/content_state.dart';
-import '../../../../shared/widgets/loading_shimmer.dart';
-import '../match_provider.dart';
 
 /// Maç öncesi ekranı — kadro, stadyum, hava durumu bilgileri
 class PreGameScreen extends ConsumerWidget {
@@ -87,9 +86,11 @@ class _PreGameContent extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  Text('$homeTeam vs $awayTeam',
-                      style: AppTypography.headlineMedium,
-                      textAlign: TextAlign.center),
+                  Text(
+                    '$homeTeam vs $awayTeam',
+                    style: AppTypography.headlineMedium,
+                    textAlign: TextAlign.center,
+                  ),
                   const SizedBox(height: AppSpacing.sm),
                   Text('$kickoff • $venue', style: AppTypography.bodyMedium),
                 ],
@@ -98,9 +99,11 @@ class _PreGameContent extends StatelessWidget {
             const SizedBox(height: AppSpacing.xl),
 
             // Muhtemel 11
-            Text('MUHTEMEL 11',
-                style: AppTypography.labelSmall
-                    .copyWith(color: AppColors.secondaryGray)),
+            Text(
+              'MUHTEMEL 11',
+              style: AppTypography.labelSmall
+                  .copyWith(color: AppColors.secondaryGray),
+            ),
             const SizedBox(height: AppSpacing.md),
             Container(
               height: 200,
@@ -110,17 +113,21 @@ class _PreGameContent extends StatelessWidget {
                 border: Border.all(color: AppColors.border),
               ),
               child: const Center(
-                child: Text('Doğrulanmış kadro bilgileri bekleniyor.',
-                    style: TextStyle(color: AppColors.secondaryGray)),
+                child: Text(
+                  'Doğrulanmış kadro bilgileri bekleniyor.',
+                  style: TextStyle(color: AppColors.secondaryGray),
+                ),
               ),
             ),
 
             const SizedBox(height: AppSpacing.xl),
 
             // Hava durumu
-            Text('HAVA DURUMU',
-                style: AppTypography.labelSmall
-                    .copyWith(color: AppColors.secondaryGray)),
+            Text(
+              'HAVA DURUMU',
+              style: AppTypography.labelSmall
+                  .copyWith(color: AppColors.secondaryGray),
+            ),
             const SizedBox(height: AppSpacing.md),
             Container(
               padding: const EdgeInsets.all(AppSpacing.cardPadding),
@@ -131,16 +138,23 @@ class _PreGameContent extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.cloud_outlined,
-                      color: AppColors.secondaryGray, size: 40),
+                  const Icon(
+                    Icons.cloud_outlined,
+                    color: AppColors.secondaryGray,
+                    size: 40,
+                  ),
                   const SizedBox(width: AppSpacing.md),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Hava durumu verisi hazırlanıyor',
-                          style: AppTypography.titleLarge),
-                      Text('Doğrulanmış bilgiler maç öncesinde yayınlanacak.',
-                          style: AppTypography.bodySmall),
+                      Text(
+                        'Hava durumu verisi hazırlanıyor',
+                        style: AppTypography.titleLarge,
+                      ),
+                      Text(
+                        'Doğrulanmış bilgiler maç öncesinde yayınlanacak.',
+                        style: AppTypography.bodySmall,
+                      ),
                     ],
                   ),
                 ],

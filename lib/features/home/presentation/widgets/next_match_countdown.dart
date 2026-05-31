@@ -1,10 +1,9 @@
 import 'dart:async';
 
+import 'package:arca_tribun/core/theme/app_colors.dart';
+import 'package:arca_tribun/core/theme/app_spacing.dart';
+import 'package:arca_tribun/core/theme/app_typography.dart';
 import 'package:flutter/material.dart';
-
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_spacing.dart';
-import '../../../../core/theme/app_typography.dart';
 
 /// Sıradaki maç geri sayım widget'ı.
 /// Stream.periodic ile her saniye güncellenir.
@@ -136,8 +135,10 @@ class _NextMatchCountdownState extends State<NextMatchCountdown> {
 class _Divider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Text(':',
-        style: AppTypography.countdown.copyWith(color: AppColors.primaryRed));
+    return Text(
+      ':',
+      style: AppTypography.countdown.copyWith(color: AppColors.primaryRed),
+    );
   }
 }
 

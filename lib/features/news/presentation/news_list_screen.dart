@@ -1,14 +1,13 @@
+import 'package:arca_tribun/core/router/route_names.dart';
+import 'package:arca_tribun/core/theme/app_colors.dart';
+import 'package:arca_tribun/core/theme/app_spacing.dart';
+import 'package:arca_tribun/core/theme/app_typography.dart';
+import 'package:arca_tribun/features/news/presentation/news_provider.dart';
+import 'package:arca_tribun/shared/widgets/content_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
-
-import '../../../core/router/route_names.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/app_spacing.dart';
-import '../../../core/theme/app_typography.dart';
-import '../../../shared/widgets/content_state.dart';
-import 'news_provider.dart';
 
 /// Haber listesi ekranı — sayfalı, shimmer yükleme
 class NewsListScreen extends ConsumerWidget {
@@ -22,7 +21,7 @@ class NewsListScreen extends ConsumerWidget {
       backgroundColor: AppColors.background,
       appBar: AppBar(title: const Text('Haberler')),
       body: newsAsync.when(
-        loading: () => _buildShimmer(),
+        loading: _buildShimmer,
         error: (_, __) => ContentErrorState(
           onRetry: () => ref.invalidate(newsListProvider),
         ),
@@ -56,26 +55,34 @@ class NewsListScreen extends ConsumerWidget {
                     children: [
                       Container(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
+                          horizontal: AppSpacing.sm,
+                          vertical: AppSpacing.xs,
+                        ),
                         decoration: BoxDecoration(
                           color: AppColors.primaryRed.withValues(alpha: 0.15),
                           borderRadius:
                               BorderRadius.circular(AppSpacing.radiusFull),
                         ),
-                        child: Text(news.category,
-                            style: AppTypography.labelSmall
-                                .copyWith(color: AppColors.primaryRed)),
+                        child: Text(
+                          news.category,
+                          style: AppTypography.labelSmall
+                              .copyWith(color: AppColors.primaryRed),
+                        ),
                       ),
                       const SizedBox(height: AppSpacing.sm),
-                      Text(news.title,
-                          style: AppTypography.titleLarge,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis),
+                      Text(
+                        news.title,
+                        style: AppTypography.titleLarge,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                       const SizedBox(height: AppSpacing.xs),
-                      Text(news.summary,
-                          style: AppTypography.bodyMedium,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis),
+                      Text(
+                        news.summary,
+                        style: AppTypography.bodyMedium,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ],
                   ),
                 ),

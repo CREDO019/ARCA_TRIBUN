@@ -1,10 +1,10 @@
+import 'package:arca_tribun/core/theme/app_colors.dart';
+import 'package:arca_tribun/core/theme/app_spacing.dart';
+import 'package:arca_tribun/core/theme/app_typography.dart';
+import 'package:arca_tribun/features/fan_profile/presentation/fan_profile_provider.dart';
+import 'package:arca_tribun/shared/widgets/loading_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_spacing.dart';
-import '../../../../core/theme/app_typography.dart';
-import '../../../../shared/widgets/loading_shimmer.dart';
-import '../fan_profile_provider.dart';
 
 /// Sıralama ekranı — global leaderboard
 class LeaderboardScreen extends ConsumerWidget {
@@ -20,16 +20,19 @@ class LeaderboardScreen extends ConsumerWidget {
       body: leaderboardAsync.when(
         loading: () => const LoadingShimmer(),
         error: (e, _) => Center(
-            child:
-                Text('Sıralama yüklenemedi', style: AppTypography.bodyMedium)),
+          child: Text('Sıralama yüklenemedi', style: AppTypography.bodyMedium),
+        ),
         data: (entries) {
           if (entries.isEmpty) {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.leaderboard,
-                      size: 60, color: AppColors.secondaryGray),
+                  const Icon(
+                    Icons.leaderboard,
+                    size: 60,
+                    color: AppColors.secondaryGray,
+                  ),
                   const SizedBox(height: AppSpacing.md),
                   Text('Henüz sıralama yok', style: AppTypography.bodyMedium),
                 ],

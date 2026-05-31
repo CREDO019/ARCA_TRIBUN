@@ -1,9 +1,8 @@
+import 'package:arca_tribun/core/theme/app_colors.dart';
+import 'package:arca_tribun/core/theme/app_spacing.dart';
+import 'package:arca_tribun/core/theme/app_typography.dart';
+import 'package:arca_tribun/features/match_center/domain/match_model.dart';
 import 'package:flutter/material.dart';
-
-import '../../../../../core/theme/app_colors.dart';
-import '../../../../../core/theme/app_spacing.dart';
-import '../../../../../core/theme/app_typography.dart';
-import '../../../domain/match_model.dart';
 
 /// Maç olayları listesi — goller, kartlar, değişiklikler
 class MatchEventsList extends StatelessWidget {
@@ -85,9 +84,11 @@ class _EventTile extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Text("${event.minute}'",
-              style: AppTypography.labelSmall
-                  .copyWith(color: AppColors.secondaryGray)),
+          Text(
+            "${event.minute}'",
+            style: AppTypography.labelSmall
+                .copyWith(color: AppColors.secondaryGray),
+          ),
           const SizedBox(width: AppSpacing.md),
           Icon(_icon, color: _iconColor, size: AppSpacing.iconMd),
           const SizedBox(width: AppSpacing.md),
@@ -97,8 +98,10 @@ class _EventTile extends StatelessWidget {
               children: [
                 Text(event.playerName, style: AppTypography.bodyLarge),
                 if (event.assistPlayerName != null)
-                  Text('Asist: ${event.assistPlayerName}',
-                      style: AppTypography.bodySmall),
+                  Text(
+                    'Asist: ${event.assistPlayerName}',
+                    style: AppTypography.bodySmall,
+                  ),
               ],
             ),
           ),

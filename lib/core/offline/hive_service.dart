@@ -1,7 +1,6 @@
+import 'package:arca_tribun/core/constants/app_constants.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:logger/logger.dart';
-
-import '../constants/app_constants.dart';
 
 /// Hive yerel veritabanı başlatma ve yönetimi.
 class HiveService {
@@ -51,7 +50,8 @@ class HiveService {
   Box<T> getBox<T>(String boxName) {
     if (!Hive.isBoxOpen(boxName)) {
       throw StateError(
-          'Hive box "$boxName" is not open. Call initialize() first.');
+        'Hive box "$boxName" is not open. Call initialize() first.',
+      );
     }
     return Hive.box<T>(boxName);
   }

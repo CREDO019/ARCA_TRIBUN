@@ -1,6 +1,5 @@
+import 'package:arca_tribun/core/error/sentry_reporter.dart';
 import 'package:flutter/foundation.dart';
-
-import 'sentry_reporter.dart';
 
 /// Firebase Crashlytics → Sentry geçiş katmanı.
 ///

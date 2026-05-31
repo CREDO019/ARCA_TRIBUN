@@ -1,7 +1,6 @@
+import 'package:arca_tribun/features/news/data/news_repository.dart';
+import 'package:arca_tribun/features/news/domain/news_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../data/news_repository.dart';
-import '../domain/news_model.dart';
 
 final newsRepositoryProvider = Provider<NewsRepository>(
   (ref) => NewsRepository(),
@@ -13,12 +12,12 @@ final newsRepositoryProvider = Provider<NewsRepository>(
 /// Supabase:  `supabase.from(table).select().order().limit()`
 final newsListProvider = FutureProvider<List<NewsModel>>((ref) async {
   final repository = ref.watch(newsRepositoryProvider);
-  return repository.fetchPublishedNews(limit: 20);
+  return repository.fetchPublishedNews();
 });
 
 final latestNewsProvider = FutureProvider<List<NewsModel>>((ref) async {
   final repository = ref.watch(newsRepositoryProvider);
-  return repository.fetchLatestNews(limit: 5);
+  return repository.fetchLatestNews();
 });
 
 /// Tek haber detay provider

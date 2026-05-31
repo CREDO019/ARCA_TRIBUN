@@ -1,9 +1,8 @@
+import 'package:arca_tribun/core/analytics/event_names.dart';
+import 'package:arca_tribun/supabase_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 import 'package:mixpanel_flutter/mixpanel_flutter.dart';
-
-import '../../supabase_config.dart';
-import 'event_names.dart';
 
 /// Mixpanel Analytics için merkezi soyutlama katmanı.
 ///
@@ -35,7 +34,6 @@ class AnalyticsService {
     try {
       _mixpanel = await Mixpanel.init(
         SupabaseConfig.mixpanelToken,
-        optOutTrackingDefault: false,
         trackAutomaticEvents: true,
       );
       _isInitialized = true;
@@ -51,10 +49,13 @@ class AnalyticsService {
   Future<void> logScreen(String screenName, {String? screenClass}) async {
     if (_mixpanel == null) return;
     try {
-      _mixpanel!.track('screen_view', properties: {
-        'screen_name': screenName,
-        'screen_class': screenClass ?? screenName,
-      });
+      _mixpanel!.track(
+        'screen_view',
+        properties: {
+          'screen_name': screenName,
+          'screen_class': screenClass ?? screenName,
+        },
+      );
       _logger.d('[Analytics] Screen: $screenName');
     } catch (e) {
       _logger.w('[Analytics] logScreen failed: $e');

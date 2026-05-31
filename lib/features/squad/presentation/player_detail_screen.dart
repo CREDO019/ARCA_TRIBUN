@@ -1,13 +1,12 @@
+import 'package:arca_tribun/core/theme/app_colors.dart';
+import 'package:arca_tribun/core/theme/app_spacing.dart';
+import 'package:arca_tribun/core/theme/app_typography.dart';
+import 'package:arca_tribun/features/squad/domain/player_model.dart';
+import 'package:arca_tribun/features/squad/presentation/squad_provider.dart';
+import 'package:arca_tribun/shared/widgets/content_state.dart';
+import 'package:arca_tribun/shared/widgets/loading_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/app_spacing.dart';
-import '../../../core/theme/app_typography.dart';
-import '../../../shared/widgets/content_state.dart';
-import '../../../shared/widgets/loading_shimmer.dart';
-import '../domain/player_model.dart';
-import 'squad_provider.dart';
 
 /// Oyuncu detay ekranı
 class PlayerDetailScreen extends ConsumerWidget {
@@ -73,8 +72,11 @@ class _PlayerDetailContent extends StatelessWidget {
                       radius: 56,
                       backgroundColor:
                           AppColors.primaryRed.withValues(alpha: 0.3),
-                      child: const Icon(Icons.person,
-                          size: 56, color: AppColors.white),
+                      child: const Icon(
+                        Icons.person,
+                        size: 56,
+                        color: AppColors.white,
+                      ),
                     ),
                     const SizedBox(height: AppSpacing.md),
                     Text(player.name, style: AppTypography.headlineLarge),
@@ -154,9 +156,11 @@ class _StatCard extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Text(value,
-                style: AppTypography.headlineLarge
-                    .copyWith(color: AppColors.primaryRed)),
+            Text(
+              value,
+              style: AppTypography.headlineLarge
+                  .copyWith(color: AppColors.primaryRed),
+            ),
             Text(label, style: AppTypography.bodySmall),
           ],
         ),

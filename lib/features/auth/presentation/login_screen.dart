@@ -1,14 +1,13 @@
+import 'package:arca_tribun/core/error/failure.dart';
+import 'package:arca_tribun/core/router/route_names.dart';
+import 'package:arca_tribun/core/theme/app_colors.dart';
+import 'package:arca_tribun/core/theme/app_spacing.dart';
+import 'package:arca_tribun/core/theme/app_typography.dart';
+import 'package:arca_tribun/features/auth/presentation/auth_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../../core/error/failure.dart';
-import '../../../core/router/route_names.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/app_spacing.dart';
-import '../../../core/theme/app_typography.dart';
-import 'auth_provider.dart';
 
 /// Giriş ekranı — email/şifre, Google, Apple, Misafir
 class LoginScreen extends ConsumerStatefulWidget {
@@ -89,7 +88,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     result.fold(
       _showError,
       (_) => _showMessage(
-          'Şifre yenileme bağlantısı e-posta adresinize gönderildi.'),
+        'Şifre yenileme bağlantısı e-posta adresinize gönderildi.',
+      ),
     );
   }
 

@@ -1,9 +1,8 @@
+import 'package:arca_tribun/core/theme/app_colors.dart';
+import 'package:arca_tribun/core/theme/app_spacing.dart';
+import 'package:arca_tribun/core/theme/app_typography.dart';
+import 'package:arca_tribun/features/match_center/domain/match_model.dart';
 import 'package:flutter/material.dart';
-
-import '../../../../../core/theme/app_colors.dart';
-import '../../../../../core/theme/app_spacing.dart';
-import '../../../../../core/theme/app_typography.dart';
-import '../../../domain/match_model.dart';
 
 /// Canlı skor başlık widget'ı — gradient arka plan, büyük skor
 class LiveScoreHeader extends StatelessWidget {
@@ -30,13 +29,17 @@ class LiveScoreHeader extends StatelessWidget {
             // CANLI badge
             Container(
               padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.md, vertical: AppSpacing.xs),
+                horizontal: AppSpacing.md,
+                vertical: AppSpacing.xs,
+              ),
               decoration: BoxDecoration(
                 color: AppColors.primaryRed,
                 borderRadius: BorderRadius.circular(AppSpacing.radiusFull),
               ),
-              child: Text("● CANLI · ${liveMatch.minute}'",
-                  style: AppTypography.labelSmall),
+              child: Text(
+                "● CANLI · ${liveMatch.minute}'",
+                style: AppTypography.labelSmall,
+              ),
             ),
             const SizedBox(height: AppSpacing.lg),
 

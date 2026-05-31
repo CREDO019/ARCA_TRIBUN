@@ -67,7 +67,6 @@ dependencies:
   # Audio & Sound
   just_audio: ^0.9.38
   audio_session: ^0.1.18
-  soundpool: ^2.3.0
 
   # Notifications
   flutter_local_notifications: ^17.1.2

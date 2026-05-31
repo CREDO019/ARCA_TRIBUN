@@ -1,8 +1,7 @@
+import 'package:arca_tribun/core/theme/app_colors.dart';
+import 'package:arca_tribun/core/theme/app_spacing.dart';
+import 'package:arca_tribun/core/theme/app_typography.dart';
 import 'package:flutter/material.dart';
-
-import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_spacing.dart';
-import '../../core/theme/app_typography.dart';
 
 /// İçerik bekleyen ekranlarda tutarlı, markaya uygun boş durum gösterir.
 class BrandedEmptyState extends StatelessWidget {

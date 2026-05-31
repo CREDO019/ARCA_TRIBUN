@@ -1,14 +1,13 @@
 import 'dart:io';
 
+import 'package:arca_tribun/core/constants/app_constants.dart';
+import 'package:arca_tribun/core/notifications/notification_channels.dart';
+import 'package:arca_tribun/core/notifications/notification_router.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:logger/logger.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-import '../constants/app_constants.dart';
-import 'notification_channels.dart';
-import 'notification_router.dart';
 
 /// FCM top-level background handler (isolate dışında çalışmalı)
 @pragma('vm:entry-point')
@@ -54,13 +53,7 @@ class NotificationService {
   }
 
   Future<void> _requestPermissions() async {
-    final settings = await _fcm.requestPermission(
-      alert: true,
-      badge: true,
-      sound: true,
-      criticalAlert: false,
-      provisional: false,
-    );
+    final settings = await _fcm.requestPermission();
 
     _logger.d(
       '[NotificationService] Permission: ${settings.authorizationStatus}',
@@ -76,11 +69,7 @@ class NotificationService {
 
   Future<void> _initLocalNotifications() async {
     const androidInit = AndroidInitializationSettings('@mipmap/ic_launcher');
-    const iosInit = DarwinInitializationSettings(
-      requestAlertPermission: true,
-      requestBadgePermission: true,
-      requestSoundPermission: true,
-    );
+    const iosInit = DarwinInitializationSettings();
 
     const initSettings = InitializationSettings(
       android: androidInit,
@@ -222,7 +211,6 @@ class NotificationService {
       channelId,
       importance: Importance.max,
       priority: Priority.high,
-      playSound: true,
     );
 
     const iosDetails = DarwinNotificationDetails(

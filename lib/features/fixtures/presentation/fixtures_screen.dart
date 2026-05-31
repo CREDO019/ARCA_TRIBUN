@@ -1,15 +1,14 @@
+import 'package:arca_tribun/core/router/route_names.dart';
+import 'package:arca_tribun/core/theme/app_colors.dart';
+import 'package:arca_tribun/core/theme/app_spacing.dart';
+import 'package:arca_tribun/core/theme/app_typography.dart';
+import 'package:arca_tribun/features/match_center/domain/match_model.dart';
+import 'package:arca_tribun/features/match_center/presentation/match_provider.dart';
+import 'package:arca_tribun/shared/widgets/content_state.dart';
+import 'package:arca_tribun/shared/widgets/loading_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../../core/router/route_names.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/app_spacing.dart';
-import '../../../core/theme/app_typography.dart';
-import '../../../shared/widgets/content_state.dart';
-import '../../../shared/widgets/loading_shimmer.dart';
-import '../../match_center/domain/match_model.dart';
-import '../../match_center/presentation/match_provider.dart';
 
 /// Fikstür ekranı — yaklaşan ve geçmiş maçlar
 class FixturesScreen extends ConsumerWidget {
@@ -99,9 +98,11 @@ class _FixtureTile extends StatelessWidget {
             child: Column(
               children: [
                 Text('${date.day}', style: AppTypography.headlineMedium),
-                Text(_monthShort(date.month),
-                    style: AppTypography.labelSmall
-                        .copyWith(color: AppColors.secondaryGray)),
+                Text(
+                  _monthShort(date.month),
+                  style: AppTypography.labelSmall
+                      .copyWith(color: AppColors.secondaryGray),
+                ),
               ],
             ),
           ),
@@ -110,17 +111,23 @@ class _FixtureTile extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('${match.homeTeam} vs ${match.awayTeam}',
-                    style: AppTypography.titleMedium),
-                Text(match.competition ?? 'Lig',
-                    style: AppTypography.bodySmall),
+                Text(
+                  '${match.homeTeam} vs ${match.awayTeam}',
+                  style: AppTypography.titleMedium,
+                ),
+                Text(
+                  match.competition ?? 'Lig',
+                  style: AppTypography.bodySmall,
+                ),
               ],
             ),
           ),
           if (hasScore)
             Container(
               padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.md, vertical: AppSpacing.xs),
+                horizontal: AppSpacing.md,
+                vertical: AppSpacing.xs,
+              ),
               decoration: BoxDecoration(
                 color: AppColors.primaryRed.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
@@ -155,5 +162,5 @@ String _monthShort(int month) => [
       'Eyl',
       'Eki',
       'Kas',
-      'Ara'
+      'Ara',
     ][month];

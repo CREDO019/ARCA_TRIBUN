@@ -1,8 +1,7 @@
+import 'package:arca_tribun/core/router/route_names.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-import 'route_names.dart';
 
 /// Kimlik doğrulama ve onboarding guard'ı.
 ///

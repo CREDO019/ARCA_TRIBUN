@@ -1,13 +1,12 @@
+import 'package:arca_tribun/core/error/error_handler.dart';
+import 'package:arca_tribun/core/error/failure.dart';
+import 'package:arca_tribun/features/auth/domain/auth_repository.dart';
+import 'package:arca_tribun/features/auth/domain/user_model.dart';
 import 'package:dartz/dartz.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:logger/logger.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-import '../../../../core/error/error_handler.dart';
-import '../../../../core/error/failure.dart';
-import '../domain/auth_repository.dart';
-import '../domain/user_model.dart';
 
 /// AuthRepository implementasyonu — Supabase Auth kullanır.
 ///
@@ -45,15 +44,21 @@ class AuthRepositoryImpl implements AuthRepository {
       );
       final user = response.user;
       if (user == null) {
-        return const Left(AuthFailure(message: 'errors.auth_error'));
+        return const Left(AuthFailure());
       }
       return Right(_mapUser(user));
     } catch (e, st) {
-      _logger.e('[AuthRepository] Email login failed',
-          error: e, stackTrace: st);
+      _logger.e(
+        '[AuthRepository] Email login failed',
+        error: e,
+        stackTrace: st,
+      );
       return Left(
-        ErrorHandler.handleException(e,
-            stackTrace: st, context: 'loginWithEmail'),
+        ErrorHandler.handleException(
+          e,
+          stackTrace: st,
+          context: 'loginWithEmail',
+        ),
       );
     }
   }
@@ -72,7 +77,7 @@ class AuthRepositoryImpl implements AuthRepository {
       );
       final user = response.user;
       if (user == null) {
-        return const Left(AuthFailure(message: 'errors.auth_error'));
+        return const Left(AuthFailure());
       }
       if (response.session == null) {
         return const Left(
@@ -83,8 +88,11 @@ class AuthRepositoryImpl implements AuthRepository {
     } catch (e, st) {
       _logger.e('[AuthRepository] Register failed', error: e, stackTrace: st);
       return Left(
-        ErrorHandler.handleException(e,
-            stackTrace: st, context: 'registerWithEmail'),
+        ErrorHandler.handleException(
+          e,
+          stackTrace: st,
+          context: 'registerWithEmail',
+        ),
       );
     }
   }
@@ -116,16 +124,22 @@ class AuthRepositoryImpl implements AuthRepository {
 
       final user = response.user;
       if (user == null) {
-        return const Left(AuthFailure(message: 'errors.auth_error'));
+        return const Left(AuthFailure());
       }
 
       return Right(_mapUser(user));
     } catch (e, st) {
-      _logger.e('[AuthRepository] Google login failed',
-          error: e, stackTrace: st);
+      _logger.e(
+        '[AuthRepository] Google login failed',
+        error: e,
+        stackTrace: st,
+      );
       return Left(
-        ErrorHandler.handleException(e,
-            stackTrace: st, context: 'loginWithGoogle'),
+        ErrorHandler.handleException(
+          e,
+          stackTrace: st,
+          context: 'loginWithGoogle',
+        ),
       );
     }
   }
@@ -156,7 +170,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
       final user = response.user;
       if (user == null) {
-        return const Left(AuthFailure(message: 'errors.auth_error'));
+        return const Left(AuthFailure());
       }
 
       // Apple sadece ilk girişte ad soyad verir; metadata'ya kaydet
@@ -168,17 +182,24 @@ class AuthRepositoryImpl implements AuthRepository {
       if (fullName.isNotEmpty) {
         await _supabase.auth.updateUser(
           UserAttributes(
-              data: {'display_name': fullName, 'full_name': fullName}),
+            data: {'display_name': fullName, 'full_name': fullName},
+          ),
         );
       }
 
       return Right(_mapUser(user));
     } catch (e, st) {
-      _logger.e('[AuthRepository] Apple login failed',
-          error: e, stackTrace: st);
+      _logger.e(
+        '[AuthRepository] Apple login failed',
+        error: e,
+        stackTrace: st,
+      );
       return Left(
-        ErrorHandler.handleException(e,
-            stackTrace: st, context: 'loginWithApple'),
+        ErrorHandler.handleException(
+          e,
+          stackTrace: st,
+          context: 'loginWithApple',
+        ),
       );
     }
   }
@@ -191,15 +212,21 @@ class AuthRepositoryImpl implements AuthRepository {
       final response = await _supabase.auth.signInAnonymously();
       final user = response.user;
       if (user == null) {
-        return const Left(AuthFailure(message: 'errors.auth_error'));
+        return const Left(AuthFailure());
       }
       return Right(_mapUser(user, isGuest: true));
     } catch (e, st) {
-      _logger.e('[AuthRepository] Guest login failed',
-          error: e, stackTrace: st);
+      _logger.e(
+        '[AuthRepository] Guest login failed',
+        error: e,
+        stackTrace: st,
+      );
       return Left(
-        ErrorHandler.handleException(e,
-            stackTrace: st, context: 'loginAsGuest'),
+        ErrorHandler.handleException(
+          e,
+          stackTrace: st,
+          context: 'loginAsGuest',
+        ),
       );
     }
   }

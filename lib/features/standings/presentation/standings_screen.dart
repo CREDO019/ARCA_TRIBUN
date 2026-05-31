@@ -1,12 +1,12 @@
+import 'package:arca_tribun/core/theme/app_colors.dart';
+import 'package:arca_tribun/core/theme/app_spacing.dart';
+import 'package:arca_tribun/core/theme/app_typography.dart';
+import 'package:arca_tribun/features/standings/domain/standing_model.dart';
+import 'package:arca_tribun/features/standings/presentation/standings_provider.dart';
+import 'package:arca_tribun/shared/widgets/content_state.dart';
+import 'package:arca_tribun/shared/widgets/loading_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/app_spacing.dart';
-import '../../../core/theme/app_typography.dart';
-import '../../../shared/widgets/content_state.dart';
-import '../../../shared/widgets/loading_shimmer.dart';
-import '../domain/standing_model.dart';
-import 'standings_provider.dart';
 
 /// Puan durumu ekranı — Süper Lig tablosu
 class StandingsScreen extends ConsumerWidget {
@@ -45,39 +45,57 @@ class StandingsScreen extends ConsumerWidget {
                   children: [
                     const SizedBox(width: 30),
                     Expanded(
-                        child: Text('KULÜP',
-                            style: AppTypography.labelSmall
-                                .copyWith(color: AppColors.secondaryGray))),
+                      child: Text(
+                        'KULÜP',
+                        style: AppTypography.labelSmall
+                            .copyWith(color: AppColors.secondaryGray),
+                      ),
+                    ),
                     SizedBox(
-                        width: 25,
-                        child: Text('O',
-                            style: AppTypography.labelSmall
-                                .copyWith(color: AppColors.secondaryGray),
-                            textAlign: TextAlign.center)),
+                      width: 25,
+                      child: Text(
+                        'O',
+                        style: AppTypography.labelSmall
+                            .copyWith(color: AppColors.secondaryGray),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                     SizedBox(
-                        width: 25,
-                        child: Text('G',
-                            style: AppTypography.labelSmall
-                                .copyWith(color: AppColors.secondaryGray),
-                            textAlign: TextAlign.center)),
+                      width: 25,
+                      child: Text(
+                        'G',
+                        style: AppTypography.labelSmall
+                            .copyWith(color: AppColors.secondaryGray),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                     SizedBox(
-                        width: 25,
-                        child: Text('B',
-                            style: AppTypography.labelSmall
-                                .copyWith(color: AppColors.secondaryGray),
-                            textAlign: TextAlign.center)),
+                      width: 25,
+                      child: Text(
+                        'B',
+                        style: AppTypography.labelSmall
+                            .copyWith(color: AppColors.secondaryGray),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                     SizedBox(
-                        width: 25,
-                        child: Text('M',
-                            style: AppTypography.labelSmall
-                                .copyWith(color: AppColors.secondaryGray),
-                            textAlign: TextAlign.center)),
+                      width: 25,
+                      child: Text(
+                        'M',
+                        style: AppTypography.labelSmall
+                            .copyWith(color: AppColors.secondaryGray),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                     SizedBox(
-                        width: 30,
-                        child: Text('P',
-                            style: AppTypography.labelSmall
-                                .copyWith(color: AppColors.primaryRed),
-                            textAlign: TextAlign.center)),
+                      width: 30,
+                      child: Text(
+                        'P',
+                        style: AppTypography.labelSmall
+                            .copyWith(color: AppColors.primaryRed),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -121,8 +139,9 @@ class _StandingRow extends StatelessWidget {
       child: Row(
         children: [
           SizedBox(
-              width: 30,
-              child: Text('${team.position}', style: AppTypography.bodyMedium)),
+            width: 30,
+            child: Text('${team.position}', style: AppTypography.bodyMedium),
+          ),
           Expanded(
             child: Text(
               team.teamName,
@@ -134,27 +153,45 @@ class _StandingRow extends StatelessWidget {
             ),
           ),
           SizedBox(
-              width: 25,
-              child: Text('${team.played}',
-                  style: AppTypography.bodySmall, textAlign: TextAlign.center)),
+            width: 25,
+            child: Text(
+              '${team.played}',
+              style: AppTypography.bodySmall,
+              textAlign: TextAlign.center,
+            ),
+          ),
           SizedBox(
-              width: 25,
-              child: Text('${team.won}',
-                  style: AppTypography.bodySmall, textAlign: TextAlign.center)),
+            width: 25,
+            child: Text(
+              '${team.won}',
+              style: AppTypography.bodySmall,
+              textAlign: TextAlign.center,
+            ),
+          ),
           SizedBox(
-              width: 25,
-              child: Text('${team.drawn}',
-                  style: AppTypography.bodySmall, textAlign: TextAlign.center)),
+            width: 25,
+            child: Text(
+              '${team.drawn}',
+              style: AppTypography.bodySmall,
+              textAlign: TextAlign.center,
+            ),
+          ),
           SizedBox(
-              width: 25,
-              child: Text('${team.lost}',
-                  style: AppTypography.bodySmall, textAlign: TextAlign.center)),
+            width: 25,
+            child: Text(
+              '${team.lost}',
+              style: AppTypography.bodySmall,
+              textAlign: TextAlign.center,
+            ),
+          ),
           SizedBox(
-              width: 30,
-              child: Text('${team.points}',
-                  style: AppTypography.titleMedium
-                      .copyWith(color: AppColors.white),
-                  textAlign: TextAlign.center)),
+            width: 30,
+            child: Text(
+              '${team.points}',
+              style: AppTypography.titleMedium.copyWith(color: AppColors.white),
+              textAlign: TextAlign.center,
+            ),
+          ),
         ],
       ),
     );

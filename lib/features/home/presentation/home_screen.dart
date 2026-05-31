@@ -1,20 +1,19 @@
+import 'package:arca_tribun/core/router/route_names.dart';
+import 'package:arca_tribun/core/theme/app_colors.dart';
+import 'package:arca_tribun/core/theme/app_spacing.dart';
+import 'package:arca_tribun/core/theme/app_typography.dart';
+import 'package:arca_tribun/features/home/presentation/widgets/fan_prediction_strip.dart';
+import 'package:arca_tribun/features/home/presentation/widgets/live_match_hero_card.dart';
+import 'package:arca_tribun/features/home/presentation/widgets/news_horizontal_scroll.dart';
+import 'package:arca_tribun/features/home/presentation/widgets/next_match_countdown.dart';
+import 'package:arca_tribun/features/home/presentation/widgets/standings_mini_card.dart';
+import 'package:arca_tribun/features/home/presentation/widgets/store_banner_card.dart';
+import 'package:arca_tribun/features/match_center/presentation/match_provider.dart';
+import 'package:arca_tribun/shared/widgets/offline_banner.dart';
 import 'package:arca_tribun/shared/widgets/pilot_demo_badge.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../../core/router/route_names.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/app_spacing.dart';
-import '../../../core/theme/app_typography.dart';
-import '../../../shared/widgets/offline_banner.dart';
-import '../../match_center/presentation/match_provider.dart';
-import 'widgets/fan_prediction_strip.dart';
-import 'widgets/live_match_hero_card.dart';
-import 'widgets/news_horizontal_scroll.dart';
-import 'widgets/next_match_countdown.dart';
-import 'widgets/standings_mini_card.dart';
-import 'widgets/store_banner_card.dart';
 
 /// Ana ekran — taraftar dashboard
 class HomeScreen extends ConsumerWidget {
@@ -38,7 +37,6 @@ class HomeScreen extends ConsumerWidget {
               SliverAppBar(
                 expandedHeight: 60,
                 floating: true,
-                pinned: false,
                 backgroundColor: AppColors.background,
                 title: Row(
                   children: [
@@ -50,8 +48,11 @@ class HomeScreen extends ConsumerWidget {
                         borderRadius:
                             BorderRadius.circular(AppSpacing.radiusSm),
                       ),
-                      child: const Icon(Icons.sports_soccer,
-                          size: 18, color: AppColors.white),
+                      child: const Icon(
+                        Icons.sports_soccer,
+                        size: 18,
+                        color: AppColors.white,
+                      ),
                     ),
                     const SizedBox(width: AppSpacing.sm),
                     Text('ARCA Tribün', style: AppTypography.headlineMedium),

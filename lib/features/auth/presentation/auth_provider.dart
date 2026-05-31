@@ -1,8 +1,7 @@
+import 'package:arca_tribun/features/auth/data/auth_repository_impl.dart';
+import 'package:arca_tribun/features/auth/domain/auth_repository.dart';
+import 'package:arca_tribun/features/auth/domain/user_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../data/auth_repository_impl.dart';
-import '../domain/auth_repository.dart';
-import '../domain/user_model.dart';
 
 // ─── Repository Provider ──────────────────────────────────────────────────
 final authRepositoryProvider = Provider<AuthRepository>((ref) {

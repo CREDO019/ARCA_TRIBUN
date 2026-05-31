@@ -1,4 +1,4 @@
-import '../constants/app_constants.dart';
+import 'package:arca_tribun/core/constants/app_constants.dart';
 
 /// Önbellekleme politikalarını tanımlar.
 /// TTL (Time-To-Live) bazlı cache geçerlilik kontrolü.

@@ -1,12 +1,11 @@
+import 'package:arca_tribun/core/theme/app_colors.dart';
+import 'package:arca_tribun/core/theme/app_spacing.dart';
+import 'package:arca_tribun/core/theme/app_typography.dart';
+import 'package:arca_tribun/features/match_center/presentation/match_provider.dart';
+import 'package:arca_tribun/shared/widgets/content_state.dart';
+import 'package:arca_tribun/shared/widgets/loading_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_spacing.dart';
-import '../../../../core/theme/app_typography.dart';
-import '../../../../shared/widgets/content_state.dart';
-import '../../../../shared/widgets/loading_shimmer.dart';
-import '../match_provider.dart';
 
 /// Maç sonu ekranı — özet, oyunun adamı, fan oylaması
 class PostMatchScreen extends ConsumerWidget {
@@ -84,17 +83,21 @@ class _PostMatchContent extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  Text('MAÇ SONA ERDİ',
-                      style: AppTypography.labelSmall
-                          .copyWith(color: AppColors.secondaryGray)),
+                  Text(
+                    'MAÇ SONA ERDİ',
+                    style: AppTypography.labelSmall
+                        .copyWith(color: AppColors.secondaryGray),
+                  ),
                   const SizedBox(height: AppSpacing.sm),
                   Text(
                     '${homeScore ?? 0} - ${awayScore ?? 0}',
                     style: AppTypography.scoreDisplay,
                   ),
                   const SizedBox(height: AppSpacing.sm),
-                  Text('$homeTeam - $awayTeam',
-                      style: AppTypography.bodyMedium),
+                  Text(
+                    '$homeTeam - $awayTeam',
+                    style: AppTypography.bodyMedium,
+                  ),
                 ],
               ),
             ),

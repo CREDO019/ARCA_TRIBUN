@@ -48,8 +48,16 @@ class MatchModel extends Equatable {
   String get scoreDisplay => '${homeScore ?? 0} - ${awayScore ?? 0}';
 
   @override
-  List<Object?> get props =>
-      [id, homeTeam, awayTeam, kickoffTime, status, homeScore, awayScore, minute];
+  List<Object?> get props => [
+        id,
+        homeTeam,
+        awayTeam,
+        kickoffTime,
+        status,
+        homeScore,
+        awayScore,
+        minute,
+      ];
 }
 
 /// Canlı maç durumu

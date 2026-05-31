@@ -1,7 +1,6 @@
+import 'package:arca_tribun/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import 'app_colors.dart';
 
 /// Uygulama tipografi sistemi.
 /// Font: Barlow Condensed (başlıklar) + Barlow (body)
@@ -45,7 +44,7 @@ class AppTypography {
         fontSize: 64,
         fontWeight: FontWeight.w800,
         color: AppColors.white,
-        letterSpacing: -1.0,
+        letterSpacing: -1,
       );
 
   /// GOL! başlığı — 72sp, 800 weight
@@ -53,7 +52,7 @@ class AppTypography {
         fontSize: 72,
         fontWeight: FontWeight.w800,
         color: AppColors.primaryRed,
-        letterSpacing: -2.0,
+        letterSpacing: -2,
       );
 
   // ─── Barlow ───────────────────────────────────────────────────────────
@@ -105,7 +104,7 @@ class AppTypography {
         fontSize: 14,
         fontWeight: FontWeight.w700,
         color: AppColors.white,
-        letterSpacing: 1.0,
+        letterSpacing: 1,
       );
 
   /// Sayaç rakamı — Barlow Condensed, 800 weight
@@ -121,7 +120,7 @@ class AppTypography {
         fontSize: 10,
         fontWeight: FontWeight.w600,
         color: AppColors.secondaryGray,
-        letterSpacing: 2.0,
+        letterSpacing: 2,
       );
 
   /// Üretilen TextTheme (ThemeData'ya uyumlu)

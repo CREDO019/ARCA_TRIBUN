@@ -194,7 +194,6 @@ class _OnboardingBackground extends StatelessWidget {
         Image.asset(
           assetPath,
           fit: BoxFit.cover,
-          alignment: Alignment.center,
           gaplessPlayback: true,
           errorBuilder: (_, __, ___) => const SizedBox.expand(),
         ),

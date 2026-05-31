@@ -1,13 +1,12 @@
+import 'package:arca_tribun/core/router/route_names.dart';
+import 'package:arca_tribun/core/theme/app_colors.dart';
+import 'package:arca_tribun/core/theme/app_spacing.dart';
+import 'package:arca_tribun/core/theme/app_typography.dart';
+import 'package:arca_tribun/features/standings/presentation/standings_provider.dart';
+import 'package:arca_tribun/shared/widgets/content_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../../../core/router/route_names.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_spacing.dart';
-import '../../../../core/theme/app_typography.dart';
-import '../../../../shared/widgets/content_state.dart';
-import '../../../standings/presentation/standings_provider.dart';
 
 /// Puan durumu mini kart widget'ı — home screen'de özet gösterir.
 class StandingsMiniCard extends ConsumerWidget {
@@ -30,9 +29,11 @@ class StandingsMiniCard extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('PUAN DURUMU',
-                  style: AppTypography.labelSmall
-                      .copyWith(color: AppColors.secondaryGray)),
+              Text(
+                'PUAN DURUMU',
+                style: AppTypography.labelSmall
+                    .copyWith(color: AppColors.secondaryGray),
+              ),
               TextButton(
                 onPressed: () => context.push(RouteNames.standings),
                 child: const Text('Tümü'),
@@ -73,8 +74,10 @@ class StandingsMiniCard extends ConsumerWidget {
                       children: [
                         SizedBox(
                           width: 24,
-                          child: Text('${team.position}',
-                              style: AppTypography.bodyMedium),
+                          child: Text(
+                            '${team.position}',
+                            style: AppTypography.bodyMedium,
+                          ),
                         ),
                         Expanded(
                           child: Text(
@@ -87,12 +90,16 @@ class StandingsMiniCard extends ConsumerWidget {
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        Text('${team.played} O',
-                            style: AppTypography.bodySmall),
+                        Text(
+                          '${team.played} O',
+                          style: AppTypography.bodySmall,
+                        ),
                         const SizedBox(width: AppSpacing.md),
-                        Text('${team.points} P',
-                            style: AppTypography.titleMedium
-                                .copyWith(color: AppColors.white)),
+                        Text(
+                          '${team.points} P',
+                          style: AppTypography.titleMedium
+                              .copyWith(color: AppColors.white),
+                        ),
                       ],
                     ),
                   );

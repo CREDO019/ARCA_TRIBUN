@@ -1,7 +1,6 @@
+import 'package:arca_tribun/core/constants/app_constants.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
-import '../../../core/constants/app_constants.dart';
 
 /// Bildirim tercihleri modeli
 class NotificationPrefs {

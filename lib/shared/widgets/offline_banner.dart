@@ -1,13 +1,12 @@
 import 'dart:async';
 
+import 'package:arca_tribun/core/offline/connectivity_service.dart';
+import 'package:arca_tribun/core/offline/sync_queue.dart';
+import 'package:arca_tribun/core/theme/app_colors.dart';
+import 'package:arca_tribun/core/theme/app_spacing.dart';
+import 'package:arca_tribun/core/theme/app_typography.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../core/offline/connectivity_service.dart';
-import '../../core/offline/sync_queue.dart';
-import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_spacing.dart';
-import '../../core/theme/app_typography.dart';
 
 /// Çevrimdışı mod banner'ı.
 /// Bağlantı kesilince sarı banner yukarıdan kayar.
@@ -61,8 +60,11 @@ class _OfflineBannerState extends ConsumerState<OfflineBanner> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.wifi_off,
-                      size: AppSpacing.iconSm, color: AppColors.deepBlack),
+                  const Icon(
+                    Icons.wifi_off,
+                    size: AppSpacing.iconSm,
+                    color: AppColors.deepBlack,
+                  ),
                   const SizedBox(width: AppSpacing.xs),
                   Text(
                     'Çevrimdışı moddasınız',

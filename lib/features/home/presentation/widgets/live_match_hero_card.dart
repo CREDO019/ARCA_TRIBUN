@@ -1,13 +1,12 @@
+import 'package:arca_tribun/core/router/route_names.dart';
+import 'package:arca_tribun/core/theme/app_colors.dart';
+import 'package:arca_tribun/core/theme/app_spacing.dart';
+import 'package:arca_tribun/core/theme/app_typography.dart';
+import 'package:arca_tribun/features/match_center/domain/match_model.dart';
+import 'package:arca_tribun/features/match_center/presentation/match_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../../../core/router/route_names.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_spacing.dart';
-import '../../../../core/theme/app_typography.dart';
-import '../../../match_center/domain/match_model.dart';
-import '../../../match_center/presentation/match_provider.dart';
 
 /// Canlı maç hero kart widget'ı.
 /// Canlı maç varsa skor + pulsing badge, yoksa "yaklaşan maç" gösterir.
@@ -31,7 +30,7 @@ class _LiveMatchHeroCardState extends ConsumerState<LiveMatchHeroCard>
       duration: const Duration(milliseconds: 1000),
     )..repeat(reverse: true);
 
-    _pulseAnimation = Tween<double>(begin: 0.6, end: 1.0).animate(
+    _pulseAnimation = Tween<double>(begin: 0.6, end: 1).animate(
       CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
     );
   }
@@ -51,7 +50,7 @@ class _LiveMatchHeroCardState extends ConsumerState<LiveMatchHeroCard>
     final hasError = liveMatchAsync.hasError && upcomingMatchesAsync.hasError;
 
     final liveMatch = liveMatchAsync.valueOrNull;
-    final nextMatch = upcomingMatchesAsync.valueOrNull?.isNotEmpty == true
+    final nextMatch = upcomingMatchesAsync.valueOrNull?.isNotEmpty ?? false
         ? upcomingMatchesAsync.valueOrNull!.first
         : null;
     final match = liveMatch ?? nextMatch;
@@ -159,7 +158,8 @@ class _LiveMatchHeroCardState extends ConsumerState<LiveMatchHeroCard>
                       : () =>
                           context.push(RouteNames.matchCenterPath(match.id)),
                   child: Text(
-                      match == null ? 'VERİ BEKLENİYOR' : 'MAÇ MERKEZİNE GİT'),
+                    match == null ? 'VERİ BEKLENİYOR' : 'MAÇ MERKEZİNE GİT',
+                  ),
                 ),
               ),
             ],

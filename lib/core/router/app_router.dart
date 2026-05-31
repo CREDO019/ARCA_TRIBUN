@@ -1,30 +1,29 @@
 import 'dart:async';
 
+import 'package:arca_tribun/core/notifications/notification_router.dart';
+import 'package:arca_tribun/core/router/route_guard.dart';
+import 'package:arca_tribun/core/router/route_names.dart';
+import 'package:arca_tribun/features/auth/presentation/login_screen.dart';
+import 'package:arca_tribun/features/auth/presentation/register_screen.dart';
+import 'package:arca_tribun/features/fan_profile/presentation/badges/badge_detail_screen.dart';
+import 'package:arca_tribun/features/fan_profile/presentation/badges/badges_screen.dart';
+import 'package:arca_tribun/features/fan_profile/presentation/leaderboard/leaderboard_screen.dart';
+import 'package:arca_tribun/features/fan_profile/presentation/profile_screen.dart';
+import 'package:arca_tribun/features/fixtures/presentation/fixtures_screen.dart';
+import 'package:arca_tribun/features/home/presentation/home_screen.dart';
+import 'package:arca_tribun/features/match_center/presentation/match_center_screen.dart';
+import 'package:arca_tribun/features/news/presentation/news_detail_screen.dart';
+import 'package:arca_tribun/features/news/presentation/news_list_screen.dart';
+import 'package:arca_tribun/features/notification_preferences/presentation/notification_prefs_screen.dart';
+import 'package:arca_tribun/features/onboarding/presentation/onboarding_screen.dart';
+import 'package:arca_tribun/features/splash/presentation/splash_screen.dart';
+import 'package:arca_tribun/features/squad/presentation/player_detail_screen.dart';
+import 'package:arca_tribun/features/squad/presentation/squad_screen.dart';
+import 'package:arca_tribun/features/standings/presentation/standings_screen.dart';
+import 'package:arca_tribun/shared/widgets/bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-import '../../features/auth/presentation/login_screen.dart';
-import '../../features/auth/presentation/register_screen.dart';
-import '../../features/fan_profile/presentation/badges/badges_screen.dart';
-import '../../features/fan_profile/presentation/badges/badge_detail_screen.dart';
-import '../../features/fan_profile/presentation/leaderboard/leaderboard_screen.dart';
-import '../../features/fan_profile/presentation/profile_screen.dart';
-import '../../features/fixtures/presentation/fixtures_screen.dart';
-import '../../features/home/presentation/home_screen.dart';
-import '../../features/match_center/presentation/match_center_screen.dart';
-import '../../features/news/presentation/news_detail_screen.dart';
-import '../../features/news/presentation/news_list_screen.dart';
-import '../../features/notification_preferences/presentation/notification_prefs_screen.dart';
-import '../../features/onboarding/presentation/onboarding_screen.dart';
-import '../../features/splash/presentation/splash_screen.dart';
-import '../../features/squad/presentation/player_detail_screen.dart';
-import '../../features/squad/presentation/squad_screen.dart';
-import '../../features/standings/presentation/standings_screen.dart';
-import '../../shared/widgets/bottom_nav_bar.dart';
-import '../notifications/notification_router.dart';
-import 'route_guard.dart';
-import 'route_names.dart';
 
 /// Uygulama navigasyon konfigürasyonu — go_router tabanlı.
 /// ShellRoute ile bottom navigation bar paylaşımı sağlanır.
@@ -237,7 +236,7 @@ class AppRouter {
   /// NotificationRouter'a navigasyon callback'ini kaydet
   static void setupNotificationRouting() {
     NotificationRouter.instance.setNavigateCallback(
-      (route, {extra}) => router.go(route, extra: extra),
+      router.go,
     );
   }
 
@@ -261,16 +260,17 @@ class AppRouter {
       CustomTransitionPage<void>(
         key: state.pageKey,
         child: child,
-        transitionDuration: const Duration(milliseconds: 300),
         transitionsBuilder: (context, animation, secondaryAnimation, child) =>
             SlideTransition(
           position: Tween<Offset>(
             begin: const Offset(1, 0),
             end: Offset.zero,
-          ).animate(CurvedAnimation(
-            parent: animation,
-            curve: Curves.easeOutCubic,
-          )),
+          ).animate(
+            CurvedAnimation(
+              parent: animation,
+              curve: Curves.easeOutCubic,
+            ),
+          ),
           child: child,
         ),
       );

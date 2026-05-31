@@ -1,7 +1,6 @@
+import 'package:arca_tribun/core/audio/sound_manager.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:logger/logger.dart';
-
-import '../audio/sound_manager.dart';
 
 /// Uygulama ön plandayken gelen FCM mesajlarını işler.
 class ForegroundHandler {

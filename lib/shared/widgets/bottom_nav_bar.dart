@@ -1,11 +1,10 @@
+import 'package:arca_tribun/core/router/route_names.dart';
+import 'package:arca_tribun/core/theme/app_colors.dart';
+import 'package:arca_tribun/core/theme/app_spacing.dart';
+import 'package:arca_tribun/core/theme/app_typography.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../core/router/route_names.dart';
-import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_spacing.dart';
-import '../../core/theme/app_typography.dart';
 
 /// Alt navigasyon çubuğu — ShellRoute ile kullanılır
 class AppBottomNavBar extends ConsumerWidget {
@@ -16,35 +15,40 @@ class AppBottomNavBar extends ConsumerWidget {
     final currentLocation = GoRouterState.of(context).matchedLocation;
 
     final tabs = [
-      _NavTab(
-          icon: Icons.home_outlined,
-          activeIcon: Icons.home,
-          label: 'Ana Sayfa',
-          path: RouteNames.home),
-      _NavTab(
-          icon: Icons.calendar_month_outlined,
-          activeIcon: Icons.calendar_month,
-          label: 'Fikstür',
-          path: RouteNames.fixtures),
-      _NavTab(
-          icon: Icons.bar_chart_outlined,
-          activeIcon: Icons.bar_chart,
-          label: 'Puan',
-          path: RouteNames.standings),
-      _NavTab(
-          icon: Icons.group_outlined,
-          activeIcon: Icons.group,
-          label: 'Kadro',
-          path: RouteNames.squad),
-      _NavTab(
-          icon: Icons.person_outline,
-          activeIcon: Icons.person,
-          label: 'Profil',
-          path: RouteNames.profile),
+      const _NavTab(
+        icon: Icons.home_outlined,
+        activeIcon: Icons.home,
+        label: 'Ana Sayfa',
+        path: RouteNames.home,
+      ),
+      const _NavTab(
+        icon: Icons.calendar_month_outlined,
+        activeIcon: Icons.calendar_month,
+        label: 'Fikstür',
+        path: RouteNames.fixtures,
+      ),
+      const _NavTab(
+        icon: Icons.bar_chart_outlined,
+        activeIcon: Icons.bar_chart,
+        label: 'Puan',
+        path: RouteNames.standings,
+      ),
+      const _NavTab(
+        icon: Icons.group_outlined,
+        activeIcon: Icons.group,
+        label: 'Kadro',
+        path: RouteNames.squad,
+      ),
+      const _NavTab(
+        icon: Icons.person_outline,
+        activeIcon: Icons.person,
+        label: 'Profil',
+        path: RouteNames.profile,
+      ),
     ];
 
-    int currentIndex = 0;
-    for (int i = 0; i < tabs.length; i++) {
+    var currentIndex = 0;
+    for (var i = 0; i < tabs.length; i++) {
       if (currentLocation.startsWith(tabs[i].path)) {
         currentIndex = i;
       }

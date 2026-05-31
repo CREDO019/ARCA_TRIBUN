@@ -1,7 +1,6 @@
+import 'package:arca_tribun/core/constants/supabase_tables.dart';
+import 'package:arca_tribun/features/standings/domain/standing_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-import '../../../core/constants/supabase_tables.dart';
-import '../domain/standing_model.dart';
 
 class StandingsRepository {
   StandingsRepository({SupabaseClient? client})
@@ -19,7 +18,7 @@ class StandingsRepository {
         .eq('season', targetSeason)
         .order('position', ascending: true);
 
-    return rows.map((row) => StandingModel.fromSupabase(row)).toList();
+    return rows.map(StandingModel.fromSupabase).toList();
   }
 
   Future<String?> _fetchLatestSeason() async {

@@ -23,7 +23,8 @@ class SentryReporter {
 
   /// Flutter framework hatalarını Sentry'e gönder (fatal)
   static Future<void> recordFlutterFatalError(
-      FlutterErrorDetails details) async {
+    FlutterErrorDetails details,
+  ) async {
     if (!_isEnabled) return;
     await Sentry.captureException(
       details.exception,

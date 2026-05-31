@@ -1,13 +1,12 @@
+import 'package:arca_tribun/core/router/route_names.dart';
+import 'package:arca_tribun/core/theme/app_colors.dart';
+import 'package:arca_tribun/core/theme/app_spacing.dart';
+import 'package:arca_tribun/core/theme/app_typography.dart';
+import 'package:arca_tribun/features/news/presentation/news_provider.dart';
+import 'package:arca_tribun/shared/widgets/content_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../../../core/router/route_names.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_spacing.dart';
-import '../../../../core/theme/app_typography.dart';
-import '../../../../shared/widgets/content_state.dart';
-import '../../../news/presentation/news_provider.dart';
 
 /// Son haberler yatay kaydırmalı liste
 class NewsHorizontalScroll extends ConsumerWidget {
@@ -23,9 +22,11 @@ class NewsHorizontalScroll extends ConsumerWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('SON HABERLER',
-                style: AppTypography.labelSmall
-                    .copyWith(color: AppColors.secondaryGray)),
+            Text(
+              'SON HABERLER',
+              style: AppTypography.labelSmall
+                  .copyWith(color: AppColors.secondaryGray),
+            ),
             TextButton(
               onPressed: () => context.push(RouteNames.newsList),
               child: const Text('Tümünü Gör'),
@@ -107,17 +108,20 @@ class NewsHorizontalScroll extends ConsumerWidget {
                         children: [
                           Container(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: AppSpacing.sm,
-                                vertical: AppSpacing.xs),
+                              horizontal: AppSpacing.sm,
+                              vertical: AppSpacing.xs,
+                            ),
                             decoration: BoxDecoration(
                               color:
                                   AppColors.primaryRed.withValues(alpha: 0.15),
                               borderRadius:
                                   BorderRadius.circular(AppSpacing.radiusFull),
                             ),
-                            child: Text(item.category,
-                                style: AppTypography.labelSmall
-                                    .copyWith(color: AppColors.primaryRed)),
+                            child: Text(
+                              item.category,
+                              style: AppTypography.labelSmall
+                                  .copyWith(color: AppColors.primaryRed),
+                            ),
                           ),
                           const SizedBox(height: AppSpacing.sm),
                           Expanded(

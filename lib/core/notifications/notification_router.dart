@@ -1,6 +1,5 @@
+import 'package:arca_tribun/core/notifications/notification_service.dart';
 import 'package:logger/logger.dart';
-
-import 'notification_service.dart';
 
 /// Bildirim tıklamalarını doğru uygulama rotasına yönlendirir.
 /// go_router ile deep link entegrasyonu sağlar.

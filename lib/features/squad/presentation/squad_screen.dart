@@ -1,15 +1,14 @@
+import 'package:arca_tribun/core/router/route_names.dart';
+import 'package:arca_tribun/core/theme/app_colors.dart';
+import 'package:arca_tribun/core/theme/app_spacing.dart';
+import 'package:arca_tribun/core/theme/app_typography.dart';
+import 'package:arca_tribun/features/squad/domain/player_model.dart';
+import 'package:arca_tribun/features/squad/presentation/squad_provider.dart';
+import 'package:arca_tribun/shared/widgets/content_state.dart';
+import 'package:arca_tribun/shared/widgets/loading_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../../core/router/route_names.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/app_spacing.dart';
-import '../../../core/theme/app_typography.dart';
-import '../../../shared/widgets/content_state.dart';
-import '../../../shared/widgets/loading_shimmer.dart';
-import '../domain/player_model.dart';
-import 'squad_provider.dart';
 
 /// Kadro ekranı — pozisyona göre gruplu oyuncu listesi
 class SquadScreen extends ConsumerWidget {
@@ -68,9 +67,11 @@ class _PositionSection extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-          child: Text(title.toUpperCase(),
-              style: AppTypography.labelSmall
-                  .copyWith(color: AppColors.secondaryGray)),
+          child: Text(
+            title.toUpperCase(),
+            style: AppTypography.labelSmall
+                .copyWith(color: AppColors.secondaryGray),
+          ),
         ),
         GridView.builder(
           shrinkWrap: true,
@@ -100,15 +101,19 @@ class _PositionSection extends StatelessWidget {
                       radius: 28,
                       backgroundColor:
                           AppColors.primaryRed.withValues(alpha: 0.2),
-                      child: Text('${player.number}',
-                          style: AppTypography.headlineMedium
-                              .copyWith(color: AppColors.primaryRed)),
+                      child: Text(
+                        '${player.number}',
+                        style: AppTypography.headlineMedium
+                            .copyWith(color: AppColors.primaryRed),
+                      ),
                     ),
                     const SizedBox(height: AppSpacing.sm),
-                    Text(player.name,
-                        style: AppTypography.bodySmall,
-                        textAlign: TextAlign.center,
-                        maxLines: 2),
+                    Text(
+                      player.name,
+                      style: AppTypography.bodySmall,
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                    ),
                   ],
                 ),
               ),

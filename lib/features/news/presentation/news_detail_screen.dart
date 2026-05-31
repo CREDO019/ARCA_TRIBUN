@@ -1,13 +1,12 @@
+import 'package:arca_tribun/core/theme/app_colors.dart';
+import 'package:arca_tribun/core/theme/app_spacing.dart';
+import 'package:arca_tribun/core/theme/app_typography.dart';
+import 'package:arca_tribun/features/news/presentation/news_provider.dart';
+import 'package:arca_tribun/shared/widgets/content_state.dart';
+import 'package:arca_tribun/shared/widgets/loading_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
-
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/app_spacing.dart';
-import '../../../core/theme/app_typography.dart';
-import '../../../shared/widgets/content_state.dart';
-import '../../../shared/widgets/loading_shimmer.dart';
-import 'news_provider.dart';
 
 /// Haber detay ekranı
 class NewsDetailScreen extends ConsumerWidget {
@@ -65,9 +64,11 @@ class NewsDetailScreen extends ConsumerWidget {
                   style: AppTypography.bodySmall,
                 ),
                 const SizedBox(height: AppSpacing.xl),
-                Text(news.content,
-                    style: AppTypography.bodyLarge
-                        .copyWith(color: AppColors.white, height: 1.7)),
+                Text(
+                  news.content,
+                  style: AppTypography.bodyLarge
+                      .copyWith(color: AppColors.white, height: 1.7),
+                ),
               ],
             ),
           ),

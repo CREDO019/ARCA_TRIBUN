@@ -1,10 +1,9 @@
+import 'package:arca_tribun/core/theme/app_colors.dart';
+import 'package:arca_tribun/core/theme/app_spacing.dart';
+import 'package:arca_tribun/core/theme/app_typography.dart';
 import 'package:arca_tribun/supabase_config.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_spacing.dart';
-import '../../../../core/theme/app_typography.dart';
 
 /// Mağaza / Sponsor banner card
 class StoreBannerCard extends StatelessWidget {
@@ -19,8 +18,6 @@ class StoreBannerCard extends StatelessWidget {
         height: 100,
         decoration: BoxDecoration(
           gradient: const LinearGradient(
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
             colors: [AppColors.primaryRed, AppColors.primaryRedDark],
           ),
           borderRadius: BorderRadius.circular(AppSpacing.radiusLg),

@@ -1,7 +1,6 @@
+import 'package:arca_tribun/features/match_center/data/match_repository.dart';
+import 'package:arca_tribun/features/match_center/domain/match_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../data/match_repository.dart';
-import '../domain/match_model.dart';
 
 final matchRepositoryProvider = Provider<MatchRepository>(
   (ref) => MatchRepository(),
@@ -9,12 +8,12 @@ final matchRepositoryProvider = Provider<MatchRepository>(
 
 final upcomingMatchesProvider = FutureProvider<List<MatchModel>>((ref) async {
   final repository = ref.watch(matchRepositoryProvider);
-  return repository.fetchUpcomingMatches(limit: 20);
+  return repository.fetchUpcomingMatches();
 });
 
 final recentMatchesProvider = FutureProvider<List<MatchModel>>((ref) async {
   final repository = ref.watch(matchRepositoryProvider);
-  return repository.fetchRecentMatches(limit: 20);
+  return repository.fetchRecentMatches();
 });
 
 final currentLiveMatchProvider = FutureProvider<MatchModel?>((ref) async {

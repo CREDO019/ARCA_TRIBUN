@@ -1,12 +1,11 @@
+import 'package:arca_tribun/core/router/route_names.dart';
+import 'package:arca_tribun/core/storage/onboarding_preferences.dart';
+import 'package:arca_tribun/core/theme/app_colors.dart';
+import 'package:arca_tribun/core/theme/app_typography.dart';
+import 'package:arca_tribun/features/auth/presentation/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../../core/router/route_names.dart';
-import '../../../core/storage/onboarding_preferences.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/app_typography.dart';
-import '../../auth/presentation/auth_provider.dart';
 
 /// Splash ekranı — uygulama açılışında gösterilir.
 /// Auth durumunu kontrol ederek yönlendirme yapar.
@@ -33,14 +32,16 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
     _fadeIn = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(
-          parent: _controller,
-          curve: const Interval(0, 0.6, curve: Curves.easeIn)),
+        parent: _controller,
+        curve: const Interval(0, 0.6, curve: Curves.easeIn),
+      ),
     );
 
     _scaleIn = Tween<double>(begin: 0.7, end: 1).animate(
       CurvedAnimation(
-          parent: _controller,
-          curve: const Interval(0, 0.6, curve: Curves.elasticOut)),
+        parent: _controller,
+        curve: const Interval(0, 0.6, curve: Curves.elasticOut),
+      ),
     );
 
     _navigate();
@@ -106,8 +107,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                         ),
                       ],
                     ),
-                    child: const Icon(Icons.sports_soccer,
-                        color: AppColors.white, size: 56),
+                    child: const Icon(
+                      Icons.sports_soccer,
+                      color: AppColors.white,
+                      size: 56,
+                    ),
                   ),
                   const SizedBox(height: 24),
                   Text('ARCA Tribün', style: AppTypography.displayMedium),

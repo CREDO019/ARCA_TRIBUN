@@ -1,7 +1,6 @@
+import 'package:arca_tribun/core/constants/supabase_tables.dart';
+import 'package:arca_tribun/features/fan_profile/domain/fan_profile_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-import '../../../core/constants/supabase_tables.dart';
-import '../domain/fan_profile_model.dart';
 
 /// Authenticated taraftarın kendi profilini yönetir.
 class FanProfileRepository {
@@ -69,7 +68,9 @@ class FanProfileRepository {
     await _supabase
         .from(SupabaseTables.fanProfiles)
         .update({SupabaseTables.colDisplayName: displayName.trim()}).eq(
-            SupabaseTables.colId, user.id);
+      SupabaseTables.colId,
+      user.id,
+    );
   }
 
   Future<FanProfileModel?> _findProfile(String userId) async {

@@ -21,8 +21,6 @@ class NotificationChannels {
     'Gol Bildirimleri',
     description: 'Maç sırasında atılan goller için anlık bildirimler',
     importance: Importance.max,
-    playSound: true,
-    enableVibration: true,
     vibrationPattern: Int64List.fromList([0, 200, 100, 200]),
   );
 
@@ -32,8 +30,6 @@ class NotificationChannels {
     'Maç Ayrıntıları',
     description: 'Kırmızı kart, oyuncu değişikliği gibi maç olayları',
     importance: Importance.high,
-    playSound: true,
-    enableVibration: true,
   );
 
   static const AndroidNotificationChannel newsChannel =
@@ -41,8 +37,6 @@ class NotificationChannels {
     newsChannelId,
     'Haberler',
     description: 'Kulüp haberleri ve duyurular',
-    importance: Importance.defaultImportance,
-    playSound: true,
   );
 
   static const AndroidNotificationChannel campaignChannel =
@@ -61,8 +55,6 @@ class NotificationChannels {
     'Maç Sonu',
     description: 'Maç sonu sonuçları ve özeti',
     importance: Importance.high,
-    playSound: true,
-    enableVibration: true,
   );
 
   /// Tüm kanalları oluştur (uygulama başlangıcında çağrılmalı)

@@ -1,14 +1,13 @@
+import 'package:arca_tribun/core/theme/app_colors.dart';
+import 'package:arca_tribun/features/match_center/domain/match_model.dart';
+import 'package:arca_tribun/features/match_center/presentation/live/live_screen.dart';
+import 'package:arca_tribun/features/match_center/presentation/match_provider.dart';
+import 'package:arca_tribun/features/match_center/presentation/post_match/post_match_screen.dart';
+import 'package:arca_tribun/features/match_center/presentation/pre_game/pre_game_screen.dart';
+import 'package:arca_tribun/shared/widgets/content_state.dart';
+import 'package:arca_tribun/shared/widgets/loading_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../../core/theme/app_colors.dart';
-import '../../../shared/widgets/content_state.dart';
-import '../../../shared/widgets/loading_shimmer.dart';
-import '../domain/match_model.dart';
-import 'live/live_screen.dart';
-import 'match_provider.dart';
-import 'post_match/post_match_screen.dart';
-import 'pre_game/pre_game_screen.dart';
 
 /// Maç merkezi ekranı — duruma göre alt ekran gösterir.
 /// matchStatusProvider → preGame / live+halfTime / postMatch
@@ -51,14 +50,18 @@ class MatchCenterScreen extends ConsumerWidget {
         return LiveScreen(key: const ValueKey('live'), matchId: matchId);
       case MatchStatus.postMatch:
         return PostMatchScreen(
-            key: const ValueKey('postMatch'), matchId: matchId);
+          key: const ValueKey('postMatch'),
+          matchId: matchId,
+        );
       case MatchStatus.cancelled:
-        return Scaffold(
-          key: const ValueKey('cancelled'),
+        return const Scaffold(
+          key: ValueKey('cancelled'),
           backgroundColor: AppColors.background,
-          body: const Center(
-            child: Text('Maç iptal edildi.',
-                style: TextStyle(color: AppColors.white)),
+          body: Center(
+            child: Text(
+              'Maç iptal edildi.',
+              style: TextStyle(color: AppColors.white),
+            ),
           ),
         );
     }

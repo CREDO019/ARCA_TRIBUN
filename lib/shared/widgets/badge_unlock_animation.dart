@@ -1,9 +1,8 @@
+import 'package:arca_tribun/core/theme/app_colors.dart';
+import 'package:arca_tribun/core/theme/app_spacing.dart';
+import 'package:arca_tribun/core/theme/app_typography.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-
-import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_spacing.dart';
-import '../../core/theme/app_typography.dart';
 
 /// Rozet açılma animasyon overlay'i
 class BadgeUnlockAnimation extends StatefulWidget {
@@ -44,7 +43,7 @@ class _BadgeUnlockAnimationState extends State<BadgeUnlockAnimation>
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: widget.onDismiss,
-      child: Container(
+      child: ColoredBox(
         color: Colors.black.withValues(alpha: 0.85),
         child: Center(
           child: Column(
@@ -60,13 +59,18 @@ class _BadgeUnlockAnimationState extends State<BadgeUnlockAnimation>
                     ..duration = composition.duration
                     ..forward();
                 },
-                errorBuilder: (_, __, ___) => const Icon(Icons.military_tech,
-                    size: 80, color: AppColors.warning),
+                errorBuilder: (_, __, ___) => const Icon(
+                  Icons.military_tech,
+                  size: 80,
+                  color: AppColors.warning,
+                ),
               ),
               const SizedBox(height: AppSpacing.md),
-              Text('YENİ ROZET AÇILDI!',
-                  style: AppTypography.labelSmall
-                      .copyWith(color: AppColors.warning)),
+              Text(
+                'YENİ ROZET AÇILDI!',
+                style:
+                    AppTypography.labelSmall.copyWith(color: AppColors.warning),
+              ),
               const SizedBox(height: AppSpacing.sm),
               Text(widget.badgeIcon, style: const TextStyle(fontSize: 50)),
               Text(widget.badgeName, style: AppTypography.headlineMedium),

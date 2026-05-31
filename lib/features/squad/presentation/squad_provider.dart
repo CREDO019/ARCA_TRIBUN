@@ -1,7 +1,6 @@
+import 'package:arca_tribun/features/squad/data/squad_repository.dart';
+import 'package:arca_tribun/features/squad/domain/player_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../data/squad_repository.dart';
-import '../domain/player_model.dart';
 
 final squadRepositoryProvider = Provider<SquadRepository>(
   (ref) => SquadRepository(),

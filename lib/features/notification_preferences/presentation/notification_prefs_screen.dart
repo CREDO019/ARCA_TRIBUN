@@ -1,11 +1,10 @@
+import 'package:arca_tribun/core/notifications/topic_manager.dart';
+import 'package:arca_tribun/core/theme/app_colors.dart';
+import 'package:arca_tribun/core/theme/app_spacing.dart';
+import 'package:arca_tribun/core/theme/app_typography.dart';
+import 'package:arca_tribun/features/notification_preferences/presentation/notification_prefs_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../../core/notifications/topic_manager.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/app_spacing.dart';
-import '../../../core/theme/app_typography.dart';
-import 'notification_prefs_provider.dart';
 
 /// Bildirim ayarları ekranı
 class NotificationPrefsScreen extends ConsumerWidget {

@@ -1,15 +1,14 @@
+import 'package:arca_tribun/core/theme/app_colors.dart';
+import 'package:arca_tribun/core/theme/app_spacing.dart';
+import 'package:arca_tribun/features/match_center/presentation/live/widgets/live_score_header.dart';
+import 'package:arca_tribun/features/match_center/presentation/live/widgets/live_stats_widget.dart';
+import 'package:arca_tribun/features/match_center/presentation/live/widgets/match_events_list.dart';
+import 'package:arca_tribun/features/match_center/presentation/live/widgets/possession_bar.dart';
+import 'package:arca_tribun/features/match_center/presentation/match_provider.dart';
+import 'package:arca_tribun/shared/widgets/content_state.dart';
+import 'package:arca_tribun/shared/widgets/loading_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_spacing.dart';
-import '../../../../shared/widgets/content_state.dart';
-import '../../../../shared/widgets/loading_shimmer.dart';
-import '../match_provider.dart';
-import 'widgets/live_score_header.dart';
-import 'widgets/live_stats_widget.dart';
-import 'widgets/match_events_list.dart';
-import 'widgets/possession_bar.dart';
 
 /// Canlı maç ekranı
 class LiveScreen extends ConsumerWidget {
