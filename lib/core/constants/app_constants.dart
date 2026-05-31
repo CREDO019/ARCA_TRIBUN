@@ -4,7 +4,7 @@ class AppConstants {
   AppConstants._();
 
   // ─── App Info ─────────────────────────────────────────────────────────
-  static const String appName = 'ARCA Tribün';
+  static const String appName = 'ARCA TRİBÜN';
   static const String clubName = 'Arca Çorum FK';
   static const String packageName = 'com.arcafk.arca_tribun';
 

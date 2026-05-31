@@ -17,21 +17,22 @@ class PlayerDetailScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final playerAsync = ref.watch(playerDetailProvider(playerId));
+    final colors = context.arcaColors;
 
     return playerAsync.when(
-      loading: () => const Scaffold(
-        backgroundColor: AppColors.background,
-        body: LoadingShimmer(itemCount: 4),
+      loading: () => Scaffold(
+        backgroundColor: colors.background,
+        body: const LoadingShimmer(itemCount: 4),
       ),
-      error: (_, __) => const Scaffold(
-        backgroundColor: AppColors.background,
-        body: ContentErrorState(),
+      error: (_, __) => Scaffold(
+        backgroundColor: colors.background,
+        body: const ContentErrorState(),
       ),
       data: (player) {
         if (player == null) {
-          return const Scaffold(
-            backgroundColor: AppColors.background,
-            body: BrandedEmptyState(
+          return Scaffold(
+            backgroundColor: colors.background,
+            body: const BrandedEmptyState(
               icon: Icons.person_search_outlined,
               title: 'Oyuncu bilgisi bulunamadı',
               message:
@@ -52,8 +53,10 @@ class _PlayerDetailContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.arcaColors;
+
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: colors.background,
       appBar: AppBar(title: const Text('Oyuncu Profili')),
       body: SingleChildScrollView(
         child: Column(
@@ -61,8 +64,8 @@ class _PlayerDetailContent extends StatelessWidget {
             // Hero bölümü
             Container(
               height: 250,
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(colors: AppColors.heroGradient),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(colors: colors.heroGradient),
               ),
               child: SafeArea(
                 child: Column(
@@ -79,10 +82,17 @@ class _PlayerDetailContent extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: AppSpacing.md),
-                    Text(player.name, style: AppTypography.headlineLarge),
+                    Text(
+                      player.name,
+                      style: AppTypography.headlineLarge.copyWith(
+                        color: AppColors.white,
+                      ),
+                    ),
                     Text(
                       '${_positionText(player.position)} · #${player.number}',
-                      style: AppTypography.bodyMedium,
+                      style: AppTypography.bodyMedium.copyWith(
+                        color: AppColors.white.withValues(alpha: 0.76),
+                      ),
                     ),
                   ],
                 ),
@@ -146,13 +156,15 @@ class _StatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.arcaColors;
+
     return Expanded(
       child: Container(
         padding: const EdgeInsets.all(AppSpacing.md),
         decoration: BoxDecoration(
-          color: AppColors.cardBg,
+          color: colors.surface,
           borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
-          border: Border.all(color: AppColors.border),
+          border: Border.all(color: colors.border),
         ),
         child: Column(
           children: [

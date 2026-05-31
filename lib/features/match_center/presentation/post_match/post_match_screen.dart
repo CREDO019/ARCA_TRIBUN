@@ -2,6 +2,7 @@ import 'package:arca_tribun/core/theme/app_colors.dart';
 import 'package:arca_tribun/core/theme/app_spacing.dart';
 import 'package:arca_tribun/core/theme/app_typography.dart';
 import 'package:arca_tribun/features/match_center/presentation/match_provider.dart';
+import 'package:arca_tribun/features/match_center/domain/match_model.dart';
 import 'package:arca_tribun/shared/widgets/content_state.dart';
 import 'package:arca_tribun/shared/widgets/loading_shimmer.dart';
 import 'package:flutter/material.dart';
@@ -16,21 +17,24 @@ class PostMatchScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final matchAsync = ref.watch(matchDetailProvider(matchId));
+    final events =
+        ref.watch(matchEventsProvider(matchId)).valueOrNull ?? const [];
+    final colors = context.arcaColors;
 
     return matchAsync.when(
-      loading: () => const Scaffold(
-        backgroundColor: AppColors.background,
-        body: LoadingShimmer(itemCount: 4),
+      loading: () => Scaffold(
+        backgroundColor: colors.background,
+        body: const LoadingShimmer(itemCount: 4),
       ),
-      error: (_, __) => const Scaffold(
-        backgroundColor: AppColors.background,
-        body: ContentErrorState(),
+      error: (_, __) => Scaffold(
+        backgroundColor: colors.background,
+        body: const ContentErrorState(),
       ),
       data: (match) {
         if (match == null) {
-          return const Scaffold(
-            backgroundColor: AppColors.background,
-            body: BrandedEmptyState(
+          return Scaffold(
+            backgroundColor: colors.background,
+            body: const BrandedEmptyState(
               icon: Icons.sports_score_outlined,
               title: 'Maç özeti hazırlanıyor',
               message:
@@ -44,6 +48,7 @@ class PostMatchScreen extends ConsumerWidget {
           awayTeam: match.awayTeam,
           homeScore: match.homeScore,
           awayScore: match.awayScore,
+          events: events,
         );
       },
     );
@@ -56,17 +61,21 @@ class _PostMatchContent extends StatelessWidget {
     required this.awayTeam,
     required this.homeScore,
     required this.awayScore,
+    required this.events,
   });
 
   final String homeTeam;
   final String awayTeam;
   final int? homeScore;
   final int? awayScore;
+  final List<MatchEventModel> events;
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.arcaColors;
+
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: colors.background,
       appBar: AppBar(title: const Text('Maç Sonu')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(AppSpacing.screenPadding),
@@ -78,15 +87,15 @@ class _PostMatchContent extends StatelessWidget {
               width: double.infinity,
               padding: const EdgeInsets.all(AppSpacing.xl),
               decoration: BoxDecoration(
-                gradient: const LinearGradient(colors: AppColors.heroGradient),
+                gradient: LinearGradient(colors: colors.heroGradient),
                 borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
               ),
               child: Column(
                 children: [
                   Text(
                     'MAÇ SONA ERDİ',
-                    style: AppTypography.labelSmall
-                        .copyWith(color: AppColors.secondaryGray),
+                    style: AppTypography.labelSmall.copyWith(
+                        color: AppColors.white.withValues(alpha: 0.7)),
                   ),
                   const SizedBox(height: AppSpacing.sm),
                   Text(
@@ -96,7 +105,9 @@ class _PostMatchContent extends StatelessWidget {
                   const SizedBox(height: AppSpacing.sm),
                   Text(
                     '$homeTeam - $awayTeam',
-                    style: AppTypography.bodyMedium,
+                    style: AppTypography.bodyMedium.copyWith(
+                      color: AppColors.white.withValues(alpha: 0.76),
+                    ),
                   ),
                 ],
               ),
@@ -104,31 +115,57 @@ class _PostMatchContent extends StatelessWidget {
             const SizedBox(height: AppSpacing.xl),
 
             Text(
-              'MAÇ ÖZETİ',
+              'MAÇ OLAYLARI',
               style: AppTypography.labelSmall.copyWith(
-                color: AppColors.secondaryGray,
+                color: colors.textSecondary,
+              ),
+            ),
+            const SizedBox(height: AppSpacing.md),
+            ...events.map(
+              (event) => Container(
+                margin: const EdgeInsets.only(bottom: AppSpacing.sm),
+                padding: const EdgeInsets.all(AppSpacing.cardPadding),
+                decoration: BoxDecoration(
+                  color: colors.surface,
+                  borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
+                  border: Border.all(color: colors.border),
+                ),
+                child: Row(
+                  children: [
+                    Text('${event.minute}’', style: AppTypography.titleMedium),
+                    const SizedBox(width: AppSpacing.md),
+                    Icon(
+                      event.type == MatchEventType.redCard
+                          ? Icons.style
+                          : Icons.sports_soccer,
+                      color: AppColors.primaryRed,
+                    ),
+                    const SizedBox(width: AppSpacing.md),
+                    Expanded(child: Text(event.detail ?? event.playerName)),
+                  ],
+                ),
               ),
             ),
             const SizedBox(height: AppSpacing.md),
             Container(
               padding: const EdgeInsets.all(AppSpacing.cardPadding),
               decoration: BoxDecoration(
-                color: AppColors.cardBg,
+                color: colors.surface,
                 borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
-                border: Border.all(color: AppColors.border),
+                border: Border.all(color: colors.border),
               ),
-              child: const Row(
+              child: Row(
                 children: [
                   Icon(
                     Icons.fact_check_outlined,
-                    color: AppColors.secondaryGray,
+                    color: colors.textSecondary,
                   ),
-                  SizedBox(width: AppSpacing.md),
+                  const SizedBox(width: AppSpacing.md),
                   Expanded(
                     child: Text(
-                      'Maç özeti ve oyuncu performansları doğrulandığında '
-                      'burada yayınlanacak.',
-                      style: TextStyle(color: AppColors.secondaryGray),
+                      'Teknik direktörler: Çorum FK - Uğur Uçar, '
+                      'Esenler Erokspor - Güray Gündoğdu.',
+                      style: TextStyle(color: colors.textSecondary),
                     ),
                   ),
                 ],

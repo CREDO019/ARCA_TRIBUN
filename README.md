@@ -1,6 +1,6 @@
-# ARCA Tribün
+# ARCA TRİBÜN
 
-ARCA Tribün, Arca Çorum FK için geliştirilen dijital taraftar platformu
+ARCA TRİBÜN, Arca Çorum FK için geliştirilen dijital taraftar platformu
 konseptidir. Mobil uygulama; haberler, fikstür, puan durumu, kadro, maç
 merkezi ve taraftar profili akışlarını tek bir deneyimde birleştirmeyi
 amaçlar.
@@ -22,6 +22,7 @@ amaçlar.
 
 - İlk açılış onboarding akışı hazırdır.
 - E-posta ve şifre ile kayıt, giriş ve çıkış akışları çalışmaktadır.
+- Kullanıcı hesabı doğrulanmış Edge Function üzerinden kalıcı olarak silinebilir.
 - Taraftar profili gerçek `fan_profiles` tablosundan okunmaktadır.
 - Haber, fikstür, puan durumu, kadro ve maç merkezi ekranları repository
   katmanı üzerinden Supabase verisi okumaktadır.
@@ -94,7 +95,14 @@ npx supabase migration list
 Migration ve RLS değişiklikleri kod incelemesi olmadan remote ortama
 uygulanmamalıdır. Seed verileri production ortamına otomatik basılmamalıdır.
 
-## Demo Tour
+Yerel geliştirme verisi `supabase/seed.sql` içindedir. Remote pilot proje için
+aynı doğrulanmış kayıtlar `supabase/pilot_seed.sql` dosyasından yalnızca hedef
+proje kontrol edildikten sonra manuel olarak çalıştırılmalıdır.
+
+Hesap silme akışının güvenlik sınırı ve deploy adımları:
+[docs/account_deletion.md](docs/account_deletion.md)
+
+## Pilot Tur
 
 Kulüp sunumu için hazırlanan 5 dakikalık ürün turu:
 [docs/demo_tour_script.md](docs/demo_tour_script.md)
@@ -124,14 +132,14 @@ asset'leri ve ürün kararı tamamlandıktan sonra açıkça etkinleştirilmelid
 
 ## Brand Disclaimer
 
-ARCA Tribün bir dijital taraftar platformu pilot çalışmasıdır. Kulüp onayı
+ARCA TRİBÜN bir dijital taraftar platformu pilot çalışmasıdır. Kulüp onayı
 sonrası resmi kullanıma uygun hale getirilebilir. Mağaza, bilet ve üçüncü
 taraf bağlantıları yalnızca doğrulanmış URL'lerle etkinleştirilmelidir.
 
 > Bu uygulama pilot/prototip çalışmadır. Resmi kullanım için kulüp onayı
 > gerektirir.
 
-## Demo Kontrol Listesi
+## Pilot Kontrol Listesi
 
 Kulüp sunumu öncesi kontrol adımları için:
 [docs/demo_checklist.md](docs/demo_checklist.md)

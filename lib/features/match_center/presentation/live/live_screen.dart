@@ -20,9 +20,10 @@ class LiveScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final liveAsync = ref.watch(liveMatchProvider(matchId));
     final eventsAsync = ref.watch(matchEventsProvider(matchId));
+    final colors = context.arcaColors;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: colors.background,
       body: liveAsync.when(
         loading: () => const LoadingShimmer(),
         error: (_, __) => const ContentErrorState(),
@@ -61,11 +62,11 @@ class LiveScreen extends ConsumerWidget {
               SliverToBoxAdapter(
                 child: eventsAsync.when(
                   loading: () => const LoadingShimmer(),
-                  error: (_, __) => const Padding(
-                    padding: EdgeInsets.all(AppSpacing.screenPadding),
+                  error: (_, __) => Padding(
+                    padding: const EdgeInsets.all(AppSpacing.screenPadding),
                     child: Text(
                       'Maç olayları yüklenemedi.',
-                      style: TextStyle(color: AppColors.secondaryGray),
+                      style: TextStyle(color: colors.textSecondary),
                     ),
                   ),
                   data: (events) => MatchEventsList(events: events),

@@ -1,9 +1,10 @@
 import 'package:arca_tribun/core/router/route_names.dart';
 import 'package:arca_tribun/core/storage/onboarding_preferences.dart';
 import 'package:arca_tribun/core/theme/app_colors.dart';
-import 'package:arca_tribun/core/theme/app_typography.dart';
 import 'package:arca_tribun/features/auth/presentation/auth_provider.dart';
+import 'package:arca_tribun/shared/widgets/club_logo.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -81,43 +82,41 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: Center(
-        child: AnimatedBuilder(
-          animation: _controller,
-          builder: (_, __) => FadeTransition(
-            opacity: _fadeIn,
-            child: ScaleTransition(
-              scale: _scaleIn,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 100,
-                    height: 100,
-                    decoration: BoxDecoration(
-                      color: AppColors.primaryRed,
-                      borderRadius: BorderRadius.circular(24),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColors.primaryRed.withValues(alpha: 0.4),
-                          blurRadius: 30,
-                          spreadRadius: 5,
-                        ),
-                      ],
+    final colors = context.arcaColors;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: (isDark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark)
+          .copyWith(
+        statusBarColor: Colors.transparent,
+        statusBarBrightness: isDark ? Brightness.dark : Brightness.light,
+        statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
+      ),
+      child: Scaffold(
+        backgroundColor: colors.background,
+        body: Center(
+          child: AnimatedBuilder(
+            animation: _controller,
+            builder: (_, __) => FadeTransition(
+              opacity: _fadeIn,
+              child: ScaleTransition(
+                scale: _scaleIn,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const ClubLogo(size: 116, showShadow: true),
+                    const SizedBox(height: 24),
+                    Text(
+                      'ARCA TRİBÜN',
+                      style: Theme.of(context).textTheme.displayMedium,
                     ),
-                    child: const Icon(
-                      Icons.sports_soccer,
-                      color: AppColors.white,
-                      size: 56,
+                    const SizedBox(height: 8),
+                    Text(
+                      'Arca Çorum FK',
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
-                  ),
-                  const SizedBox(height: 24),
-                  Text('ARCA Tribün', style: AppTypography.displayMedium),
-                  const SizedBox(height: 8),
-                  Text('Arca Çorum FK', style: AppTypography.bodyLarge),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

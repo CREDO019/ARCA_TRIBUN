@@ -12,13 +12,15 @@ class LiveScoreHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.arcaColors;
+
     return Container(
       height: 220,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: AppColors.heroGradient,
+          colors: colors.heroGradient,
         ),
       ),
       padding: const EdgeInsets.all(AppSpacing.cardPadding),
@@ -38,7 +40,8 @@ class LiveScoreHeader extends StatelessWidget {
               ),
               child: Text(
                 "● CANLI · ${liveMatch.minute}'",
-                style: AppTypography.labelSmall,
+                style:
+                    AppTypography.labelSmall.copyWith(color: AppColors.white),
               ),
             ),
             const SizedBox(height: AppSpacing.lg),
@@ -47,7 +50,12 @@ class LiveScoreHeader extends StatelessWidget {
             Text(liveMatch.score, style: AppTypography.scoreDisplay),
 
             const SizedBox(height: AppSpacing.sm),
-            Text('Arca Çorum FK vs Rakip', style: AppTypography.bodyMedium),
+            Text(
+              'Arca Çorum FK vs Rakip',
+              style: AppTypography.bodyMedium.copyWith(
+                color: AppColors.white.withValues(alpha: 0.76),
+              ),
+            ),
           ],
         ),
       ),

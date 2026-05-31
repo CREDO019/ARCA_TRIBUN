@@ -19,15 +19,16 @@ class MatchCenterScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final statusAsync = ref.watch(matchStatusProvider(matchId));
+    final colors = context.arcaColors;
 
     return statusAsync.when(
-      loading: () => const Scaffold(
-        backgroundColor: AppColors.background,
-        body: LoadingShimmer(),
+      loading: () => Scaffold(
+        backgroundColor: colors.background,
+        body: const LoadingShimmer(),
       ),
-      error: (_, __) => const Scaffold(
-        backgroundColor: AppColors.background,
-        body: ContentErrorState(),
+      error: (_, __) => Scaffold(
+        backgroundColor: colors.background,
+        body: const ContentErrorState(),
       ),
       data: (status) {
         return AnimatedSwitcher(
@@ -54,13 +55,15 @@ class MatchCenterScreen extends ConsumerWidget {
           matchId: matchId,
         );
       case MatchStatus.cancelled:
-        return const Scaffold(
-          key: ValueKey('cancelled'),
-          backgroundColor: AppColors.background,
-          body: Center(
-            child: Text(
-              'Maç iptal edildi.',
-              style: TextStyle(color: AppColors.white),
+        return Builder(
+          key: const ValueKey('cancelled'),
+          builder: (context) => Scaffold(
+            backgroundColor: context.arcaColors.background,
+            body: Center(
+              child: Text(
+                'Maç iptal edildi.',
+                style: TextStyle(color: context.arcaColors.textPrimary),
+              ),
             ),
           ),
         );

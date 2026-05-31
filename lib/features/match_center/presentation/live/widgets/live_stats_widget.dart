@@ -12,6 +12,8 @@ class LiveStatsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.arcaColors;
+
     return Padding(
       padding: const EdgeInsets.all(AppSpacing.screenPadding),
       child: Column(
@@ -21,7 +23,7 @@ class LiveStatsWidget extends StatelessWidget {
             home: liveMatch.homeShots,
             away: liveMatch.awayShots,
           ),
-          const Divider(color: AppColors.border),
+          Divider(color: colors.border),
           _StatRow(
             label: 'Korner',
             home: liveMatch.homeCorners,

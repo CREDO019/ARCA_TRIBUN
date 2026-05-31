@@ -1,4 +1,4 @@
-# ARCA Tribün Pilot Screenshot Kontrol Listesi
+# ARCA TRİBÜN Pilot Screenshot Kontrol Listesi
 
 Bu sprintte ekran görüntüsü almak zorunlu değildir. Liste, kulüp sunumu için
 görsel yedek paket hazırlanırken kullanılmalıdır.
@@ -8,7 +8,7 @@ görsel yedek paket hazırlanırken kullanılmalıdır.
 - [ ] Aynı iPhone simulator modeli ve dikey yön kullanılıyor.
 - [ ] Status bar saat ve bağlantı göstergeleri tutarlı.
 - [ ] Kişisel e-posta, gerçek şifre ve hassas bilgiler görünmüyor.
-- [ ] `PİLOT DEMO` etiketi gösterilmek istenen ekranlarda görünür.
+- [ ] `PİLOT VERİ` etiketi gösterilmek istenen ekranlarda görünür.
 - [ ] Görsel izinleri belirsiz fotoğraflar sunum paketine eklenmiyor.
 - [ ] Dosyalar aşağıdaki biçimde adlandırılıyor:
   `NN_screen_name_state.png`

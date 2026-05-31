@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:arca_tribun/core/notifications/notification_router.dart';
 import 'package:arca_tribun/core/router/route_guard.dart';
 import 'package:arca_tribun/core/router/route_names.dart';
+import 'package:arca_tribun/core/theme/app_colors.dart';
 import 'package:arca_tribun/features/auth/presentation/login_screen.dart';
 import 'package:arca_tribun/features/auth/presentation/register_screen.dart';
 import 'package:arca_tribun/features/fan_profile/presentation/badges/badge_detail_screen.dart';
@@ -223,11 +224,11 @@ class AppRouter {
       ),
     ],
     errorBuilder: (context, state) => Scaffold(
-      backgroundColor: const Color(0xFF090909),
+      backgroundColor: context.arcaColors.background,
       body: Center(
         child: Text(
           'Sayfa bulunamadı: ${state.error}',
-          style: const TextStyle(color: Colors.white),
+          style: TextStyle(color: context.arcaColors.textPrimary),
         ),
       ),
     ),

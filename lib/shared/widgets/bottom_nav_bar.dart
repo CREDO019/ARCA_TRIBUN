@@ -13,6 +13,7 @@ class AppBottomNavBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentLocation = GoRouterState.of(context).matchedLocation;
+    final colors = context.arcaColors;
 
     final tabs = [
       const _NavTab(
@@ -55,9 +56,9 @@ class AppBottomNavBar extends ConsumerWidget {
     }
 
     return Container(
-      decoration: const BoxDecoration(
-        color: AppColors.deepBlack,
-        border: Border(top: BorderSide(color: AppColors.border)),
+      decoration: BoxDecoration(
+        color: colors.surface,
+        border: Border(top: BorderSide(color: colors.border)),
       ),
       child: SafeArea(
         child: SizedBox(
@@ -84,7 +85,7 @@ class AppBottomNavBar extends ConsumerWidget {
                           key: ValueKey(isActive),
                           color: isActive
                               ? AppColors.primaryRed
-                              : AppColors.secondaryGray,
+                              : colors.textSecondary,
                           size: AppSpacing.iconLg,
                         ),
                       ),
@@ -95,7 +96,7 @@ class AppBottomNavBar extends ConsumerWidget {
                           fontSize: 9,
                           color: isActive
                               ? AppColors.primaryRed
-                              : AppColors.secondaryGray,
+                              : colors.textSecondary,
                         ),
                       ),
                     ],

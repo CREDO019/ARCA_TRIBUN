@@ -38,11 +38,15 @@ class StoreBannerCard extends StatelessWidget {
                 children: [
                   Text(
                     'Forma & Taraftar Ürünleri',
-                    style: AppTypography.titleLarge,
+                    style: AppTypography.titleLarge.copyWith(
+                      color: AppColors.white,
+                    ),
                   ),
                   Text(
                     'Mağaza bağlantısı kulüp onayı sonrası eklenecek.',
-                    style: AppTypography.bodySmall,
+                    style: AppTypography.bodySmall.copyWith(
+                      color: AppColors.white.withValues(alpha: 0.82),
+                    ),
                   ),
                 ],
               ),

@@ -1,4 +1,4 @@
-# ARCA Tribün 5 Dakikalık Pilot Demo Turu
+# ARCA TRİBÜN 5 Dakikalık Pilot Veri Turu
 
 Bu akış kulüp sunumunda ürün değerini kısa ve net biçimde anlatmak için
 hazırlanmıştır. Teknik mimari yalnızca soru gelirse açılmalıdır.
@@ -18,7 +18,7 @@ hazırlanmıştır. Teknik mimari yalnızca soru gelirse açılmalıdır.
 
 **Söylenecekler:**
 
-> ARCA Tribün, taraftarın kulüple dijital bağını güçlendirmek için hazırlanan
+> ARCA TRİBÜN, taraftarın kulüple dijital bağını güçlendirmek için hazırlanan
 > bir pilot çalışmadır. İlk açılışta taraftarı haber, maç günü ve tribün
 > deneyimi etrafında karşılayan kısa bir akış sunuyoruz.
 
@@ -40,7 +40,7 @@ taşıyacak hesap altyapısı.
 
 ## 0:55 - 1:40 | Home
 
-**Ekran:** Home üst alanı, `PİLOT DEMO` etiketi, yaklaşan maç ve içerik alanları.
+**Ekran:** Home üst alanı, `PİLOT VERİ` etiketi, yaklaşan maç ve içerik alanları.
 
 **Söylenecekler:**
 

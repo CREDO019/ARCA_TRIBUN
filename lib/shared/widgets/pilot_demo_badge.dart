@@ -26,7 +26,7 @@ class PilotDemoBadge extends StatelessWidget {
         ),
       ),
       child: Text(
-        'PİLOT DEMO',
+        'PİLOT VERİ',
         style: AppTypography.labelSmall.copyWith(
           color: AppColors.primaryRedLight,
           fontSize: 9,

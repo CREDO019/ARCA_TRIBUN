@@ -15,13 +15,14 @@ class StandingsMiniCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final standingsAsync = ref.watch(seasonStandingsProvider);
+    final colors = context.arcaColors;
 
     return Container(
       padding: const EdgeInsets.all(AppSpacing.cardPadding),
       decoration: BoxDecoration(
-        color: AppColors.cardBg,
+        color: colors.surface,
         borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: colors.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,7 +33,7 @@ class StandingsMiniCard extends ConsumerWidget {
               Text(
                 'PUAN DURUMU',
                 style: AppTypography.labelSmall
-                    .copyWith(color: AppColors.secondaryGray),
+                    .copyWith(color: colors.textSecondary),
               ),
               TextButton(
                 onPressed: () => context.push(RouteNames.standings),
@@ -42,11 +43,11 @@ class StandingsMiniCard extends ConsumerWidget {
           ),
           const SizedBox(height: AppSpacing.sm),
           standingsAsync.when(
-            loading: () => const Padding(
-              padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
+            loading: () => Padding(
+              padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
               child: Text(
                 'Yükleniyor...',
-                style: TextStyle(color: AppColors.secondaryGray),
+                style: TextStyle(color: colors.textSecondary),
               ),
             ),
             error: (_, __) => const ContentErrorState(
@@ -86,7 +87,7 @@ class StandingsMiniCard extends ConsumerWidget {
                                 ? AppTypography.titleMedium
                                     .copyWith(color: AppColors.primaryRed)
                                 : AppTypography.bodyMedium
-                                    .copyWith(color: AppColors.white),
+                                    .copyWith(color: colors.textPrimary),
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
@@ -98,7 +99,7 @@ class StandingsMiniCard extends ConsumerWidget {
                         Text(
                           '${team.points} P',
                           style: AppTypography.titleMedium
-                              .copyWith(color: AppColors.white),
+                              .copyWith(color: colors.textPrimary),
                         ),
                       ],
                     ),

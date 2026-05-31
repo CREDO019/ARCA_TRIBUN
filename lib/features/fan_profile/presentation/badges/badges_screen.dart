@@ -9,6 +9,8 @@ class BadgesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.arcaColors;
+
     // Demo rozetler
     final badges = [
       {
@@ -42,7 +44,7 @@ class BadgesScreen extends StatelessWidget {
     ];
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: colors.background,
       appBar: AppBar(title: const Text('Rozetlerim')),
       body: GridView.builder(
         padding: const EdgeInsets.all(AppSpacing.screenPadding),
@@ -59,12 +61,12 @@ class BadgesScreen extends StatelessWidget {
           return Container(
             padding: const EdgeInsets.all(AppSpacing.md),
             decoration: BoxDecoration(
-              color: isEarned ? AppColors.cardBg : AppColors.deepBlack,
+              color: isEarned ? colors.surface : colors.surfaceAlt,
               borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
               border: Border.all(
                 color: isEarned
                     ? AppColors.primaryRed.withValues(alpha: 0.5)
-                    : AppColors.border,
+                    : colors.border,
               ),
             ),
             child: Column(
@@ -81,7 +83,7 @@ class BadgesScreen extends StatelessWidget {
                 Text(
                   badge['name'] as String,
                   style: AppTypography.titleMedium.copyWith(
-                    color: isEarned ? AppColors.white : AppColors.secondaryGray,
+                    color: isEarned ? colors.textPrimary : colors.textSecondary,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -94,9 +96,9 @@ class BadgesScreen extends StatelessWidget {
                 ),
                 if (!isEarned) ...[
                   const SizedBox(height: AppSpacing.xs),
-                  const Icon(
+                  Icon(
                     Icons.lock,
-                    color: AppColors.secondaryGray,
+                    color: colors.textSecondary,
                     size: 16,
                   ),
                 ],

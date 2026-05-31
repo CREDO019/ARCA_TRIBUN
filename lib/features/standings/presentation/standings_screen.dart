@@ -15,9 +15,10 @@ class StandingsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final standingsAsync = ref.watch(seasonStandingsProvider);
+    final colors = context.arcaColors;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: colors.background,
       appBar: AppBar(title: const Text('Puan Durumu')),
       body: standingsAsync.when(
         loading: () => const LoadingShimmer(itemCount: 10),
@@ -48,7 +49,7 @@ class StandingsScreen extends ConsumerWidget {
                       child: Text(
                         'KULÜP',
                         style: AppTypography.labelSmall
-                            .copyWith(color: AppColors.secondaryGray),
+                            .copyWith(color: colors.textSecondary),
                       ),
                     ),
                     SizedBox(
@@ -56,7 +57,7 @@ class StandingsScreen extends ConsumerWidget {
                       child: Text(
                         'O',
                         style: AppTypography.labelSmall
-                            .copyWith(color: AppColors.secondaryGray),
+                            .copyWith(color: colors.textSecondary),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -65,7 +66,7 @@ class StandingsScreen extends ConsumerWidget {
                       child: Text(
                         'G',
                         style: AppTypography.labelSmall
-                            .copyWith(color: AppColors.secondaryGray),
+                            .copyWith(color: colors.textSecondary),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -74,7 +75,7 @@ class StandingsScreen extends ConsumerWidget {
                       child: Text(
                         'B',
                         style: AppTypography.labelSmall
-                            .copyWith(color: AppColors.secondaryGray),
+                            .copyWith(color: colors.textSecondary),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -83,7 +84,7 @@ class StandingsScreen extends ConsumerWidget {
                       child: Text(
                         'M',
                         style: AppTypography.labelSmall
-                            .copyWith(color: AppColors.secondaryGray),
+                            .copyWith(color: colors.textSecondary),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -99,12 +100,12 @@ class StandingsScreen extends ConsumerWidget {
                   ],
                 ),
               ),
-              const Divider(color: AppColors.border, height: 1),
+              Divider(color: colors.border, height: 1),
               Expanded(
                 child: ListView.separated(
                   itemCount: teams.length,
                   separatorBuilder: (_, __) =>
-                      const Divider(color: AppColors.border, height: 1),
+                      Divider(color: colors.border, height: 1),
                   itemBuilder: (context, index) {
                     final team = teams[index];
                     return _StandingRow(team: team);
@@ -127,6 +128,7 @@ class _StandingRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isOurTeam = team.teamName.toLowerCase().contains('arca çorum');
+    final colors = context.arcaColors;
 
     return Container(
       color: isOurTeam
@@ -148,7 +150,8 @@ class _StandingRow extends StatelessWidget {
               style: isOurTeam
                   ? AppTypography.titleMedium
                       .copyWith(color: AppColors.primaryRed)
-                  : AppTypography.bodyMedium.copyWith(color: AppColors.white),
+                  : AppTypography.bodyMedium
+                      .copyWith(color: colors.textPrimary),
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -188,7 +191,8 @@ class _StandingRow extends StatelessWidget {
             width: 30,
             child: Text(
               '${team.points}',
-              style: AppTypography.titleMedium.copyWith(color: AppColors.white),
+              style:
+                  AppTypography.titleMedium.copyWith(color: colors.textPrimary),
               textAlign: TextAlign.center,
             ),
           ),

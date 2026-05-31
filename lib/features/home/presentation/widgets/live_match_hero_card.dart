@@ -45,6 +45,7 @@ class _LiveMatchHeroCardState extends ConsumerState<LiveMatchHeroCard>
   Widget build(BuildContext context) {
     final liveMatchAsync = ref.watch(currentLiveMatchProvider);
     final upcomingMatchesAsync = ref.watch(upcomingMatchesProvider);
+    final colors = context.arcaColors;
     final isLoading =
         liveMatchAsync.isLoading || upcomingMatchesAsync.isLoading;
     final hasError = liveMatchAsync.hasError && upcomingMatchesAsync.hasError;
@@ -63,10 +64,10 @@ class _LiveMatchHeroCardState extends ConsumerState<LiveMatchHeroCard>
       child: Container(
         height: AppSpacing.matchCardHeight,
         decoration: BoxDecoration(
-          gradient: const LinearGradient(
+          gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: AppColors.heroGradient,
+            colors: colors.heroGradient,
           ),
           borderRadius: BorderRadius.circular(AppSpacing.radiusXl),
           border: Border.all(
@@ -83,9 +84,13 @@ class _LiveMatchHeroCardState extends ConsumerState<LiveMatchHeroCard>
                 children: [
                   Text(
                     match?.competition ?? 'Maç Merkezi',
-                    style: AppTypography.labelSmall,
+                    style: AppTypography.labelSmall
+                        .copyWith(color: AppColors.white),
                   ),
-                  if (isLive) _buildLiveBadge() else _buildUpcomingBadge(),
+                  if (isLive)
+                    _buildLiveBadge()
+                  else
+                    _buildUpcomingBadge(context),
                 ],
               ),
 
@@ -100,7 +105,7 @@ class _LiveMatchHeroCardState extends ConsumerState<LiveMatchHeroCard>
                         : isLoading
                             ? 'Yükleniyor...'
                             : 'Maç verileri doğrulandığında burada yayınlanacak.',
-                    style: const TextStyle(color: AppColors.secondaryGray),
+                    style: TextStyle(color: colors.textSecondary),
                     textAlign: TextAlign.center,
                   ),
                 )
@@ -111,7 +116,9 @@ class _LiveMatchHeroCardState extends ConsumerState<LiveMatchHeroCard>
                     Expanded(
                       child: Text(
                         match.homeTeam,
-                        style: AppTypography.titleMedium,
+                        style: AppTypography.titleMedium.copyWith(
+                          color: AppColors.white,
+                        ),
                         textAlign: TextAlign.center,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -134,7 +141,9 @@ class _LiveMatchHeroCardState extends ConsumerState<LiveMatchHeroCard>
                     Expanded(
                       child: Text(
                         match.awayTeam,
-                        style: AppTypography.titleMedium,
+                        style: AppTypography.titleMedium.copyWith(
+                          color: AppColors.white,
+                        ),
                         textAlign: TextAlign.center,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -197,7 +206,10 @@ class _LiveMatchHeroCardState extends ConsumerState<LiveMatchHeroCard>
               const SizedBox(width: AppSpacing.xs),
               Text(
                 'CANLI',
-                style: AppTypography.labelSmall.copyWith(fontSize: 9),
+                style: AppTypography.labelSmall.copyWith(
+                  color: AppColors.white,
+                  fontSize: 9,
+                ),
               ),
             ],
           ),
@@ -206,16 +218,18 @@ class _LiveMatchHeroCardState extends ConsumerState<LiveMatchHeroCard>
     );
   }
 
-  Widget _buildUpcomingBadge() {
+  Widget _buildUpcomingBadge(BuildContext context) {
+    final colors = context.arcaColors;
+
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.sm,
         vertical: AppSpacing.xs,
       ),
       decoration: BoxDecoration(
-        color: AppColors.cardBg2,
+        color: colors.surfaceAlt,
         borderRadius: BorderRadius.circular(AppSpacing.radiusFull),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: colors.border),
       ),
       child: Text(
         'SIRADAKİ MAÇ',

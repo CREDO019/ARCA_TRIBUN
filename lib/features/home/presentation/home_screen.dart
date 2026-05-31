@@ -1,4 +1,5 @@
 import 'package:arca_tribun/core/router/route_names.dart';
+import 'package:arca_tribun/core/pilot/pilot_data.dart';
 import 'package:arca_tribun/core/theme/app_colors.dart';
 import 'package:arca_tribun/core/theme/app_spacing.dart';
 import 'package:arca_tribun/core/theme/app_typography.dart';
@@ -11,6 +12,7 @@ import 'package:arca_tribun/features/home/presentation/widgets/store_banner_card
 import 'package:arca_tribun/features/match_center/presentation/match_provider.dart';
 import 'package:arca_tribun/shared/widgets/offline_banner.dart';
 import 'package:arca_tribun/shared/widgets/pilot_demo_badge.dart';
+import 'package:arca_tribun/shared/widgets/club_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -22,13 +24,14 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final upcomingMatches = ref.watch(upcomingMatchesProvider).valueOrNull;
-    final nextMatchTime =
-        (upcomingMatches != null && upcomingMatches.isNotEmpty)
-            ? upcomingMatches.first.kickoffTime
-            : null;
+    final nextMatch = upcomingMatches != null && upcomingMatches.isNotEmpty
+        ? upcomingMatches.first
+        : null;
+    final isSeasonStart = nextMatch?.id == PilotData.seasonStartMatchId;
+    final colors = context.arcaColors;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: colors.background,
       body: Stack(
         children: [
           CustomScrollView(
@@ -37,25 +40,15 @@ class HomeScreen extends ConsumerWidget {
               SliverAppBar(
                 expandedHeight: 60,
                 floating: true,
-                backgroundColor: AppColors.background,
+                backgroundColor: colors.background,
                 title: Row(
                   children: [
-                    Container(
-                      width: 32,
-                      height: 32,
-                      decoration: BoxDecoration(
-                        color: AppColors.primaryRed,
-                        borderRadius:
-                            BorderRadius.circular(AppSpacing.radiusSm),
-                      ),
-                      child: const Icon(
-                        Icons.sports_soccer,
-                        size: 18,
-                        color: AppColors.white,
-                      ),
-                    ),
+                    const ClubLogo(size: 34),
                     const SizedBox(width: AppSpacing.sm),
-                    Text('ARCA Tribün', style: AppTypography.headlineMedium),
+                    Text(
+                      'ARCA TRİBÜN',
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    ),
                   ],
                 ),
                 actions: [
@@ -79,7 +72,15 @@ class HomeScreen extends ConsumerWidget {
                     const SizedBox(height: AppSpacing.xl),
 
                     // Sıradaki Maç Sayacı
-                    NextMatchCountdown(matchTime: nextMatchTime),
+                    NextMatchCountdown(
+                      matchTime: nextMatch?.kickoffTime,
+                      title: isSeasonStart
+                          ? 'Yeni Sezon Başlangıcı'
+                          : 'Sıradaki Maç',
+                      description: isSeasonStart
+                          ? 'Süper Lig 2026/2027 sezonu başlangıç haftası.'
+                          : null,
+                    ),
                     const SizedBox(height: AppSpacing.xl),
 
                     // Taraftar Tahmini
@@ -116,13 +117,15 @@ class _HomeWelcomeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.arcaColors;
+
     return Container(
       padding: const EdgeInsets.all(AppSpacing.cardPadding),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: AppColors.heroGradient,
+          colors: colors.heroGradient,
         ),
         borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
         border: Border.all(
@@ -131,23 +134,7 @@ class _HomeWelcomeCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Container(
-            width: 46,
-            height: 46,
-            decoration: BoxDecoration(
-              color: AppColors.primaryRed,
-              borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
-            ),
-            child: Center(
-              child: Text(
-                'AT',
-                style: AppTypography.titleMedium.copyWith(
-                  color: AppColors.white,
-                  letterSpacing: 1.2,
-                ),
-              ),
-            ),
-          ),
+          const ClubLogo(size: 52),
           const SizedBox(width: AppSpacing.md),
           Expanded(
             child: Column(
@@ -155,7 +142,12 @@ class _HomeWelcomeCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Text('ARCA TRİBÜN', style: AppTypography.headlineMedium),
+                    Text(
+                      'ARCA TRİBÜN',
+                      style: AppTypography.headlineMedium.copyWith(
+                        color: AppColors.white,
+                      ),
+                    ),
                     const SizedBox(width: AppSpacing.sm),
                     const PilotDemoBadge(),
                   ],
@@ -163,7 +155,9 @@ class _HomeWelcomeCard extends StatelessWidget {
                 const SizedBox(height: AppSpacing.xs),
                 Text(
                   'Takımına dair gelişmeler burada seninle buluşacak.',
-                  style: AppTypography.bodyMedium,
+                  style: AppTypography.bodyMedium.copyWith(
+                    color: AppColors.white.withValues(alpha: 0.82),
+                  ),
                 ),
               ],
             ),

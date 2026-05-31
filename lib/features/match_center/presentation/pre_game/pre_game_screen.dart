@@ -16,21 +16,22 @@ class PreGameScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final matchAsync = ref.watch(matchDetailProvider(matchId));
+    final colors = context.arcaColors;
 
     return matchAsync.when(
-      loading: () => const Scaffold(
-        backgroundColor: AppColors.background,
-        body: LoadingShimmer(itemCount: 4),
+      loading: () => Scaffold(
+        backgroundColor: colors.background,
+        body: const LoadingShimmer(itemCount: 4),
       ),
-      error: (_, __) => const Scaffold(
-        backgroundColor: AppColors.background,
-        body: ContentErrorState(),
+      error: (_, __) => Scaffold(
+        backgroundColor: colors.background,
+        body: const ContentErrorState(),
       ),
       data: (match) {
         if (match == null) {
-          return const Scaffold(
-            backgroundColor: AppColors.background,
-            body: BrandedEmptyState(
+          return Scaffold(
+            backgroundColor: colors.background,
+            body: const BrandedEmptyState(
               icon: Icons.stadium_outlined,
               title: 'Maç merkezi hazırlanıyor',
               message:
@@ -69,8 +70,10 @@ class _PreGameContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.arcaColors;
+
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: colors.background,
       appBar: AppBar(title: const Text('Maç Öncesi')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(AppSpacing.screenPadding),
@@ -81,18 +84,25 @@ class _PreGameContent extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(AppSpacing.cardPadding),
               decoration: BoxDecoration(
-                gradient: const LinearGradient(colors: AppColors.heroGradient),
+                gradient: LinearGradient(colors: colors.heroGradient),
                 borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
               ),
               child: Column(
                 children: [
                   Text(
                     '$homeTeam vs $awayTeam',
-                    style: AppTypography.headlineMedium,
+                    style: AppTypography.headlineMedium.copyWith(
+                      color: AppColors.white,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: AppSpacing.sm),
-                  Text('$kickoff • $venue', style: AppTypography.bodyMedium),
+                  Text(
+                    '$kickoff • $venue',
+                    style: AppTypography.bodyMedium.copyWith(
+                      color: AppColors.white.withValues(alpha: 0.76),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -102,20 +112,20 @@ class _PreGameContent extends StatelessWidget {
             Text(
               'MUHTEMEL 11',
               style: AppTypography.labelSmall
-                  .copyWith(color: AppColors.secondaryGray),
+                  .copyWith(color: colors.textSecondary),
             ),
             const SizedBox(height: AppSpacing.md),
             Container(
               height: 200,
               decoration: BoxDecoration(
-                color: AppColors.cardBg,
+                color: colors.surface,
                 borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
-                border: Border.all(color: AppColors.border),
+                border: Border.all(color: colors.border),
               ),
-              child: const Center(
+              child: Center(
                 child: Text(
                   'Doğrulanmış kadro bilgileri bekleniyor.',
-                  style: TextStyle(color: AppColors.secondaryGray),
+                  style: TextStyle(color: colors.textSecondary),
                 ),
               ),
             ),
@@ -126,21 +136,21 @@ class _PreGameContent extends StatelessWidget {
             Text(
               'HAVA DURUMU',
               style: AppTypography.labelSmall
-                  .copyWith(color: AppColors.secondaryGray),
+                  .copyWith(color: colors.textSecondary),
             ),
             const SizedBox(height: AppSpacing.md),
             Container(
               padding: const EdgeInsets.all(AppSpacing.cardPadding),
               decoration: BoxDecoration(
-                color: AppColors.cardBg,
+                color: colors.surface,
                 borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
-                border: Border.all(color: AppColors.border),
+                border: Border.all(color: colors.border),
               ),
               child: Row(
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.cloud_outlined,
-                    color: AppColors.secondaryGray,
+                    color: colors.textSecondary,
                     size: 40,
                   ),
                   const SizedBox(width: AppSpacing.md),

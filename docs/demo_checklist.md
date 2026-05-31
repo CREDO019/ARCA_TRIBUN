@@ -1,4 +1,4 @@
-# ARCA Tribün Pilot Demo Kontrol Listesi
+# ARCA TRİBÜN Pilot Veri Kontrol Listesi
 
 Bu liste kulüp sunumu öncesinde cihaz üzerinde sırayla uygulanmalıdır.
 
@@ -25,11 +25,12 @@ Bu liste kulüp sunumu öncesinde cihaz üzerinde sırayla uygulanmalıdır.
 - [ ] Profil ekranında kullanıcı adı, e-posta, puan ve seviye görünüyor.
 - [ ] Kullanıcı adı güncellemesi profil ekranına yansıyor.
 - [ ] Uygulama Hakkında alanında pilot açıklaması ve sürüm görünüyor.
-- [ ] Hesabı Sil alanı gerçek silme yapmadan bilgi mesajı gösteriyor.
+- [ ] Hesabı Sil diyaloğu geri alınamaz işlem uyarısını gösteriyor.
+- [ ] Test hesabı silindiğinde oturum kapanıyor ve tekrar giriş başarısız oluyor.
 
 ## MVP Ekranları
 
-- [ ] Home üst alanı ve Pilot Demo etiketi düzgün görünüyor.
+- [ ] Home üst alanı ve Pilot Veri etiketi düzgün görünüyor.
 - [ ] Haberler dolu veya profesyonel boş state gösteriyor.
 - [ ] Fikstür dolu veya profesyonel boş state gösteriyor.
 - [ ] Puan durumu dolu veya profesyonel boş state gösteriyor.

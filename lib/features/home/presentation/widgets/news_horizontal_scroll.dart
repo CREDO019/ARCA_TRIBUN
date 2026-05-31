@@ -15,6 +15,7 @@ class NewsHorizontalScroll extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final newsAsync = ref.watch(latestNewsProvider);
+    final colors = context.arcaColors;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -25,7 +26,7 @@ class NewsHorizontalScroll extends ConsumerWidget {
             Text(
               'SON HABERLER',
               style: AppTypography.labelSmall
-                  .copyWith(color: AppColors.secondaryGray),
+                  .copyWith(color: colors.textSecondary),
             ),
             TextButton(
               onPressed: () => context.push(RouteNames.newsList),
@@ -44,9 +45,9 @@ class NewsHorizontalScroll extends ConsumerWidget {
               itemBuilder: (_, __) => Container(
                 width: 220,
                 decoration: BoxDecoration(
-                  color: AppColors.cardBg,
+                  color: colors.surface,
                   borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
-                  border: Border.all(color: AppColors.border),
+                  border: Border.all(color: colors.border),
                 ),
               ),
             ),
@@ -56,9 +57,9 @@ class NewsHorizontalScroll extends ConsumerWidget {
             width: double.infinity,
             padding: const EdgeInsets.all(AppSpacing.md),
             decoration: BoxDecoration(
-              color: AppColors.cardBg,
+              color: colors.surface,
               borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
-              border: Border.all(color: AppColors.border),
+              border: Border.all(color: colors.border),
             ),
             child: const ContentErrorState(compact: true),
           ),
@@ -69,9 +70,9 @@ class NewsHorizontalScroll extends ConsumerWidget {
                 width: double.infinity,
                 padding: const EdgeInsets.all(AppSpacing.md),
                 decoration: BoxDecoration(
-                  color: AppColors.cardBg,
+                  color: colors.surface,
                   borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
-                  border: Border.all(color: AppColors.border),
+                  border: Border.all(color: colors.border),
                 ),
                 child: const BrandedEmptyState(
                   icon: Icons.campaign_outlined,
@@ -98,10 +99,10 @@ class NewsHorizontalScroll extends ConsumerWidget {
                       width: 220,
                       padding: const EdgeInsets.all(AppSpacing.md),
                       decoration: BoxDecoration(
-                        color: AppColors.cardBg,
+                        color: colors.surface,
                         borderRadius:
                             BorderRadius.circular(AppSpacing.radiusLg),
-                        border: Border.all(color: AppColors.border),
+                        border: Border.all(color: colors.border),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

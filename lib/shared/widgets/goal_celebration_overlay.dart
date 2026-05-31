@@ -111,7 +111,9 @@ class _GoalCelebrationOverlayState extends State<GoalCelebrationOverlay>
                     if (_currentEvent?.scorerName.isNotEmpty ?? false)
                       Text(
                         _currentEvent!.scorerName,
-                        style: AppTypography.headlineLarge,
+                        style: AppTypography.headlineLarge.copyWith(
+                          color: AppColors.white,
+                        ),
                       ),
 
                     // Skor

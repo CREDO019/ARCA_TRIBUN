@@ -17,21 +17,22 @@ class NewsDetailScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final newsAsync = ref.watch(newsDetailProvider(newsId));
+    final colors = context.arcaColors;
 
     return newsAsync.when(
-      loading: () => const Scaffold(
-        backgroundColor: AppColors.background,
-        body: LoadingShimmer(),
+      loading: () => Scaffold(
+        backgroundColor: colors.background,
+        body: const LoadingShimmer(),
       ),
-      error: (_, __) => const Scaffold(
-        backgroundColor: AppColors.background,
-        body: ContentErrorState(),
+      error: (_, __) => Scaffold(
+        backgroundColor: colors.background,
+        body: const ContentErrorState(),
       ),
       data: (news) {
         if (news == null) {
-          return const Scaffold(
-            backgroundColor: AppColors.background,
-            body: BrandedEmptyState(
+          return Scaffold(
+            backgroundColor: colors.background,
+            body: const BrandedEmptyState(
               icon: Icons.article_outlined,
               title: 'Haber bulunamadı',
               message:
@@ -41,14 +42,14 @@ class NewsDetailScreen extends ConsumerWidget {
         }
 
         return Scaffold(
-          backgroundColor: AppColors.background,
+          backgroundColor: colors.background,
           appBar: AppBar(
             title: Text(news.category),
             actions: [
               IconButton(
                 icon: const Icon(Icons.share),
                 onPressed: () =>
-                    Share.share('${news.title}\n\nARCA Tribün uygulamasından'),
+                    Share.share('${news.title}\n\nARCA TRİBÜN uygulamasından'),
               ),
             ],
           ),
@@ -60,14 +61,14 @@ class NewsDetailScreen extends ConsumerWidget {
                 Text(news.title, style: AppTypography.headlineLarge),
                 const SizedBox(height: AppSpacing.sm),
                 Text(
-                  '${news.authorName ?? 'ARCA Tribün'} · ${_formatDate(news.publishedAt)}',
+                  '${news.authorName ?? 'ARCA TRİBÜN'} · ${_formatDate(news.publishedAt)}',
                   style: AppTypography.bodySmall,
                 ),
                 const SizedBox(height: AppSpacing.xl),
                 Text(
                   news.content,
                   style: AppTypography.bodyLarge
-                      .copyWith(color: AppColors.white, height: 1.7),
+                      .copyWith(color: colors.textPrimary, height: 1.7),
                 ),
               ],
             ),

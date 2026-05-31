@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:arca_tribun/core/router/route_names.dart';
 import 'package:arca_tribun/core/theme/app_colors.dart';
 import 'package:arca_tribun/core/theme/app_spacing.dart';
 import 'package:arca_tribun/core/theme/app_typography.dart';
+import 'package:arca_tribun/core/theme/theme_preference_provider.dart';
 import 'package:arca_tribun/features/auth/presentation/auth_provider.dart';
 import 'package:arca_tribun/features/fan_profile/domain/fan_profile_model.dart';
 import 'package:arca_tribun/features/fan_profile/presentation/fan_profile_provider.dart';
@@ -19,9 +22,11 @@ class ProfileScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final profileAsync = ref.watch(fanProfileProvider);
     final email = ref.watch(currentUserEmailProvider);
+    final themePreference = ref.watch(themePreferenceProvider);
+    final colors = context.arcaColors;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: colors.background,
       appBar: AppBar(title: const Text('Profilim')),
       body: profileAsync.when(
         loading: () => const LoadingShimmer(),
@@ -65,6 +70,15 @@ class ProfileScreen extends ConsumerWidget {
                       icon: Icons.emoji_events,
                     ),
                   ],
+                ),
+                const SizedBox(height: AppSpacing.xl),
+                _ThemePreferenceSection(
+                  preference: themePreference,
+                  onChanged: (preference) {
+                    ref
+                        .read(themePreferenceProvider.notifier)
+                        .setPreference(preference);
+                  },
                 ),
                 const SizedBox(height: AppSpacing.xl),
                 _QuickAccessTile(
@@ -114,11 +128,8 @@ class ProfileScreen extends ConsumerWidget {
                   tileKey: const Key('request_account_delete_tile'),
                   icon: Icons.delete_outline,
                   label: 'Hesabı Sil',
-                  subtitle: 'Hesap silme talebi hakkında bilgi al',
-                  onTap: () => _showInfo(
-                    context,
-                    'Hesap silme işlemi yakında desteklenecek.',
-                  ),
+                  subtitle: 'Hesabını ve taraftar verilerini kalıcı olarak sil',
+                  onTap: () => _deleteAccount(context, ref),
                 ),
                 const SizedBox(height: AppSpacing.xl),
                 OutlinedButton.icon(
@@ -144,10 +155,12 @@ class _ProfileHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.arcaColors;
+
     return Container(
       padding: const EdgeInsets.all(AppSpacing.xl),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(colors: AppColors.heroGradient),
+        gradient: LinearGradient(colors: colors.heroGradient),
         borderRadius: BorderRadius.circular(AppSpacing.radiusXl),
       ),
       child: Column(
@@ -159,14 +172,25 @@ class _ProfileHeader extends StatelessWidget {
               profile.displayName.isNotEmpty
                   ? profile.displayName[0].toUpperCase()
                   : 'T',
-              style: AppTypography.displayMedium,
+              style: AppTypography.displayMedium.copyWith(
+                color: AppColors.white,
+              ),
             ),
           ),
           const SizedBox(height: AppSpacing.md),
-          Text(profile.displayName, style: AppTypography.headlineMedium),
+          Text(
+            profile.displayName,
+            style:
+                AppTypography.headlineMedium.copyWith(color: AppColors.white),
+          ),
           if (email != null) ...[
             const SizedBox(height: AppSpacing.xs),
-            Text(email!, style: AppTypography.bodySmall),
+            Text(
+              email!,
+              style: AppTypography.bodySmall.copyWith(
+                color: AppColors.white.withValues(alpha: 0.76),
+              ),
+            ),
           ],
           const SizedBox(height: AppSpacing.sm),
           Container(
@@ -180,7 +204,7 @@ class _ProfileHeader extends StatelessWidget {
             ),
             child: Text(
               '${profile.fanLevelTitle} Taraftar',
-              style: AppTypography.labelSmall,
+              style: AppTypography.labelSmall.copyWith(color: AppColors.white),
             ),
           ),
         ],
@@ -202,13 +226,15 @@ class _StatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.arcaColors;
+
     return Expanded(
       child: Container(
         padding: const EdgeInsets.all(AppSpacing.md),
         decoration: BoxDecoration(
-          color: AppColors.cardBg,
+          color: colors.surface,
           borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
-          border: Border.all(color: AppColors.border),
+          border: Border.all(color: colors.border),
         ),
         child: Column(
           children: [
@@ -224,6 +250,113 @@ class _StatCard extends StatelessWidget {
               label,
               style: AppTypography.bodySmall,
               textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ThemePreferenceSection extends StatelessWidget {
+  const _ThemePreferenceSection({
+    required this.preference,
+    required this.onChanged,
+  });
+
+  final ThemePreference preference;
+  final ValueChanged<ThemePreference> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.arcaColors;
+
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.cardPadding),
+      decoration: BoxDecoration(
+        color: colors.surface,
+        borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
+        border: Border.all(color: colors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Tema', style: Theme.of(context).textTheme.titleLarge),
+          const SizedBox(height: AppSpacing.xs),
+          Text(
+            'Uygulama görünümünü sistem ayarına bırak veya elle seç.',
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          for (final option in ThemePreference.values)
+            _ThemePreferenceOption(
+              key: Key('theme_${option.name}_option'),
+              preference: option,
+              isSelected: option == preference,
+              description: _themePreferenceDescription(option),
+              onTap: () => onChanged(option),
+            ),
+        ],
+      ),
+    );
+  }
+
+  String _themePreferenceDescription(ThemePreference preference) {
+    switch (preference) {
+      case ThemePreference.system:
+        return 'Telefonun açık/koyu tema ayarını takip eder.';
+      case ThemePreference.light:
+        return 'Açık yüzeyler ve kırmızı marka aksanları kullanılır.';
+      case ThemePreference.dark:
+        return 'Koyu yüzeyler ve yüksek kontrastlı metinler kullanılır.';
+    }
+  }
+}
+
+class _ThemePreferenceOption extends StatelessWidget {
+  const _ThemePreferenceOption({
+    required this.preference,
+    required this.description,
+    required this.isSelected,
+    required this.onTap,
+    super.key,
+  });
+
+  final ThemePreference preference;
+  final String description;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.arcaColors;
+
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
+        child: Row(
+          children: [
+            Icon(
+              isSelected
+                  ? Icons.radio_button_checked
+                  : Icons.radio_button_unchecked,
+              color: isSelected ? AppColors.primaryRed : colors.textSecondary,
+            ),
+            const SizedBox(width: AppSpacing.md),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(preference.label),
+                  const SizedBox(height: 2),
+                  Text(
+                    description,
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -249,12 +382,14 @@ class _QuickAccessTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.arcaColors;
+
     return ListTile(
       key: tileKey,
-      tileColor: AppColors.cardBg,
+      tileColor: colors.surface,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
-        side: const BorderSide(color: AppColors.border),
+        side: BorderSide(color: colors.border),
       ),
       leading: Icon(icon, color: AppColors.primaryRed),
       title: Text(label, style: AppTypography.titleMedium),
@@ -282,13 +417,15 @@ class _ProfileMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.arcaColors;
+
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.screenPadding),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, size: 64, color: AppColors.secondaryGray),
+            Icon(icon, size: 64, color: colors.textSecondary),
             const SizedBox(height: AppSpacing.md),
             Text(title, style: AppTypography.headlineMedium),
             const SizedBox(height: AppSpacing.sm),
@@ -388,11 +525,72 @@ Future<void> _logout(BuildContext context, WidgetRef ref) async {
   context.go(RouteNames.login);
 }
 
+Future<void> _deleteAccount(BuildContext context, WidgetRef ref) async {
+  final confirmed = await showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          key: const Key('delete_account_dialog'),
+          title: const Text('Hesabı kalıcı olarak sil'),
+          content: const Text(
+            'Profilin, tahminlerin ve taraftar verilerin kalıcı olarak '
+            'silinecek. Bu işlem geri alınamaz.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text('Vazgeç'),
+            ),
+            ElevatedButton(
+              key: const Key('confirm_delete_account_button'),
+              onPressed: () => Navigator.of(context).pop(true),
+              child: const Text('HESABIMI SİL'),
+            ),
+          ],
+        ),
+      ) ??
+      false;
+
+  if (!confirmed || !context.mounted) return;
+
+  unawaited(
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const AlertDialog(
+        key: Key('delete_account_progress'),
+        content: Row(
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(width: AppSpacing.md),
+            Expanded(child: Text('Hesabınız siliniyor...')),
+          ],
+        ),
+      ),
+    ),
+  );
+
+  await ref.read(authNotifierProvider.notifier).deleteAccount();
+  if (!context.mounted) return;
+
+  Navigator.of(context, rootNavigator: true).pop();
+  final authState = ref.read(authNotifierProvider);
+  if (authState.hasError) {
+    _showInfo(
+      context,
+      'Hesabınız silinemedi. Lütfen tekrar deneyin.',
+      isError: true,
+    );
+    return;
+  }
+
+  context.go(RouteNames.login);
+}
+
 void _showInfo(BuildContext context, String message, {bool isError = false}) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       content: Text(message),
-      backgroundColor: isError ? AppColors.errorRed : AppColors.cardBg2,
+      backgroundColor: isError ? AppColors.errorRed : null,
     ),
   );
 }

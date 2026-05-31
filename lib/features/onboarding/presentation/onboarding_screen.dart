@@ -4,6 +4,7 @@ import 'package:arca_tribun/core/theme/app_colors.dart';
 import 'package:arca_tribun/core/theme/app_spacing.dart';
 import 'package:arca_tribun/core/theme/app_typography.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
 /// İlk açılışta kulüp deneyimini tanıtan ve login akışına geçiş sağlayan ekran.
@@ -75,37 +76,46 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          PageView.builder(
-            key: const Key('onboarding_page_view'),
-            controller: _pageController,
-            itemCount: _pages.length,
-            onPageChanged: (page) => setState(() => _activePage = page),
-            itemBuilder: (context, index) => _OnboardingPage(
-              data: _pages[index],
-            ),
-          ),
-          Positioned(
-            right: AppSpacing.screenPadding,
-            bottom: 0,
-            left: AppSpacing.screenPadding,
-            child: SafeArea(
-              top: false,
-              minimum: const EdgeInsets.only(bottom: AppSpacing.lg),
-              child: _OnboardingFooter(
-                activePage: _activePage,
-                pageCount: _pages.length,
-                isLastPage: _isLastPage,
-                onSkip: _goToLogin,
-                onPrimaryAction: _handlePrimaryAction,
+    final colors = context.arcaColors;
+
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light.copyWith(
+        statusBarColor: Colors.transparent,
+        statusBarBrightness: Brightness.dark,
+        statusBarIconBrightness: Brightness.light,
+      ),
+      child: Scaffold(
+        backgroundColor: colors.background,
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            PageView.builder(
+              key: const Key('onboarding_page_view'),
+              controller: _pageController,
+              itemCount: _pages.length,
+              onPageChanged: (page) => setState(() => _activePage = page),
+              itemBuilder: (context, index) => _OnboardingPage(
+                data: _pages[index],
               ),
             ),
-          ),
-        ],
+            Positioned(
+              right: AppSpacing.screenPadding,
+              bottom: 0,
+              left: AppSpacing.screenPadding,
+              child: SafeArea(
+                top: false,
+                minimum: const EdgeInsets.only(bottom: AppSpacing.lg),
+                child: _OnboardingFooter(
+                  activePage: _activePage,
+                  pageCount: _pages.length,
+                  isLastPage: _isLastPage,
+                  onSkip: _goToLogin,
+                  onPrimaryAction: _handlePrimaryAction,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -142,6 +152,7 @@ class _OnboardingPage extends StatelessWidget {
                 Text(
                   data.title,
                   style: AppTypography.displayLarge.copyWith(
+                    color: AppColors.white,
                     fontSize: 46,
                     height: 0.94,
                     letterSpacing: 0.2,
@@ -175,18 +186,20 @@ class _OnboardingBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.arcaColors;
+
     return Stack(
       fit: StackFit.expand,
       children: [
-        const DecoratedBox(
+        DecoratedBox(
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Color(0xFF220000),
+                const Color(0xFF220000),
                 AppColors.deepBlack,
-                AppColors.background,
+                colors.background,
               ],
             ),
           ),
@@ -197,17 +210,17 @@ class _OnboardingBackground extends StatelessWidget {
           gaplessPlayback: true,
           errorBuilder: (_, __, ___) => const SizedBox.expand(),
         ),
-        const DecoratedBox(
+        DecoratedBox(
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              stops: [0, 0.42, 0.72, 1],
+              stops: const [0, 0.42, 0.72, 1],
               colors: [
-                Color(0xA6000000),
-                Color(0x33000000),
-                Color(0xB8090909),
-                AppColors.background,
+                const Color(0xA6000000),
+                const Color(0x33000000),
+                const Color(0xB8090909),
+                colors.background,
               ],
             ),
           ),

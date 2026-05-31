@@ -1,4 +1,4 @@
-# ARCA Tribün Pilot Demo Risk Kontrol Listesi
+# ARCA TRİBÜN Pilot Veri Risk Kontrol Listesi
 
 Bu liste kulüp sunumundan önce uygulanmalıdır. Amaç, 5 dakikalık ürün turunu
 öngörülebilir ve kontrollü biçimde tamamlamaktır.
@@ -16,7 +16,7 @@ Bu liste kulüp sunumundan önce uygulanmalıdır. Amaç, 5 dakikalık ürün tu
 ## Config
 
 - [ ] `config/supabase.dev.json` doğru pilot Supabase projesini gösteriyor.
-- [ ] `PILOT_DEMO_MODE=true`; home ekranında `PİLOT DEMO` etiketi görünüyor.
+- [ ] `PILOT_DEMO_MODE=true`; home ekranında `PİLOT VERİ` etiketi görünüyor.
 - [ ] Mobil build içinde `secret` veya `service_role` key bulunmuyor.
 - [ ] `STORE_URL` boşsa bilgi mesajı; doluysa yalnızca doğrulanmış `http/https`
   bağlantısı kullanılıyor.

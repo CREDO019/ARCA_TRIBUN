@@ -246,19 +246,35 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<Failure, void>> logout() async {
     try {
       await _supabase.auth.signOut();
-      try {
-        await _googleSignIn.signOut();
-      } catch (error, stackTrace) {
-        _logger.w(
-          '[AuthRepository] Google sign-out cleanup failed',
-          error: error,
-          stackTrace: stackTrace,
-        );
-      }
+      await _signOutGoogleQuietly();
       return const Right(null);
     } catch (e, st) {
       return Left(
         ErrorHandler.handleException(e, stackTrace: st, context: 'logout'),
+      );
+    }
+  }
+
+  // ─── Hesap Silme ───────────────────────────────────────────────────────
+
+  @override
+  Future<Either<Failure, void>> deleteAccount() async {
+    try {
+      if (_supabase.auth.currentUser == null) {
+        return const Left(AuthFailure());
+      }
+
+      await _supabase.functions.invoke('delete-account');
+      await _supabase.auth.signOut();
+      await _signOutGoogleQuietly();
+      return const Right(null);
+    } catch (e, st) {
+      return Left(
+        ErrorHandler.handleException(
+          e,
+          stackTrace: st,
+          context: 'deleteAccount',
+        ),
       );
     }
   }
@@ -294,6 +310,18 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   // ─── Private Helpers ──────────────────────────────────────────────────
+
+  Future<void> _signOutGoogleQuietly() async {
+    try {
+      await _googleSignIn.signOut();
+    } catch (error, stackTrace) {
+      _logger.w(
+        '[AuthRepository] Google sign-out cleanup failed',
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+  }
 
   /// Supabase [User]'ı domain [UserModel]'ine dönüştür.
   UserModel _mapUser(

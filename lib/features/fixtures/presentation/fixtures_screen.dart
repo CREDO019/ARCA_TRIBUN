@@ -18,9 +18,10 @@ class FixturesScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final upcomingAsync = ref.watch(upcomingMatchesProvider);
     final recentAsync = ref.watch(recentMatchesProvider);
+    final colors = context.arcaColors;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: colors.background,
       appBar: AppBar(title: const Text('Fikstür')),
       body: upcomingAsync.when(
         loading: () => const LoadingShimmer(itemCount: 6),
@@ -83,13 +84,14 @@ class _FixtureTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final date = match.kickoffTime;
     final hasScore = match.homeScore != null && match.awayScore != null;
+    final colors = context.arcaColors;
 
     return Container(
       padding: const EdgeInsets.all(AppSpacing.cardPadding),
       decoration: BoxDecoration(
-        color: AppColors.cardBg,
+        color: colors.surface,
         borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: colors.border),
       ),
       child: Row(
         children: [
@@ -101,7 +103,7 @@ class _FixtureTile extends StatelessWidget {
                 Text(
                   _monthShort(date.month),
                   style: AppTypography.labelSmall
-                      .copyWith(color: AppColors.secondaryGray),
+                      .copyWith(color: colors.textSecondary),
                 ),
               ],
             ),

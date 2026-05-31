@@ -16,6 +16,8 @@ class PossessionBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.arcaColors;
+
     return Column(
       children: [
         Row(
@@ -37,7 +39,7 @@ class PossessionBar extends StatelessWidget {
               ),
               Flexible(
                 flex: awayPossession,
-                child: Container(height: 8, color: AppColors.secondaryGray),
+                child: Container(height: 8, color: colors.textSecondary),
               ),
             ],
           ),

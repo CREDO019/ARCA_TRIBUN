@@ -70,8 +70,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.arcaColors;
+
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: colors.background,
       appBar: AppBar(
         title: Text('auth.create_account'.tr()),
         leading: IconButton(
@@ -96,7 +98,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 ),
                 const SizedBox(height: AppSpacing.sm),
                 Text(
-                  'ARCA Tribün ailesine katıl, puan kazan!',
+                  'ARCA TRİBÜN ailesine katıl, puan kazan!',
                   style: AppTypography.bodyMedium,
                 ),
 
@@ -107,12 +109,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   controller: _nameController,
                   autofillHints: const [AutofillHints.name],
                   textInputAction: TextInputAction.next,
-                  style: AppTypography.bodyLarge,
+                  style: Theme.of(context).textTheme.bodyLarge,
                   decoration: InputDecoration(
                     labelText: 'auth.display_name'.tr(),
-                    prefixIcon: const Icon(
+                    prefixIcon: Icon(
                       Icons.person_outline,
-                      color: AppColors.secondaryGray,
+                      color: colors.textSecondary,
                     ),
                   ),
                   validator: (value) {
@@ -129,12 +131,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   autofillHints: const [AutofillHints.email],
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.next,
-                  style: AppTypography.bodyLarge,
+                  style: Theme.of(context).textTheme.bodyLarge,
                   decoration: InputDecoration(
                     labelText: 'auth.email'.tr(),
-                    prefixIcon: const Icon(
+                    prefixIcon: Icon(
                       Icons.email_outlined,
-                      color: AppColors.secondaryGray,
+                      color: colors.textSecondary,
                     ),
                   ),
                   validator: (value) {
@@ -151,19 +153,19 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   autofillHints: const [AutofillHints.newPassword],
                   obscureText: _obscurePassword,
                   textInputAction: TextInputAction.next,
-                  style: AppTypography.bodyLarge,
+                  style: Theme.of(context).textTheme.bodyLarge,
                   decoration: InputDecoration(
                     labelText: 'auth.password'.tr(),
-                    prefixIcon: const Icon(
+                    prefixIcon: Icon(
                       Icons.lock_outlined,
-                      color: AppColors.secondaryGray,
+                      color: colors.textSecondary,
                     ),
                     suffixIcon: IconButton(
                       icon: Icon(
                         _obscurePassword
                             ? Icons.visibility_outlined
                             : Icons.visibility_off_outlined,
-                        color: AppColors.secondaryGray,
+                        color: colors.textSecondary,
                       ),
                       onPressed: () =>
                           setState(() => _obscurePassword = !_obscurePassword),
@@ -183,12 +185,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   obscureText: _obscurePassword,
                   textInputAction: TextInputAction.done,
                   onFieldSubmitted: (_) => _register(),
-                  style: AppTypography.bodyLarge,
+                  style: Theme.of(context).textTheme.bodyLarge,
                   decoration: InputDecoration(
                     labelText: 'auth.confirm_password'.tr(),
-                    prefixIcon: const Icon(
+                    prefixIcon: Icon(
                       Icons.lock_outlined,
-                      color: AppColors.secondaryGray,
+                      color: colors.textSecondary,
                     ),
                   ),
                   validator: (value) {

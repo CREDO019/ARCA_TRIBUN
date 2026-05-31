@@ -1,5 +1,5 @@
 name: arca_tribun
-description: ARCA Tribün — dijital taraftar platformu pilot çalışması
+description: ARCA TRİBÜN — dijital taraftar platformu pilot çalışması
 publish_to: "none"
 version: 1.0.0+1
 
@@ -91,4 +91,5 @@ flutter:
     - assets/translations/
     - assets/lottie/
     - assets/images/
+    - assets/images/branding/
     - assets/images/onboarding/

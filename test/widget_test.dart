@@ -1,10 +1,12 @@
 import 'package:arca_tribun/core/router/route_names.dart';
 import 'package:arca_tribun/core/storage/onboarding_preferences.dart';
+import 'package:arca_tribun/core/theme/theme_preference_provider.dart';
 import 'package:arca_tribun/features/auth/presentation/login_screen.dart';
 import 'package:arca_tribun/features/fan_profile/domain/fan_profile_model.dart';
 import 'package:arca_tribun/features/fan_profile/presentation/fan_profile_provider.dart';
 import 'package:arca_tribun/features/fan_profile/presentation/profile_screen.dart';
 import 'package:arca_tribun/features/home/presentation/widgets/store_banner_card.dart';
+import 'package:arca_tribun/features/notification_preferences/presentation/notification_prefs_screen.dart';
 import 'package:arca_tribun/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:arca_tribun/features/splash/presentation/splash_screen.dart';
 import 'package:arca_tribun/main.dart';
@@ -144,7 +146,7 @@ void main() {
     expect(find.text('Misafir erişimi yakında aktif olacak.'), findsOneWidget);
   });
 
-  testWidgets('profile shows real fields and account delete information', (
+  testWidgets('profile shows real fields and account delete confirmation', (
     WidgetTester tester,
   ) async {
     final profile = FanProfileModel(
@@ -179,6 +181,20 @@ void main() {
     expect(find.text('taraftar@example.com'), findsOneWidget);
     expect(find.text('125'), findsOneWidget);
     expect(find.text('2'), findsOneWidget);
+    expect(find.text('Tema'), findsOneWidget);
+
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('theme_dark_option')),
+      300,
+    );
+    await tester.tap(find.byKey(const Key('theme_dark_option')));
+    await tester.pumpAndSettle();
+
+    final preferences = await SharedPreferences.getInstance();
+    expect(
+      preferences.getString('theme_preference'),
+      ThemePreference.dark.name,
+    );
 
     await tester.scrollUntilVisible(
       find.byKey(const Key('project_info_tile')),
@@ -203,12 +219,32 @@ void main() {
       300,
     );
     await tester.tap(find.byKey(const Key('request_account_delete_tile')));
-    await tester.pump();
+    await tester.pumpAndSettle();
 
+    expect(find.text('Hesabı kalıcı olarak sil'), findsOneWidget);
     expect(
-      find.text('Hesap silme işlemi yakında desteklenecek.'),
+      find.byKey(const Key('confirm_delete_account_button')),
       findsOneWidget,
     );
+
+    await tester.tap(find.text('Vazgeç'));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('delete_account_dialog')), findsNothing);
+  });
+
+  testWidgets('notification preferences render before Hive settings box opens',
+      (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(
+      const ProviderScope(
+        child: MaterialApp(home: NotificationPrefsScreen()),
+      ),
+    );
+
+    expect(find.text('Bildirim Ayarları'), findsOneWidget);
+    expect(find.text('GOL BİLDİRİMLERİ'), findsOneWidget);
+    expect(find.text('MAÇ BİLDİRİMLERİ'), findsOneWidget);
   });
 
   testWidgets('store banner explains missing pilot link', (

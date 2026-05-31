@@ -16,12 +16,13 @@ class NewsListScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final newsAsync = ref.watch(newsListProvider);
+    final colors = context.arcaColors;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: colors.background,
       appBar: AppBar(title: const Text('Haberler')),
       body: newsAsync.when(
-        loading: _buildShimmer,
+        loading: () => _buildShimmer(context),
         error: (_, __) => ContentErrorState(
           onRetry: () => ref.invalidate(newsListProvider),
         ),
@@ -46,9 +47,9 @@ class NewsListScreen extends ConsumerWidget {
                 child: Container(
                   padding: const EdgeInsets.all(AppSpacing.cardPadding),
                   decoration: BoxDecoration(
-                    color: AppColors.cardBg,
+                    color: colors.surface,
                     borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
-                    border: Border.all(color: AppColors.border),
+                    border: Border.all(color: colors.border),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,10 +95,12 @@ class NewsListScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildShimmer() {
+  Widget _buildShimmer(BuildContext context) {
+    final colors = context.arcaColors;
+
     return Shimmer.fromColors(
-      baseColor: AppColors.cardBg,
-      highlightColor: AppColors.cardBg2,
+      baseColor: colors.shimmerBase,
+      highlightColor: colors.shimmerHighlight,
       child: ListView.separated(
         padding: const EdgeInsets.all(AppSpacing.screenPadding),
         itemCount: 5,
@@ -105,7 +108,7 @@ class NewsListScreen extends ConsumerWidget {
         itemBuilder: (_, __) => Container(
           height: 120,
           decoration: BoxDecoration(
-            color: AppColors.cardBg,
+            color: colors.surface,
             borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
           ),
         ),

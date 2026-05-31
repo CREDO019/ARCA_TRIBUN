@@ -1,5 +1,7 @@
 import 'package:arca_tribun/core/constants/supabase_tables.dart';
+import 'package:arca_tribun/core/pilot/pilot_data.dart';
 import 'package:arca_tribun/features/squad/domain/player_model.dart';
+import 'package:arca_tribun/supabase_config.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SquadRepository {
@@ -9,14 +11,21 @@ class SquadRepository {
   final SupabaseClient _client;
 
   Future<List<PlayerModel>> fetchActivePlayers() async {
-    final rows = await _client
-        .from(SupabaseTables.squad)
-        .select()
-        .eq(SupabaseTables.colStatus, 'active')
-        .order('position', ascending: true)
-        .order('number', ascending: true);
+    try {
+      final rows = await _client
+          .from(SupabaseTables.squad)
+          .select()
+          .eq(SupabaseTables.colStatus, 'active')
+          .order('position', ascending: true)
+          .order('number', ascending: true);
 
-    return rows.map(PlayerModel.fromSupabase).toList();
+      if (rows.isNotEmpty || !SupabaseConfig.enablePilotDemo) {
+        return rows.map(PlayerModel.fromSupabase).toList();
+      }
+    } catch (_) {
+      if (!SupabaseConfig.enablePilotDemo) rethrow;
+    }
+    return PilotData.squadRows.map(PlayerModel.fromSupabase).toList();
   }
 
   Future<Map<String, List<PlayerModel>>> fetchGroupedActivePlayers() async {
@@ -32,14 +41,19 @@ class SquadRepository {
   }
 
   Future<PlayerModel?> fetchPlayerDetail(String playerId) async {
-    final row = await _client
-        .from(SupabaseTables.squad)
-        .select()
-        .eq(SupabaseTables.colId, playerId)
-        .maybeSingle();
+    try {
+      final row = await _client
+          .from(SupabaseTables.squad)
+          .select()
+          .eq(SupabaseTables.colId, playerId)
+          .maybeSingle();
 
-    if (row == null) return null;
-    return PlayerModel.fromSupabase(row);
+      if (row != null) return PlayerModel.fromSupabase(row);
+    } catch (_) {
+      if (!SupabaseConfig.enablePilotDemo) rethrow;
+    }
+    final row = PilotData.playerById(playerId);
+    return row == null ? null : PlayerModel.fromSupabase(row);
   }
 
   String _positionGroupName(String rawPosition) {

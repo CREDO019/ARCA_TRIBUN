@@ -81,6 +81,8 @@ class _InfoRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.arcaColors;
+
     return Padding(
       padding: const EdgeInsets.only(bottom: AppSpacing.sm),
       child: Column(
@@ -89,7 +91,7 @@ class _InfoRow extends StatelessWidget {
           Text(
             label.toUpperCase(),
             style: AppTypography.labelSmall.copyWith(
-              color: AppColors.secondaryGray,
+              color: colors.textSecondary,
             ),
           ),
           const SizedBox(height: AppSpacing.xs),

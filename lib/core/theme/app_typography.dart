@@ -12,7 +12,6 @@ class AppTypography {
   static TextStyle get displayLarge => GoogleFonts.barlowCondensed(
         fontSize: 48,
         fontWeight: FontWeight.w800,
-        color: AppColors.white,
         letterSpacing: -0.5,
       );
 
@@ -20,7 +19,6 @@ class AppTypography {
   static TextStyle get displayMedium => GoogleFonts.barlowCondensed(
         fontSize: 32,
         fontWeight: FontWeight.w700,
-        color: AppColors.white,
         letterSpacing: -0.3,
       );
 
@@ -28,7 +26,6 @@ class AppTypography {
   static TextStyle get headlineLarge => GoogleFonts.barlowCondensed(
         fontSize: 24,
         fontWeight: FontWeight.w700,
-        color: AppColors.white,
         letterSpacing: -0.2,
       );
 
@@ -36,7 +33,6 @@ class AppTypography {
   static TextStyle get headlineMedium => GoogleFonts.barlowCondensed(
         fontSize: 20,
         fontWeight: FontWeight.w600,
-        color: AppColors.white,
       );
 
   /// Skorbord büyük — 64sp, 800 weight (canlı skor)
@@ -60,42 +56,36 @@ class AppTypography {
   static TextStyle get titleLarge => GoogleFonts.barlow(
         fontSize: 18,
         fontWeight: FontWeight.w600,
-        color: AppColors.white,
       );
 
   /// Orta başlık — 16sp, 500 weight
   static TextStyle get titleMedium => GoogleFonts.barlow(
         fontSize: 16,
         fontWeight: FontWeight.w500,
-        color: AppColors.white,
       );
 
   /// Büyük body — 16sp, 400 weight
   static TextStyle get bodyLarge => GoogleFonts.barlow(
         fontSize: 16,
         fontWeight: FontWeight.w400,
-        color: AppColors.white,
       );
 
   /// Orta body — 14sp, 400 weight
   static TextStyle get bodyMedium => GoogleFonts.barlow(
         fontSize: 14,
         fontWeight: FontWeight.w400,
-        color: AppColors.secondaryGray,
       );
 
   /// Küçük body — 12sp, 400 weight
   static TextStyle get bodySmall => GoogleFonts.barlow(
         fontSize: 12,
         fontWeight: FontWeight.w400,
-        color: AppColors.secondaryGray,
       );
 
   /// Etiket — 10sp, 700 weight, geniş letter spacing
   static TextStyle get labelSmall => GoogleFonts.barlow(
         fontSize: 10,
         fontWeight: FontWeight.w700,
-        color: AppColors.white,
         letterSpacing: 1.2,
       );
 
@@ -111,7 +101,6 @@ class AppTypography {
   static TextStyle get countdown => GoogleFonts.barlowCondensed(
         fontSize: 36,
         fontWeight: FontWeight.w800,
-        color: AppColors.white,
         letterSpacing: -0.5,
       );
 
@@ -119,21 +108,29 @@ class AppTypography {
   static TextStyle get countdownLabel => GoogleFonts.barlow(
         fontSize: 10,
         fontWeight: FontWeight.w600,
-        color: AppColors.secondaryGray,
         letterSpacing: 2,
       );
 
   /// Üretilen TextTheme (ThemeData'ya uyumlu)
-  static TextTheme get textTheme => TextTheme(
-        displayLarge: displayLarge,
-        displayMedium: displayMedium,
-        headlineLarge: headlineLarge,
-        headlineMedium: headlineMedium,
-        titleLarge: titleLarge,
-        titleMedium: titleMedium,
-        bodyLarge: bodyLarge,
-        bodyMedium: bodyMedium,
-        bodySmall: bodySmall,
-        labelSmall: labelSmall,
+  static TextTheme get textTheme => textThemeFor(
+        primary: AppColors.textPrimary,
+        secondary: AppColors.secondaryGray,
+      );
+
+  static TextTheme textThemeFor({
+    required Color primary,
+    required Color secondary,
+  }) =>
+      TextTheme(
+        displayLarge: displayLarge.copyWith(color: primary),
+        displayMedium: displayMedium.copyWith(color: primary),
+        headlineLarge: headlineLarge.copyWith(color: primary),
+        headlineMedium: headlineMedium.copyWith(color: primary),
+        titleLarge: titleLarge.copyWith(color: primary),
+        titleMedium: titleMedium.copyWith(color: primary),
+        bodyLarge: bodyLarge.copyWith(color: primary),
+        bodyMedium: bodyMedium.copyWith(color: secondary),
+        bodySmall: bodySmall.copyWith(color: secondary),
+        labelSmall: labelSmall.copyWith(color: primary),
       );
 }

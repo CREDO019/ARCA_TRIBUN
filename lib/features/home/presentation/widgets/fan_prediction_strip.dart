@@ -9,12 +9,14 @@ class FanPredictionStrip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.arcaColors;
+
     return Container(
       padding: const EdgeInsets.all(AppSpacing.cardPadding),
       decoration: BoxDecoration(
-        color: AppColors.cardBg,
+        color: colors.surface,
         borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: colors.border),
       ),
       child: Row(
         children: [
@@ -38,7 +40,7 @@ class FanPredictionStrip extends StatelessWidget {
                 Text(
                   'TARAFTAR TAHMİNİ',
                   style: AppTypography.labelSmall.copyWith(
-                    color: AppColors.secondaryGray,
+                    color: colors.textSecondary,
                   ),
                 ),
                 const SizedBox(height: AppSpacing.xs),

@@ -37,34 +37,46 @@ class NotificationPrefsNotifier extends Notifier<NotificationPrefs> {
   static const String _keyNews = 'notif_news';
   static const String _keyMatchStart = 'notif_match_start';
 
-  Box<dynamic> get _box => Hive.box<dynamic>(AppConstants.hiveBoxSettings);
+  Box<dynamic>? get _box => Hive.isBoxOpen(AppConstants.hiveBoxSettings)
+      ? Hive.box<dynamic>(AppConstants.hiveBoxSettings)
+      : null;
 
   @override
   NotificationPrefs build() => NotificationPrefs(
-        goalAlerts: _box.get(_keyGoal, defaultValue: true) as bool,
-        matchAlerts: _box.get(_keyMatch, defaultValue: true) as bool,
-        newsAlerts: _box.get(_keyNews, defaultValue: true) as bool,
-        matchStartAlerts: _box.get(_keyMatchStart, defaultValue: true) as bool,
+        goalAlerts: _read(_keyGoal),
+        matchAlerts: _read(_keyMatch),
+        newsAlerts: _read(_keyNews),
+        matchStartAlerts: _read(_keyMatchStart),
       );
 
   Future<void> setGoalAlerts(bool value) async {
-    await _box.put(_keyGoal, value);
+    await _write(_keyGoal, value);
     state = state.copyWith(goalAlerts: value);
   }
 
   Future<void> setMatchAlerts(bool value) async {
-    await _box.put(_keyMatch, value);
+    await _write(_keyMatch, value);
     state = state.copyWith(matchAlerts: value);
   }
 
   Future<void> setNewsAlerts(bool value) async {
-    await _box.put(_keyNews, value);
+    await _write(_keyNews, value);
     state = state.copyWith(newsAlerts: value);
   }
 
   Future<void> setMatchStartAlerts(bool value) async {
-    await _box.put(_keyMatchStart, value);
+    await _write(_keyMatchStart, value);
     state = state.copyWith(matchStartAlerts: value);
+  }
+
+  bool _read(String key) => _box?.get(key, defaultValue: true) as bool? ?? true;
+
+  Future<void> _write(String key, bool value) async {
+    final box = _box ??
+        await Hive.openBox<dynamic>(
+          AppConstants.hiveBoxSettings,
+        );
+    await box.put(key, value);
   }
 }
 

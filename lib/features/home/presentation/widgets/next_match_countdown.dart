@@ -8,9 +8,16 @@ import 'package:flutter/material.dart';
 /// Sıradaki maç geri sayım widget'ı.
 /// Stream.periodic ile her saniye güncellenir.
 class NextMatchCountdown extends StatefulWidget {
-  const NextMatchCountdown({super.key, this.matchTime});
+  const NextMatchCountdown({
+    super.key,
+    this.matchTime,
+    this.title = 'Sıradaki Maç',
+    this.description,
+  });
 
   final DateTime? matchTime;
+  final String title;
+  final String? description;
 
   @override
   State<NextMatchCountdown> createState() => _NextMatchCountdownState();
@@ -67,26 +74,28 @@ class _NextMatchCountdownState extends State<NextMatchCountdown> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.arcaColors;
+
     if (_targetTime == null) {
       return Container(
         padding: const EdgeInsets.all(AppSpacing.cardPadding),
         decoration: BoxDecoration(
-          color: AppColors.cardBg,
+          color: colors.surface,
           borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
-          border: Border.all(color: AppColors.border),
+          border: Border.all(color: colors.border),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'SIRADAKİ MAÇ',
+              widget.title.toUpperCase(),
               style: AppTypography.labelSmall
-                  .copyWith(color: AppColors.secondaryGray),
+                  .copyWith(color: colors.textSecondary),
             ),
             const SizedBox(height: AppSpacing.sm),
-            const Text(
+            Text(
               'Maç verileri doğrulandığında burada yayınlanacak.',
-              style: TextStyle(color: AppColors.secondaryGray),
+              style: TextStyle(color: colors.textSecondary),
             ),
           ],
         ),
@@ -101,17 +110,17 @@ class _NextMatchCountdownState extends State<NextMatchCountdown> {
     return Container(
       padding: const EdgeInsets.all(AppSpacing.cardPadding),
       decoration: BoxDecoration(
-        color: AppColors.cardBg,
+        color: colors.surface,
         borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: colors.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Sıradaki Maç'.toUpperCase(),
-            style: AppTypography.labelSmall
-                .copyWith(color: AppColors.secondaryGray),
+            widget.title.toUpperCase(),
+            style:
+                AppTypography.labelSmall.copyWith(color: colors.textSecondary),
           ),
           const SizedBox(height: AppSpacing.sm),
           Row(
@@ -126,6 +135,13 @@ class _NextMatchCountdownState extends State<NextMatchCountdown> {
               _CountdownBlock(value: seconds, label: 'SN'),
             ],
           ),
+          if (widget.description != null) ...[
+            const SizedBox(height: AppSpacing.sm),
+            Text(
+              widget.description!,
+              style: TextStyle(color: colors.textSecondary),
+            ),
+          ],
         ],
       ),
     );

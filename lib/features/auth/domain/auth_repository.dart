@@ -33,6 +33,9 @@ abstract class AuthRepository {
   /// Oturumu kapat
   Future<Either<Failure, void>> logout();
 
+  /// Mevcut hesabı güvenli sunucu fonksiyonu üzerinden kalıcı olarak sil
+  Future<Either<Failure, void>> deleteAccount();
+
   /// Kullanıcı oturum durumu stream'i
   Stream<UserModel?> authStateChanges();
 

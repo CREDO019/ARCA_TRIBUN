@@ -12,9 +12,11 @@ class LoadingShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.arcaColors;
+
     return Shimmer.fromColors(
-      baseColor: AppColors.cardBg,
-      highlightColor: AppColors.cardBg2,
+      baseColor: colors.shimmerBase,
+      highlightColor: colors.shimmerHighlight,
       child: ListView.separated(
         padding: const EdgeInsets.all(AppSpacing.screenPadding),
         itemCount: itemCount,
@@ -22,7 +24,7 @@ class LoadingShimmer extends StatelessWidget {
         itemBuilder: (_, __) => Container(
           height: 80,
           decoration: BoxDecoration(
-            color: AppColors.cardBg,
+            color: colors.surface,
             borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
           ),
         ),

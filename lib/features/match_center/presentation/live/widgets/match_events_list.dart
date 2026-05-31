@@ -12,6 +12,8 @@ class MatchEventsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.arcaColors;
+
     if (events.isEmpty) {
       return Padding(
         padding: const EdgeInsets.all(AppSpacing.xl),
@@ -29,7 +31,7 @@ class MatchEventsList extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: events.length,
-      separatorBuilder: (_, __) => const Divider(color: AppColors.border),
+      separatorBuilder: (_, __) => Divider(color: colors.border),
       itemBuilder: (context, index) {
         final event = events[index];
         return _EventTile(event: event);
@@ -59,7 +61,7 @@ class _EventTile extends StatelessWidget {
     }
   }
 
-  Color get _iconColor {
+  Color _iconColor(BuildContext context) {
     switch (event.type) {
       case MatchEventType.goal:
       case MatchEventType.penaltyGoal:
@@ -71,12 +73,14 @@ class _EventTile extends StatelessWidget {
       case MatchEventType.substitution:
         return AppColors.infoBlue;
       default:
-        return AppColors.secondaryGray;
+        return context.arcaColors.textSecondary;
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.arcaColors;
+
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.screenPadding,
@@ -86,11 +90,11 @@ class _EventTile extends StatelessWidget {
         children: [
           Text(
             "${event.minute}'",
-            style: AppTypography.labelSmall
-                .copyWith(color: AppColors.secondaryGray),
+            style:
+                AppTypography.labelSmall.copyWith(color: colors.textSecondary),
           ),
           const SizedBox(width: AppSpacing.md),
-          Icon(_icon, color: _iconColor, size: AppSpacing.iconMd),
+          Icon(_icon, color: _iconColor(context), size: AppSpacing.iconMd),
           const SizedBox(width: AppSpacing.md),
           Expanded(
             child: Column(

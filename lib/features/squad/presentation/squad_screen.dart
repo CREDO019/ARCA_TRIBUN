@@ -17,9 +17,10 @@ class SquadScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final squadAsync = ref.watch(groupedSquadProvider);
+    final colors = context.arcaColors;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: colors.background,
       appBar: AppBar(title: const Text('Kadro')),
       body: squadAsync.when(
         loading: () => const LoadingShimmer(itemCount: 8),
@@ -62,6 +63,8 @@ class _PositionSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.arcaColors;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -69,8 +72,8 @@ class _PositionSection extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
           child: Text(
             title.toUpperCase(),
-            style: AppTypography.labelSmall
-                .copyWith(color: AppColors.secondaryGray),
+            style:
+                AppTypography.labelSmall.copyWith(color: colors.textSecondary),
           ),
         ),
         GridView.builder(
@@ -90,9 +93,9 @@ class _PositionSection extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.all(AppSpacing.sm),
                 decoration: BoxDecoration(
-                  color: AppColors.cardBg,
+                  color: colors.surface,
                   borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
-                  border: Border.all(color: AppColors.border),
+                  border: Border.all(color: colors.border),
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

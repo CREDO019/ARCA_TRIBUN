@@ -1,4 +1,5 @@
 import 'package:arca_tribun/core/notifications/topic_manager.dart';
+import 'package:arca_tribun/core/pilot/pilot_data.dart';
 import 'package:arca_tribun/core/theme/app_colors.dart';
 import 'package:arca_tribun/core/theme/app_spacing.dart';
 import 'package:arca_tribun/core/theme/app_typography.dart';
@@ -13,13 +14,25 @@ class NotificationPrefsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final prefs = ref.watch(notificationPrefsProvider);
+    final colors = context.arcaColors;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: colors.background,
       appBar: AppBar(title: const Text('Bildirim Ayarları')),
       body: ListView(
         padding: const EdgeInsets.all(AppSpacing.screenPadding),
         children: [
+          Text('BİLDİRİM MERKEZİ', style: AppTypography.labelSmall),
+          const SizedBox(height: AppSpacing.sm),
+          ...PilotData.notificationCards.map(
+            (card) => _NotificationCard(
+              title: card['title']!,
+              body: card['body']!,
+            ),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          Text('BİLDİRİM AYARLARI', style: AppTypography.labelSmall),
+          const SizedBox(height: AppSpacing.sm),
           _NotifSection(
             title: 'GOL BİLDİRİMLERİ',
             subtitle: 'Her gol için anlık bildirim al',
@@ -65,6 +78,42 @@ class NotificationPrefsScreen extends ConsumerWidget {
   }
 }
 
+class _NotificationCard extends StatelessWidget {
+  const _NotificationCard({required this.title, required this.body});
+
+  final String title;
+  final String body;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.arcaColors;
+    return Container(
+      margin: const EdgeInsets.only(bottom: AppSpacing.md),
+      padding: const EdgeInsets.all(AppSpacing.cardPadding),
+      decoration: BoxDecoration(
+        color: colors.surface,
+        borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
+        border: Border.all(color: colors.border),
+      ),
+      child: Row(
+        children: [
+          const Icon(Icons.notifications_outlined, color: AppColors.primaryRed),
+          const SizedBox(width: AppSpacing.md),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title, style: AppTypography.titleMedium),
+                Text(body, style: AppTypography.bodySmall),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class _NotifSection extends StatelessWidget {
   const _NotifSection({
     required this.title,
@@ -80,13 +129,15 @@ class _NotifSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.arcaColors;
+
     return Container(
       margin: const EdgeInsets.only(bottom: AppSpacing.md),
       padding: const EdgeInsets.all(AppSpacing.cardPadding),
       decoration: BoxDecoration(
-        color: AppColors.cardBg,
+        color: colors.surface,
         borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: colors.border),
       ),
       child: Row(
         children: [
@@ -101,7 +152,7 @@ class _NotifSection extends StatelessWidget {
           ),
           Switch.adaptive(
             value: value,
-            activeColor: AppColors.primaryRed,
+            activeThumbColor: AppColors.primaryRed,
             onChanged: onChanged,
           ),
         ],

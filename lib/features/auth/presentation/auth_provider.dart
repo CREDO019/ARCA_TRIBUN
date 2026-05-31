@@ -100,6 +100,16 @@ class AuthNotifier extends AsyncNotifier<UserModel?> {
       (_) => const AsyncData(null),
     );
   }
+
+  Future<void> deleteAccount() async {
+    state = const AsyncLoading();
+    final repo = ref.read(authRepositoryProvider);
+    final result = await repo.deleteAccount();
+    state = result.fold(
+      (failure) => AsyncError(failure, StackTrace.current),
+      (_) => const AsyncData(null),
+    );
+  }
 }
 
 final authNotifierProvider =

@@ -1,6 +1,8 @@
 import 'package:arca_tribun/core/notifications/notification_service.dart';
+import 'package:arca_tribun/core/offline/hive_service.dart';
 import 'package:arca_tribun/core/router/app_router.dart';
 import 'package:arca_tribun/core/theme/app_theme.dart';
+import 'package:arca_tribun/core/theme/theme_preference_provider.dart';
 import 'package:arca_tribun/supabase_config.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +34,7 @@ Future<void> main() async {
 
   // ── Hive (yerel önbellek) başlat ───────────────────────────────────────
   await Hive.initFlutter();
+  await HiveService.instance.initialize();
   // Adapter kayıtları buraya eklenir:
   // Hive.registerAdapter(SyncOperationAdapter());
 
@@ -74,18 +77,22 @@ void _runApp() {
 }
 
 /// Uygulama kök widget'ı.
-class ArcaTribunApp extends StatelessWidget {
+class ArcaTribunApp extends ConsumerWidget {
   const ArcaTribunApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themePreference = ref.watch(themePreferenceProvider);
+
     return MaterialApp.router(
-      title: 'ARCA Tribün',
+      title: 'ARCA TRİBÜN',
       debugShowCheckedModeBanner: false,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      theme: AppTheme.darkTheme,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: themePreference.themeMode,
       routerConfig: AppRouter.router,
     );
   }

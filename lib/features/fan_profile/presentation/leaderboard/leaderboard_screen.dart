@@ -13,9 +13,10 @@ class LeaderboardScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final leaderboardAsync = ref.watch(leaderboardProvider);
+    final colors = context.arcaColors;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: colors.background,
       appBar: AppBar(title: const Text('Sıralama')),
       body: leaderboardAsync.when(
         loading: () => const LoadingShimmer(),
@@ -28,10 +29,10 @@ class LeaderboardScreen extends ConsumerWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.leaderboard,
                     size: 60,
-                    color: AppColors.secondaryGray,
+                    color: colors.textSecondary,
                   ),
                   const SizedBox(height: AppSpacing.md),
                   Text('Henüz sıralama yok', style: AppTypography.bodyMedium),
@@ -53,12 +54,12 @@ class LeaderboardScreen extends ConsumerWidget {
                 decoration: BoxDecoration(
                   color: rank <= 3
                       ? AppColors.primaryRed.withValues(alpha: 0.1)
-                      : AppColors.cardBg,
+                      : colors.surface,
                   borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
                   border: Border.all(
                     color: rank <= 3
                         ? AppColors.primaryRed.withValues(alpha: 0.3)
-                        : AppColors.border,
+                        : colors.border,
                   ),
                 ),
                 child: Row(
