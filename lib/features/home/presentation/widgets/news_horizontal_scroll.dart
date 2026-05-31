@@ -75,7 +75,7 @@ class NewsHorizontalScroll extends ConsumerWidget {
                 child: const BrandedEmptyState(
                   icon: Icons.campaign_outlined,
                   title: 'Tribün gündemi hazırlanıyor',
-                  message: 'Yeni haberler yakında burada olacak.',
+                  message: 'İçerikler eklendiğinde burada görünecek.',
                   compact: true,
                 ),
               );

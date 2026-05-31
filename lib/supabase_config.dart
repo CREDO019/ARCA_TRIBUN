@@ -21,6 +21,15 @@ class SupabaseConfig {
     'ENABLE_PUSH_NOTIFICATIONS',
   );
 
+  /// Pilot sunumlarında zarif ortam etiketini görünür yapar.
+  /// Production build'lerinde tanımlanmaz veya false bırakılır.
+  static const bool enablePilotDemo = bool.fromEnvironment(
+    'PILOT_DEMO_MODE',
+  );
+
+  /// Kulüp onayı sonrası tanımlanabilecek resmi mağaza bağlantısı.
+  static const String storeUrl = String.fromEnvironment('STORE_URL');
+
   /// Sentry DSN (crash reporting) - https://sentry.io'dan alın.
   /// Boş bırakırsanız Sentry devre dışı kalır.
   static const String sentryDsn = String.fromEnvironment('SENTRY_DSN');

@@ -32,7 +32,8 @@ class LiveScreen extends ConsumerWidget {
             return const BrandedEmptyState(
               icon: Icons.sensors_outlined,
               title: 'Canlı yayın bekleniyor',
-              message: 'Maç başladığında anlık gelişmeler burada olacak.',
+              message:
+                  'Doğrulanmış maç olayları yayınlandığında burada görünecek.',
             );
           }
 

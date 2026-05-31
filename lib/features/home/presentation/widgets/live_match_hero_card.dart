@@ -46,14 +46,14 @@ class _LiveMatchHeroCardState extends ConsumerState<LiveMatchHeroCard>
   Widget build(BuildContext context) {
     final liveMatchAsync = ref.watch(currentLiveMatchProvider);
     final upcomingMatchesAsync = ref.watch(upcomingMatchesProvider);
-    final isLoading = liveMatchAsync.isLoading || upcomingMatchesAsync.isLoading;
+    final isLoading =
+        liveMatchAsync.isLoading || upcomingMatchesAsync.isLoading;
     final hasError = liveMatchAsync.hasError && upcomingMatchesAsync.hasError;
 
     final liveMatch = liveMatchAsync.valueOrNull;
-    final nextMatch =
-        upcomingMatchesAsync.valueOrNull?.isNotEmpty == true
-            ? upcomingMatchesAsync.valueOrNull!.first
-            : null;
+    final nextMatch = upcomingMatchesAsync.valueOrNull?.isNotEmpty == true
+        ? upcomingMatchesAsync.valueOrNull!.first
+        : null;
     final match = liveMatch ?? nextMatch;
     final isLive = liveMatch != null;
 
@@ -100,7 +100,7 @@ class _LiveMatchHeroCardState extends ConsumerState<LiveMatchHeroCard>
                         ? 'İçerik yüklenemedi. Lütfen tekrar deneyin.'
                         : isLoading
                             ? 'Yükleniyor...'
-                            : 'Maç verisi henüz eklenmedi.',
+                            : 'Maç verileri doğrulandığında burada yayınlanacak.',
                     style: const TextStyle(color: AppColors.secondaryGray),
                     textAlign: TextAlign.center,
                   ),
@@ -156,10 +156,10 @@ class _LiveMatchHeroCardState extends ConsumerState<LiveMatchHeroCard>
                   ),
                   onPressed: match == null
                       ? null
-                      : () => context.push(RouteNames.matchCenterPath(match.id)),
-                  child: Text(match == null
-                      ? 'VERİ BEKLENİYOR'
-                      : 'MAÇ MERKEZİNE GİT'),
+                      : () =>
+                          context.push(RouteNames.matchCenterPath(match.id)),
+                  child: Text(
+                      match == null ? 'VERİ BEKLENİYOR' : 'MAÇ MERKEZİNE GİT'),
                 ),
               ),
             ],

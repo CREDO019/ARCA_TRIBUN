@@ -35,7 +35,8 @@ class PlayerDetailScreen extends ConsumerWidget {
             body: BrandedEmptyState(
               icon: Icons.person_search_outlined,
               title: 'Oyuncu bilgisi bulunamadı',
-              message: 'Kadro güncellendiğinde detaylar burada yer alacak.',
+              message:
+                  'Doğrulanmış kadro bilgileri yayınlandığında detaylar burada yer alacak.',
             ),
           );
         }

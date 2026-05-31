@@ -32,7 +32,8 @@ class SquadScreen extends ConsumerWidget {
             return const BrandedEmptyState(
               icon: Icons.groups_outlined,
               title: 'Kadro bilgileri hazırlanıyor',
-              message: 'Oyuncular eklendiğinde burada yerini alacak.',
+              message:
+                  'Kadro bilgileri pilot veri kaynağına bağlandığında listelenecek.',
             );
           }
 

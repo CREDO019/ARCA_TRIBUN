@@ -17,7 +17,11 @@ class MatchEventsList extends StatelessWidget {
       return Padding(
         padding: const EdgeInsets.all(AppSpacing.xl),
         child: Center(
-          child: Text('Henüz maç olayı yok', style: AppTypography.bodyMedium),
+          child: Text(
+            'Doğrulanmış maç olayları yayınlandığında burada görünecek.',
+            style: AppTypography.bodyMedium,
+            textAlign: TextAlign.center,
+          ),
         ),
       );
     }

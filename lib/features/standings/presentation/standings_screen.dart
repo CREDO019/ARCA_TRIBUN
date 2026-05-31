@@ -29,7 +29,8 @@ class StandingsScreen extends ConsumerWidget {
             return const BrandedEmptyState(
               icon: Icons.leaderboard_outlined,
               title: 'Puan durumu hazırlanıyor',
-              message: 'Lig tablosu güncellendiğinde burada görünecek.',
+              message:
+                  'Lig tablosu doğrulanmış veri kaynağına bağlandığında yayınlanacak.',
             );
           }
 

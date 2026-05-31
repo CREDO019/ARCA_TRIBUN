@@ -50,7 +50,7 @@ class FixturesScreen extends ConsumerWidget {
                 icon: Icons.calendar_month_outlined,
                 title: 'Fikstür hazırlanıyor',
                 message:
-                    'Fikstür kulüp tarafından eklendiğinde burada görünecek.',
+                    'Maç verileri kulüp tarafından doğrulandığında yayınlanacak.',
               );
             }
 

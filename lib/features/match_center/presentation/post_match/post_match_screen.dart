@@ -34,7 +34,8 @@ class PostMatchScreen extends ConsumerWidget {
             body: BrandedEmptyState(
               icon: Icons.sports_score_outlined,
               title: 'Maç özeti hazırlanıyor',
-              message: 'Karşılaşma tamamlandığında detaylar burada olacak.',
+              message:
+                  'Karşılaşma özeti doğrulandığında detaylar burada yayınlanacak.',
             ),
           );
         }
@@ -99,57 +100,12 @@ class _PostMatchContent extends StatelessWidget {
             ),
             const SizedBox(height: AppSpacing.xl),
 
-            // Maçın Adamı
-            Text('MAÇIN ADAMI',
-                style: AppTypography.labelSmall
-                    .copyWith(color: AppColors.secondaryGray)),
-            const SizedBox(height: AppSpacing.md),
-            Container(
-              padding: const EdgeInsets.all(AppSpacing.cardPadding),
-              decoration: BoxDecoration(
-                color: AppColors.cardBg,
-                borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
-                border: Border.all(color: AppColors.border),
-              ),
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    radius: 30,
-                    backgroundColor:
-                        AppColors.primaryRed.withValues(alpha: 0.2),
-                    child: const Icon(Icons.person,
-                        color: AppColors.primaryRed, size: 30),
-                  ),
-                  const SizedBox(width: AppSpacing.md),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Oyuncu Adı', style: AppTypography.titleLarge),
-                      Text('1 Gol · 1 Asist', style: AppTypography.bodySmall),
-                    ],
-                  ),
-                  const Spacer(),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
-                    decoration: BoxDecoration(
-                      color: AppColors.primaryRed,
-                      borderRadius:
-                          BorderRadius.circular(AppSpacing.radiusFull),
-                    ),
-                    child: const Icon(Icons.star,
-                        color: AppColors.white, size: 16),
-                  ),
-                ],
+            Text(
+              'MAÇ ÖZETİ',
+              style: AppTypography.labelSmall.copyWith(
+                color: AppColors.secondaryGray,
               ),
             ),
-
-            const SizedBox(height: AppSpacing.xl),
-
-            // Oyunun Adamı Oylaması
-            Text('TARAFTAR OYLAMASI',
-                style: AppTypography.labelSmall
-                    .copyWith(color: AppColors.secondaryGray)),
             const SizedBox(height: AppSpacing.md),
             Container(
               padding: const EdgeInsets.all(AppSpacing.cardPadding),
@@ -158,13 +114,19 @@ class _PostMatchContent extends StatelessWidget {
                 borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
                 border: Border.all(color: AppColors.border),
               ),
-              child: Column(
+              child: const Row(
                 children: [
-                  Text('Maçın Adamını Seç', style: AppTypography.titleMedium),
-                  const SizedBox(height: AppSpacing.md),
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: const Text('OY VER'),
+                  Icon(
+                    Icons.fact_check_outlined,
+                    color: AppColors.secondaryGray,
+                  ),
+                  SizedBox(width: AppSpacing.md),
+                  Expanded(
+                    child: Text(
+                      'Maç özeti ve oyuncu performansları doğrulandığında '
+                      'burada yayınlanacak.',
+                      style: TextStyle(color: AppColors.secondaryGray),
+                    ),
                   ),
                 ],
               ),

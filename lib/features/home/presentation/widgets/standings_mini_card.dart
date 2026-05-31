@@ -56,7 +56,7 @@ class StandingsMiniCard extends ConsumerWidget {
                 return const BrandedEmptyState(
                   icon: Icons.leaderboard_outlined,
                   title: 'Lig tablosu hazırlanıyor',
-                  message: 'Puan durumu güncellendiğinde burada görünecek.',
+                  message: 'Doğrulanmış veriler burada yayınlanacak.',
                   compact: true,
                 );
               }

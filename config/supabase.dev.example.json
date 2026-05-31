@@ -1,5 +1,7 @@
 {
   "SUPABASE_URL": "https://your-project-ref.supabase.co",
   "SUPABASE_PUBLISHABLE_KEY": "sb_publishable_your_key",
-  "ENABLE_PUSH_NOTIFICATIONS": false
+  "ENABLE_PUSH_NOTIFICATIONS": false,
+  "PILOT_DEMO_MODE": true,
+  "STORE_URL": ""
 }

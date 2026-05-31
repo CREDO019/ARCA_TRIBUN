@@ -1,10 +1,11 @@
 import 'package:arca_tribun/core/router/route_names.dart';
 import 'package:arca_tribun/core/storage/onboarding_preferences.dart';
-import 'package:arca_tribun/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:arca_tribun/features/auth/presentation/login_screen.dart';
 import 'package:arca_tribun/features/fan_profile/domain/fan_profile_model.dart';
 import 'package:arca_tribun/features/fan_profile/presentation/fan_profile_provider.dart';
 import 'package:arca_tribun/features/fan_profile/presentation/profile_screen.dart';
+import 'package:arca_tribun/features/home/presentation/widgets/store_banner_card.dart';
+import 'package:arca_tribun/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:arca_tribun/features/splash/presentation/splash_screen.dart';
 import 'package:arca_tribun/main.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -180,6 +181,24 @@ void main() {
     expect(find.text('2'), findsOneWidget);
 
     await tester.scrollUntilVisible(
+      find.byKey(const Key('project_info_tile')),
+      300,
+    );
+    await tester.tap(find.byKey(const Key('project_info_tile')));
+    await tester.pumpAndSettle();
+
+    expect(
+      find.text(
+        'Bu uygulama pilot/prototip çalışmadır. '
+        'Resmi kullanım için kulüp onayı gerektirir.',
+      ),
+      findsOneWidget,
+    );
+
+    await tester.tap(find.text('KAPAT'));
+    await tester.pumpAndSettle();
+
+    await tester.scrollUntilVisible(
       find.byKey(const Key('request_account_delete_tile')),
       300,
     );
@@ -188,6 +207,22 @@ void main() {
 
     expect(
       find.text('Hesap silme işlemi yakında desteklenecek.'),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('store banner explains missing pilot link', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(
+      const MaterialApp(home: Scaffold(body: StoreBannerCard())),
+    );
+
+    await tester.tap(find.byKey(const Key('store_banner_card')));
+    await tester.pump();
+
+    expect(
+      find.text('Mağaza bağlantısı yakında eklenecek.'),
       findsOneWidget,
     );
   });

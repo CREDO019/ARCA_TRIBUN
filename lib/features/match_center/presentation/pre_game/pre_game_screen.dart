@@ -34,7 +34,8 @@ class PreGameScreen extends ConsumerWidget {
             body: BrandedEmptyState(
               icon: Icons.stadium_outlined,
               title: 'Maç merkezi hazırlanıyor',
-              message: 'Karşılaşma bilgileri eklendiğinde burada görünecek.',
+              message:
+                  'Karşılaşma bilgileri kulüp tarafından doğrulandığında yayınlanacak.',
             ),
           );
         }
@@ -109,7 +110,7 @@ class _PreGameContent extends StatelessWidget {
                 border: Border.all(color: AppColors.border),
               ),
               child: const Center(
-                child: Text('Kadro verisi bekleniyor...',
+                child: Text('Doğrulanmış kadro bilgileri bekleniyor.',
                     style: TextStyle(color: AppColors.secondaryGray)),
               ),
             ),
@@ -130,14 +131,15 @@ class _PreGameContent extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.wb_sunny_outlined,
-                      color: AppColors.warning, size: 40),
+                  const Icon(Icons.cloud_outlined,
+                      color: AppColors.secondaryGray, size: 40),
                   const SizedBox(width: AppSpacing.md),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('22°C · Açık', style: AppTypography.titleLarge),
-                      Text('Nem: %45 · Rüzgar: 12 km/s',
+                      Text('Hava durumu verisi hazırlanıyor',
+                          style: AppTypography.titleLarge),
+                      Text('Doğrulanmış bilgiler maç öncesinde yayınlanacak.',
                           style: AppTypography.bodySmall),
                     ],
                   ),

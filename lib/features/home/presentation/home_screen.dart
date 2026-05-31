@@ -1,3 +1,4 @@
+import 'package:arca_tribun/shared/widgets/pilot_demo_badge.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -151,7 +152,13 @@ class _HomeWelcomeCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('ARCA TRİBÜN', style: AppTypography.headlineMedium),
+                Row(
+                  children: [
+                    Text('ARCA TRİBÜN', style: AppTypography.headlineMedium),
+                    const SizedBox(width: AppSpacing.sm),
+                    const PilotDemoBadge(),
+                  ],
+                ),
                 const SizedBox(height: AppSpacing.xs),
                 Text(
                   'Takımına dair gelişmeler burada seninle buluşacak.',

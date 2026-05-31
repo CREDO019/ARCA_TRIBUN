@@ -86,7 +86,7 @@ class _NextMatchCountdownState extends State<NextMatchCountdown> {
             ),
             const SizedBox(height: AppSpacing.sm),
             const Text(
-              'Fikstür yakında eklenecek.',
+              'Maç verileri doğrulandığında burada yayınlanacak.',
               style: TextStyle(color: AppColors.secondaryGray),
             ),
           ],

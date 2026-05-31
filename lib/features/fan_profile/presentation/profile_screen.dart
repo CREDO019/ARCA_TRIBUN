@@ -1,3 +1,4 @@
+import 'package:arca_tribun/shared/widgets/project_info_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -100,6 +101,14 @@ class ProfileScreen extends ConsumerWidget {
                   label: 'Bildirim Ayarları',
                   subtitle: 'Gol ve maç bildirimlerini yönet',
                   onTap: () => context.push(RouteNames.notificationPrefs),
+                ),
+                const SizedBox(height: AppSpacing.sm),
+                _QuickAccessTile(
+                  tileKey: const Key('project_info_tile'),
+                  icon: Icons.info_outline,
+                  label: 'Uygulama Hakkında',
+                  subtitle: 'Pilot çalışma ve sürüm bilgileri',
+                  onTap: () => showProjectInfoDialog(context),
                 ),
                 const SizedBox(height: AppSpacing.sm),
                 _QuickAccessTile(
