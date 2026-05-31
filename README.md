@@ -101,13 +101,18 @@ proje kontrol edildikten sonra manuel olarak çalıştırılmalıdır.
 
 ## İçerik Kaynakları ve Görsel İzinleri
 
+> Bu proje portföy/pilot çalışmadır. Oyuncu görselleri yalnızca tanıtım
+> amaçlıdır; resmi yayın için kulüp/görsel izinleri gerekir.
+
 - A takım kadrosu resmi kulüp sayfası ve TFF listesiyle doğrulanır:
   [corumfk.com.tr/futbol](https://corumfk.com.tr/futbol).
 - Resmi kulüp sitesinde oyuncu fotoğrafları yer alsa da yeniden kullanım izni
   ayrıca netleştirilmeden uygulama paketine alınmaz.
 - Oyuncu kartları bu nedenle kulüp arması ve forma numarasından oluşan yerel
-  placeholder kullanır. Haber görseli de telifli ajans fotoğrafı yerine uygulama
-  içinde çizilen kırmızı-siyah yükseliş grafiğidir.
+  placeholder kullanır. İzinli oyuncu görselleri
+  `assets/images/players/corum_fk/` altına eklenip `squad.image_url` alanında
+  local asset yolu olarak tanımlanabilir. Haber görseli de telifli ajans
+  fotoğrafı yerine uygulama içinde çizilen kırmızı-siyah yükseliş grafiğidir.
 
 Pilot veri kaynakları, final tablo ve hava durumu servis sınırları:
 [docs/pilot_data_sources.md](docs/pilot_data_sources.md)

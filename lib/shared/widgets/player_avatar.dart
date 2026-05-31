@@ -37,32 +37,14 @@ class PlayerAvatar extends StatelessWidget {
               ),
             ),
             child: assetPath == null
-                ? Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Opacity(
-                        opacity: 0.78,
-                        child: ClubLogo(size: size * 0.7, showShadow: true),
-                      ),
-                      Positioned(
-                        left: size * 0.1,
-                        bottom: size * 0.08,
-                        child: Text(
-                          _initials(player.name),
-                          style: AppTypography.labelSmall.copyWith(
-                            color: AppColors.white.withValues(alpha: 0.72),
-                            fontSize: size * 0.14,
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
+                ? _PlayerPlaceholder(player: player, size: size)
                 : ClipOval(
                     child: Image.asset(
                       assetPath,
-                      fit: BoxFit.cover,
+                      fit: BoxFit.contain,
+                      filterQuality: FilterQuality.high,
                       errorBuilder: (_, __, ___) =>
-                          ClubLogo(size: size * 0.7, showShadow: true),
+                          _PlayerPlaceholder(player: player, size: size),
                     ),
                   ),
           ),
@@ -95,6 +77,37 @@ class PlayerAvatar extends StatelessWidget {
   String? _assetPath(String? value) {
     if (value == null || !value.startsWith('assets/')) return null;
     return value;
+  }
+}
+
+class _PlayerPlaceholder extends StatelessWidget {
+  const _PlayerPlaceholder({required this.player, required this.size});
+
+  final PlayerModel player;
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Opacity(
+          opacity: 0.78,
+          child: ClubLogo(size: size * 0.7, showShadow: true),
+        ),
+        Positioned(
+          left: size * 0.1,
+          bottom: size * 0.08,
+          child: Text(
+            _initials(player.name),
+            style: AppTypography.labelSmall.copyWith(
+              color: AppColors.white.withValues(alpha: 0.72),
+              fontSize: size * 0.14,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   String _initials(String value) {
