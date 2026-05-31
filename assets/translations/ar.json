@@ -136,6 +136,8 @@
     "auth_error": "خطأ في المصادقة",
     "auth_invalid_credentials": "بريد إلكتروني أو كلمة مرور غير صحيحة",
     "auth_email_in_use": "هذا البريد الإلكتروني مستخدم بالفعل",
+    "auth_email_not_confirmed": "تحقق من بريدك الإلكتروني للمتابعة",
+    "auth_confirmation_required": "اكتمل التسجيل. تحقق من بريدك الإلكتروني قبل تسجيل الدخول",
     "auth_weak_password": "يجب أن تكون كلمة المرور 6 أحرف على الأقل",
     "permission_denied": "ليس لديك صلاحية لهذا",
     "not_found": "الصفحة غير موجودة",

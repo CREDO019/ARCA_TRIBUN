@@ -136,6 +136,8 @@
     "auth_error": "Authentifizierungsfehler",
     "auth_invalid_credentials": "Ungültige E-Mail oder Passwort",
     "auth_email_in_use": "Diese E-Mail-Adresse wird bereits verwendet",
+    "auth_email_not_confirmed": "Bestätigen Sie Ihre E-Mail-Adresse, um fortzufahren",
+    "auth_confirmation_required": "Registrierung abgeschlossen. Bestätigen Sie Ihre E-Mail-Adresse vor der Anmeldung",
     "auth_weak_password": "Passwort muss mindestens 6 Zeichen haben",
     "permission_denied": "Sie haben keine Berechtigung",
     "not_found": "Seite nicht gefunden",

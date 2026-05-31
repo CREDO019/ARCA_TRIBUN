@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../features/auth/presentation/login_screen.dart';
 import '../../features/auth/presentation/register_screen.dart';
@@ -28,9 +31,12 @@ import 'route_names.dart';
 class AppRouter {
   AppRouter._();
 
+  static final _authRefreshNotifier = _AuthRefreshNotifier();
+
   static final GoRouter router = GoRouter(
     initialLocation: RouteNames.splash,
     debugLogDiagnostics: true,
+    refreshListenable: _authRefreshNotifier,
     redirect: (context, state) => RouteGuard.authGuard(state),
     routes: [
       // ─── Splash ────────────────────────────────────────────────────
@@ -268,6 +274,22 @@ class AppRouter {
           child: child,
         ),
       );
+}
+
+class _AuthRefreshNotifier extends ChangeNotifier {
+  _AuthRefreshNotifier() {
+    _subscription = Supabase.instance.client.auth.onAuthStateChange.listen(
+      (_) => notifyListeners(),
+    );
+  }
+
+  late final StreamSubscription<AuthState> _subscription;
+
+  @override
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
+  }
 }
 
 /// Bottom nav ile sarılmış scaffold — ShellRoute child'ı

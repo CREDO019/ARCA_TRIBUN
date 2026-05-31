@@ -136,6 +136,8 @@
     "auth_error": "Kimlik doğrulama hatası",
     "auth_invalid_credentials": "Hatalı e-posta veya şifre",
     "auth_email_in_use": "Bu e-posta adresi zaten kullanılıyor",
+    "auth_email_not_confirmed": "Devam etmek için e-posta adresinizi doğrulayın",
+    "auth_confirmation_required": "Kayıt tamamlandı. Giriş yapmadan önce e-posta adresinizi doğrulayın",
     "auth_weak_password": "Şifre en az 6 karakter olmalı",
     "permission_denied": "Bu işlem için yetkiniz yok",
     "not_found": "Sayfa bulunamadı",

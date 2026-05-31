@@ -79,7 +79,13 @@ class FanProfileModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [uid, fanPoints, fanLevel, currentStreak];
+  List<Object?> get props => [
+        uid,
+        displayName,
+        fanPoints,
+        fanLevel,
+        currentStreak,
+      ];
 }
 
 String _fanLevelTitle(int level) {

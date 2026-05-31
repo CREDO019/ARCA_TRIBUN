@@ -136,6 +136,8 @@
     "auth_error": "Authentication error",
     "auth_invalid_credentials": "Invalid email or password",
     "auth_email_in_use": "This email address is already in use",
+    "auth_email_not_confirmed": "Verify your email address to continue",
+    "auth_confirmation_required": "Registration completed. Verify your email address before signing in",
     "auth_weak_password": "Password must be at least 6 characters",
     "permission_denied": "You don't have permission to do this",
     "not_found": "Page not found",

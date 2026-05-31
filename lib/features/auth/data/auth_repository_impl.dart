@@ -74,6 +74,11 @@ class AuthRepositoryImpl implements AuthRepository {
       if (user == null) {
         return const Left(AuthFailure(message: 'errors.auth_error'));
       }
+      if (response.session == null) {
+        return const Left(
+          AuthFailure(message: 'errors.auth_confirmation_required'),
+        );
+      }
       return Right(_mapUser(user, displayNameOverride: displayName));
     } catch (e, st) {
       _logger.e('[AuthRepository] Register failed', error: e, stackTrace: st);
@@ -213,8 +218,16 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<Failure, void>> logout() async {
     try {
-      await _googleSignIn.signOut();
       await _supabase.auth.signOut();
+      try {
+        await _googleSignIn.signOut();
+      } catch (error, stackTrace) {
+        _logger.w(
+          '[AuthRepository] Google sign-out cleanup failed',
+          error: error,
+          stackTrace: stackTrace,
+        );
+      }
       return const Right(null);
     } catch (e, st) {
       return Left(

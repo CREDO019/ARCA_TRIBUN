@@ -22,6 +22,11 @@ class AuthNotifier extends AsyncNotifier<UserModel?> {
   @override
   Future<UserModel?> build() async {
     final repo = ref.watch(authRepositoryProvider);
+    final subscription = repo.authStateChanges().listen((user) {
+      state = AsyncData(user);
+    });
+    ref.onDispose(subscription.cancel);
+
     final result = await repo.getCurrentUser();
     return result.fold((_) => null, (user) => user);
   }
@@ -88,9 +93,13 @@ class AuthNotifier extends AsyncNotifier<UserModel?> {
   }
 
   Future<void> logout() async {
+    state = const AsyncLoading();
     final repo = ref.read(authRepositoryProvider);
-    await repo.logout();
-    state = const AsyncData(null);
+    final result = await repo.logout();
+    state = result.fold(
+      (failure) => AsyncError(failure, StackTrace.current),
+      (_) => const AsyncData(null),
+    );
   }
 }
 

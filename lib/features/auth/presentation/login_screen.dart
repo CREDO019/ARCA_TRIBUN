@@ -97,6 +97,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     _showMessage('Misafir erişimi yakında aktif olacak.');
   }
 
+  void _showSocialAuthInfo() {
+    _showMessage('Sosyal giriş seçenekleri yakında aktif olacak.');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -245,16 +249,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 buttonKey: const Key('google_login_btn'),
                 icon: Icons.g_mobiledata,
                 label: 'auth.google'.tr(),
-                onPressed: () =>
-                    ref.read(authNotifierProvider.notifier).loginWithGoogle(),
+                subtitle: 'Yakında',
+                onPressed: _showSocialAuthInfo,
               ),
               const SizedBox(height: AppSpacing.md),
               _SocialButton(
                 buttonKey: const Key('apple_login_btn'),
                 icon: Icons.apple,
                 label: 'auth.apple'.tr(),
-                onPressed: () =>
-                    ref.read(authNotifierProvider.notifier).loginWithApple(),
+                subtitle: 'Yakında',
+                onPressed: _showSocialAuthInfo,
               ),
               const SizedBox(height: AppSpacing.md),
               _SocialButton(

@@ -68,6 +68,7 @@ class SupabaseTables {
   static const String colPoints = 'points';
   static const String colLevel = 'level';
   static const String colDisplayName = 'display_name';
+  static const String colAvatarUrl = 'avatar_url';
   static const String colLastScorer = 'last_scorer';
   static const String colLastScoringTeam = 'last_scoring_team';
 }

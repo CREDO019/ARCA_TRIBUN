@@ -2,7 +2,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/constants/supabase_tables.dart';
+import '../../auth/presentation/auth_provider.dart';
+import '../data/fan_profile_repository.dart';
 import '../domain/fan_profile_model.dart';
+
+final fanProfileRepositoryProvider = Provider<FanProfileRepository>((ref) {
+  return FanProfileRepository();
+});
+
+final currentUserEmailProvider = Provider<String?>((ref) {
+  ref.watch(authNotifierProvider);
+  return ref.watch(fanProfileRepositoryProvider).currentUserEmail;
+});
 
 /// Fan profili stream provider — Supabase Realtime.
 ///
@@ -12,19 +23,8 @@ import '../domain/fan_profile_model.dart';
 /// RLS politikası: kullanıcı yalnızca kendi profilini okuyabilir.
 /// Tablo: fan_profiles (id = auth.uid)
 final fanProfileProvider = StreamProvider<FanProfileModel?>((ref) {
-  final supabase = Supabase.instance.client;
-  final userId = supabase.auth.currentUser?.id;
-
-  if (userId == null) return Stream.value(null);
-
-  return supabase
-      .from(SupabaseTables.fanProfiles)
-      .stream(primaryKey: [SupabaseTables.colId])
-      .eq(SupabaseTables.colId, userId)
-      .map((rows) {
-        if (rows.isEmpty) return null;
-        return FanProfileModel.fromSupabase(rows.first);
-      });
+  ref.watch(authNotifierProvider);
+  return ref.watch(fanProfileRepositoryProvider).watchCurrentProfile();
 });
 
 /// Leaderboard provider — en yüksek puanlı 50 taraftar.

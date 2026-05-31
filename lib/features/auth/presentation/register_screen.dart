@@ -82,6 +82,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           padding: const EdgeInsets.all(AppSpacing.screenPadding),
           child: Form(
             key: _formKey,
@@ -105,6 +106,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 // Display Name
                 TextFormField(
                   controller: _nameController,
+                  autofillHints: const [AutofillHints.name],
+                  textInputAction: TextInputAction.next,
                   style: AppTypography.bodyLarge,
                   decoration: InputDecoration(
                     labelText: 'auth.display_name'.tr(),
@@ -122,7 +125,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 // Email
                 TextFormField(
                   controller: _emailController,
+                  autofillHints: const [AutofillHints.email],
                   keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
                   style: AppTypography.bodyLarge,
                   decoration: InputDecoration(
                     labelText: 'auth.email'.tr(),
@@ -140,7 +145,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 // Password
                 TextFormField(
                   controller: _passwordController,
+                  autofillHints: const [AutofillHints.newPassword],
                   obscureText: _obscurePassword,
+                  textInputAction: TextInputAction.next,
                   style: AppTypography.bodyLarge,
                   decoration: InputDecoration(
                     labelText: 'auth.password'.tr(),
@@ -169,6 +176,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 TextFormField(
                   controller: _confirmPasswordController,
                   obscureText: _obscurePassword,
+                  textInputAction: TextInputAction.done,
+                  onFieldSubmitted: (_) => _register(),
                   style: AppTypography.bodyLarge,
                   decoration: InputDecoration(
                     labelText: 'auth.confirm_password'.tr(),
