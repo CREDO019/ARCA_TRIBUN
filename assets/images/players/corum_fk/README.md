@@ -1,7 +1,12 @@
 # Çorum FK Oyuncu Görselleri
 
-Bu klasör yalnızca kullanım izni doğrulanmış local oyuncu fotoğrafları içindir.
-Uygulama çalışma anında dış siteden oyuncu görseli çekmez.
+Bu klasör, portföy ve pilot tanıtımı için manuel olarak sağlanan local oyuncu
+fotoğraflarını içerir. Uygulama çalışma anında dış siteden oyuncu görseli
+çekmez.
+
+Bu görseller kaynak kod lisansının parçası değildir. Public yeniden dağıtım,
+resmi yayın veya ticari kullanım öncesinde kulüp ve görsel izinlerini ayrıca
+doğrulayın.
 
 Dosya adı için küçük harfli ve alt çizgili biçim kullanın:
 
