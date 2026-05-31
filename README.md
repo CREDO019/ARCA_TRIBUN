@@ -28,6 +28,25 @@ amaçlar.
 - Remote veri boş olduğunda pilot sunuma uygun boş durum mesajları gösterilir.
 - Google, Apple ve misafir girişleri yapılandırılana kadar bilgi durumundadır.
 
+## Current MVP Scope
+
+- Splash ve dört sayfalı onboarding
+- E-posta ve şifre ile kayıt, giriş, şifre sıfırlama ve çıkış
+- Home, haberler, fikstür, puan durumu, kadro ve maç merkezi
+- Gerçek Supabase verisine bağlı taraftar profili
+- Pilot bilgi alanı ve güvenli mağaza yönlendirmesi
+- Remote veri boş olduğunda profesyonel loading, empty ve error durumları
+
+## Not Included Yet
+
+- Resmi kulüp onayı
+- Bilet entegrasyonu
+- Production push notification sistemi
+- Admin panel
+- Google ve Apple OAuth
+- Gerçek maç veri sağlayıcısı
+- Global leaderboard
+
 ## Kurulum
 
 Yerel çalışma zamanı ayarlarını oluşturun:
@@ -75,11 +94,33 @@ npx supabase migration list
 Migration ve RLS değişiklikleri kod incelemesi olmadan remote ortama
 uygulanmamalıdır. Seed verileri production ortamına otomatik basılmamalıdır.
 
-## Marka ve Güvenlik Notu
+## Demo Tour
+
+Kulüp sunumu için hazırlanan 5 dakikalık ürün turu:
+[docs/demo_tour_script.md](docs/demo_tour_script.md)
+
+Sunum öncesi operasyon kontrolleri:
+[docs/demo_risk_checklist.md](docs/demo_risk_checklist.md)
+
+Yedek görsel paket hazırlığı:
+[docs/screenshots_checklist.md](docs/screenshots_checklist.md)
+
+## Pilot Safety
+
+- Mobil istemciye `secret` veya `service_role` key eklenmemelidir.
+- Remote ortama plansız migration, RLS değişikliği veya seed uygulanmamalıdır.
+- Mağaza ve gelecekteki bilet bağlantıları doğrulanmış URL olmadan
+  etkinleştirilmemelidir.
+- Doğrulanmamış maç verisi veya sahte içerik sunum için kullanılmamalıdır.
+
+## Brand Disclaimer
 
 ARCA Tribün bir dijital taraftar platformu pilot çalışmasıdır. Kulüp onayı
 sonrası resmi kullanıma uygun hale getirilebilir. Mağaza, bilet ve üçüncü
 taraf bağlantıları yalnızca doğrulanmış URL'lerle etkinleştirilmelidir.
+
+> Bu uygulama pilot/prototip çalışmadır. Resmi kullanım için kulüp onayı
+> gerektirir.
 
 ## Demo Kontrol Listesi
 
