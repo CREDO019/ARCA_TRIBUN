@@ -1,3 +1,4 @@
+import 'package:arca_tribun/core/assets/corum_player_photo_assets.dart';
 import 'package:arca_tribun/core/theme/app_colors.dart';
 import 'package:arca_tribun/core/theme/app_typography.dart';
 import 'package:arca_tribun/features/squad/domain/player_model.dart';
@@ -17,7 +18,10 @@ class PlayerAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final number = player.number > 0 ? '${player.number}' : '-';
-    final assetPath = _assetPath(player.photoUrl);
+    final assetPath = resolveCorumPlayerPhotoAsset(
+      playerName: player.name,
+      configuredPhotoUrl: player.photoUrl,
+    );
 
     return SizedBox(
       width: size,
@@ -43,8 +47,19 @@ class PlayerAvatar extends StatelessWidget {
                       assetPath,
                       fit: BoxFit.contain,
                       filterQuality: FilterQuality.high,
-                      errorBuilder: (_, __, ___) =>
-                          _PlayerPlaceholder(player: player, size: size),
+                      errorBuilder: (_, __, ___) {
+                        assert(
+                          () {
+                            debugPrint(
+                              'Player photo missing: ${player.name} -> '
+                              '$assetPath',
+                            );
+                            return true;
+                          }(),
+                          'Missing bundled player photo: $assetPath',
+                        );
+                        return _PlayerPlaceholder(player: player, size: size);
+                      },
                     ),
                   ),
           ),
@@ -72,11 +87,6 @@ class PlayerAvatar extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  String? _assetPath(String? value) {
-    if (value == null || !value.startsWith('assets/')) return null;
-    return value;
   }
 }
 

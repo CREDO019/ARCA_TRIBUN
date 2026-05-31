@@ -1,3 +1,5 @@
+import 'package:arca_tribun/core/assets/corum_player_photo_assets.dart';
+
 class PilotData {
   PilotData._();
 
@@ -225,6 +227,7 @@ class PilotData {
       'position': position,
       'nationality': nationality,
       'status': 'active',
+      'image_url': corumPlayerPhotoAsset(name),
     };
   }
 

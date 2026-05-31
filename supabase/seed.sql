@@ -40,35 +40,35 @@ insert into public.standings (season, team_name, position, played, won, drawn, l
 ('2025/2026', 'Adana Demirspor', 20, 38, 1, 3, 34, 22, 169, -147, -57);
 
 -- Market value is intentionally omitted: the current schema has no verified field.
-insert into public.squad (id, name, number, position, nationality, status) values
-('40000000-0000-0000-0000-000000000001', 'Ibrahim Sehic', 13, 'goalkeeper', 'Bosna-Hersek', 'active'),
-('40000000-0000-0000-0000-000000000002', 'Ahmet Said Kıvanç', 1, 'goalkeeper', 'Türkiye', 'active'),
-('40000000-0000-0000-0000-000000000003', 'Hasan Hüseyin Akınay', 27, 'goalkeeper', 'Türkiye', 'active'),
-('40000000-0000-0000-0000-000000000004', 'Arda Şengül', 15, 'defender', 'Türkiye', 'active'),
-('40000000-0000-0000-0000-000000000005', 'Joseph Attamah', 3, 'defender', 'Gana', 'active'),
-('40000000-0000-0000-0000-000000000006', 'Efe Sarıkaya', 33, 'defender', 'Türkiye', 'active'),
-('40000000-0000-0000-0000-000000000007', 'Sinan Osmanoğlu', 5, 'defender', 'Türkiye', 'active'),
-('40000000-0000-0000-0000-000000000008', 'Cemali Sertel', 19, 'defender', 'Türkiye', 'active'),
-('40000000-0000-0000-0000-000000000009', 'Erkan Kaş', 39, 'defender', 'Türkiye / Kosova', 'active'),
-('40000000-0000-0000-0000-000000000010', 'Kerem Kalafat', 22, 'defender', 'Türkiye', 'active'),
-('40000000-0000-0000-0000-000000000011', 'Üzeyir Ergün', 23, 'defender', 'Türkiye', 'active'),
-('40000000-0000-0000-0000-000000000012', 'Ferhat Yazgan', 6, 'midfielder', 'Türkiye / Almanya', 'active'),
-('40000000-0000-0000-0000-000000000013', 'Atakan Cangöz', 92, 'midfielder', 'Türkiye', 'active'),
-('40000000-0000-0000-0000-000000000014', 'Atakan Akkaynak', 8, 'midfielder', 'Türkiye / Almanya', 'active'),
-('40000000-0000-0000-0000-000000000015', 'Pedrinho', 14, 'midfielder', 'Portekiz', 'active'),
-('40000000-0000-0000-0000-000000000016', 'Ahmed Ildız', 66, 'midfielder', 'Türkiye / Avusturya', 'active'),
-('40000000-0000-0000-0000-000000000017', 'Fredy Ribeiro', 16, 'midfielder', 'Angola / Portekiz', 'active'),
-('40000000-0000-0000-0000-000000000018', 'Oğuz Gürbulak', 20, 'midfielder', 'Türkiye', 'active'),
-('40000000-0000-0000-0000-000000000019', 'Danijel Aleksić', 9, 'midfielder', 'Sırbistan', 'active'),
-('40000000-0000-0000-0000-000000000020', 'Ibrahim Zubairu', 21, 'forward', 'Gana / Sırbistan', 'active'),
-('40000000-0000-0000-0000-000000000021', 'Yusuf Erdoğan', 10, 'forward', 'Türkiye', 'active'),
-('40000000-0000-0000-0000-000000000022', 'Burak Çoban', 77, 'forward', 'Türkiye / Almanya', 'active'),
-('40000000-0000-0000-0000-000000000023', 'Serdar Gürler', 7, 'forward', 'Türkiye / Fransa', 'active'),
-('40000000-0000-0000-0000-000000000024', 'Eren Karadağ', 99, 'forward', 'Türkiye', 'active'),
-('40000000-0000-0000-0000-000000000025', 'Furkan Çetinkaya', 45, 'midfielder', 'Türkiye', 'active'),
-('40000000-0000-0000-0000-000000000026', 'Mame Thiam', 17, 'forward', 'Senegal / İtalya', 'active'),
-('40000000-0000-0000-0000-000000000027', 'Braian Samudio', 18, 'forward', 'Paraguay', 'active')
-on conflict (id) do update set name = excluded.name, number = excluded.number, position = excluded.position, nationality = excluded.nationality, status = excluded.status;
+insert into public.squad (id, name, number, position, nationality, status, image_url) values
+('40000000-0000-0000-0000-000000000001', 'Ibrahim Sehic', 13, 'goalkeeper', 'Bosna-Hersek', 'active', 'assets/images/players/corum_fk/ibrahim_sehic.jpg'),
+('40000000-0000-0000-0000-000000000002', 'Ahmet Said Kıvanç', 1, 'goalkeeper', 'Türkiye', 'active', 'assets/images/players/corum_fk/ahmet_kivanc.jpg'),
+('40000000-0000-0000-0000-000000000003', 'Hasan Hüseyin Akınay', 27, 'goalkeeper', 'Türkiye', 'active', 'assets/images/players/corum_fk/hasan_huseyin_akinay.jpg'),
+('40000000-0000-0000-0000-000000000004', 'Arda Şengül', 15, 'defender', 'Türkiye', 'active', 'assets/images/players/corum_fk/arda_sengul.jpg'),
+('40000000-0000-0000-0000-000000000005', 'Joseph Attamah', 3, 'defender', 'Gana', 'active', 'assets/images/players/corum_fk/joseph_attamah.jpg'),
+('40000000-0000-0000-0000-000000000006', 'Efe Sarıkaya', 33, 'defender', 'Türkiye', 'active', 'assets/images/players/corum_fk/efe_sarikaya.jpg'),
+('40000000-0000-0000-0000-000000000007', 'Sinan Osmanoğlu', 5, 'defender', 'Türkiye', 'active', 'assets/images/players/corum_fk/sinan_osmanoglu.jpg'),
+('40000000-0000-0000-0000-000000000008', 'Cemali Sertel', 19, 'defender', 'Türkiye', 'active', 'assets/images/players/corum_fk/cemali_sertel.jpg'),
+('40000000-0000-0000-0000-000000000009', 'Erkan Kaş', 39, 'defender', 'Türkiye / Kosova', 'active', 'assets/images/players/corum_fk/erkan_kas.jpg'),
+('40000000-0000-0000-0000-000000000010', 'Kerem Kalafat', 22, 'defender', 'Türkiye', 'active', 'assets/images/players/corum_fk/kerem_kalafat.jpg'),
+('40000000-0000-0000-0000-000000000011', 'Üzeyir Ergün', 23, 'defender', 'Türkiye', 'active', 'assets/images/players/corum_fk/uzeyir_ergun.jpg'),
+('40000000-0000-0000-0000-000000000012', 'Ferhat Yazgan', 6, 'midfielder', 'Türkiye / Almanya', 'active', 'assets/images/players/corum_fk/ferhat_yazgan.jpg'),
+('40000000-0000-0000-0000-000000000013', 'Atakan Cangöz', 92, 'midfielder', 'Türkiye', 'active', 'assets/images/players/corum_fk/atakan_cangoz.jpg'),
+('40000000-0000-0000-0000-000000000014', 'Atakan Akkaynak', 8, 'midfielder', 'Türkiye / Almanya', 'active', 'assets/images/players/corum_fk/atakan_akkaynak.jpg'),
+('40000000-0000-0000-0000-000000000015', 'Pedrinho', 14, 'midfielder', 'Portekiz', 'active', 'assets/images/players/corum_fk/pedrinho.jpg'),
+('40000000-0000-0000-0000-000000000016', 'Ahmed Ildız', 66, 'midfielder', 'Türkiye / Avusturya', 'active', 'assets/images/players/corum_fk/ahmed_ildiz.jpg'),
+('40000000-0000-0000-0000-000000000017', 'Fredy Ribeiro', 16, 'midfielder', 'Angola / Portekiz', 'active', 'assets/images/players/corum_fk/fredy.jpg'),
+('40000000-0000-0000-0000-000000000018', 'Oğuz Gürbulak', 20, 'midfielder', 'Türkiye', 'active', 'assets/images/players/corum_fk/oguz_gurbulak.jpg'),
+('40000000-0000-0000-0000-000000000019', 'Danijel Aleksić', 9, 'midfielder', 'Sırbistan', 'active', 'assets/images/players/corum_fk/danijel_aleksic.jpg'),
+('40000000-0000-0000-0000-000000000020', 'Ibrahim Zubairu', 21, 'forward', 'Gana / Sırbistan', 'active', 'assets/images/players/corum_fk/ibrahim_zubairu.jpg'),
+('40000000-0000-0000-0000-000000000021', 'Yusuf Erdoğan', 10, 'forward', 'Türkiye', 'active', 'assets/images/players/corum_fk/yusuf_erdogan.jpg'),
+('40000000-0000-0000-0000-000000000022', 'Burak Çoban', 77, 'forward', 'Türkiye / Almanya', 'active', 'assets/images/players/corum_fk/burak_coban.jpg'),
+('40000000-0000-0000-0000-000000000023', 'Serdar Gürler', 7, 'forward', 'Türkiye / Fransa', 'active', 'assets/images/players/corum_fk/serdar_gurler.jpg'),
+('40000000-0000-0000-0000-000000000024', 'Eren Karadağ', 99, 'forward', 'Türkiye', 'active', 'assets/images/players/corum_fk/eren_karadag.jpg'),
+('40000000-0000-0000-0000-000000000025', 'Furkan Çetinkaya', 45, 'midfielder', 'Türkiye', 'active', 'assets/images/players/corum_fk/furkan_cetinkaya.jpg'),
+('40000000-0000-0000-0000-000000000026', 'Mame Thiam', 17, 'forward', 'Senegal / İtalya', 'active', null),
+('40000000-0000-0000-0000-000000000027', 'Braian Samudio', 18, 'forward', 'Paraguay', 'active', 'assets/images/players/corum_fk/braian_samudio.jpg')
+on conflict (id) do update set name = excluded.name, number = excluded.number, position = excluded.position, nationality = excluded.nationality, status = excluded.status, image_url = excluded.image_url;
 
 delete from public.squad
 where id = '40000000-0000-0000-0000-000000000028';
