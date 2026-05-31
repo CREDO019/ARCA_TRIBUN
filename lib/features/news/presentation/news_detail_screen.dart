@@ -4,6 +4,7 @@ import 'package:arca_tribun/core/theme/app_typography.dart';
 import 'package:arca_tribun/features/news/presentation/news_provider.dart';
 import 'package:arca_tribun/shared/widgets/content_state.dart';
 import 'package:arca_tribun/shared/widgets/loading_shimmer.dart';
+import 'package:arca_tribun/shared/widgets/promotion_news_graphic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
@@ -58,6 +59,10 @@ class NewsDetailScreen extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                if (news.category == 'Yükseliş') ...[
+                  const PromotionNewsGraphic(height: 150),
+                  const SizedBox(height: AppSpacing.xl),
+                ],
                 Text(news.title, style: AppTypography.headlineLarge),
                 const SizedBox(height: AppSpacing.sm),
                 Text(

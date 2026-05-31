@@ -6,6 +6,7 @@ import 'package:arca_tribun/features/squad/domain/player_model.dart';
 import 'package:arca_tribun/features/squad/presentation/squad_provider.dart';
 import 'package:arca_tribun/shared/widgets/content_state.dart';
 import 'package:arca_tribun/shared/widgets/loading_shimmer.dart';
+import 'package:arca_tribun/shared/widgets/player_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -100,16 +101,7 @@ class _PositionSection extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CircleAvatar(
-                      radius: 28,
-                      backgroundColor:
-                          AppColors.primaryRed.withValues(alpha: 0.2),
-                      child: Text(
-                        '${player.number}',
-                        style: AppTypography.headlineMedium
-                            .copyWith(color: AppColors.primaryRed),
-                      ),
-                    ),
+                    PlayerAvatar(player: player, size: 58),
                     const SizedBox(height: AppSpacing.sm),
                     Text(
                       player.name,

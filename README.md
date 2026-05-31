@@ -99,6 +99,16 @@ Yerel geliştirme verisi `supabase/seed.sql` içindedir. Remote pilot proje içi
 aynı doğrulanmış kayıtlar `supabase/pilot_seed.sql` dosyasından yalnızca hedef
 proje kontrol edildikten sonra manuel olarak çalıştırılmalıdır.
 
+## İçerik Kaynakları ve Görsel İzinleri
+
+- A takım kadrosu resmi kulüp sayfası ve TFF listesiyle doğrulanır:
+  [corumfk.com.tr/futbol](https://corumfk.com.tr/futbol).
+- Resmi kulüp sitesinde oyuncu fotoğrafları yer alsa da yeniden kullanım izni
+  ayrıca netleştirilmeden uygulama paketine alınmaz.
+- Oyuncu kartları bu nedenle kulüp arması ve forma numarasından oluşan yerel
+  placeholder kullanır. Haber görseli de telifli ajans fotoğrafı yerine uygulama
+  içinde çizilen kırmızı-siyah yükseliş grafiğidir.
+
 Hesap silme akışının güvenlik sınırı ve deploy adımları:
 [docs/account_deletion.md](docs/account_deletion.md)
 

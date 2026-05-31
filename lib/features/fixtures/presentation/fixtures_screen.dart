@@ -6,6 +6,7 @@ import 'package:arca_tribun/features/match_center/domain/match_model.dart';
 import 'package:arca_tribun/features/match_center/presentation/match_provider.dart';
 import 'package:arca_tribun/shared/widgets/content_state.dart';
 import 'package:arca_tribun/shared/widgets/loading_shimmer.dart';
+import 'package:arca_tribun/shared/widgets/team_crest.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -54,22 +55,61 @@ class FixturesScreen extends ConsumerWidget {
               );
             }
 
-            return ListView.separated(
+            return ListView(
               padding: const EdgeInsets.all(AppSpacing.screenPadding),
-              itemCount: fixtures.length,
-              separatorBuilder: (_, __) =>
-                  const SizedBox(height: AppSpacing.sm),
-              itemBuilder: (context, index) {
-                final match = fixtures[index];
-                return GestureDetector(
-                  onTap: () =>
-                      context.push(RouteNames.matchCenterPath(match.id)),
-                  child: _FixtureTile(match: match),
-                );
-              },
+              children: [
+                if (upcomingMatches.isNotEmpty) ...[
+                  const _SectionTitle('YENİ SEZON BAŞLANGICI'),
+                  ...upcomingMatches.map(
+                    (match) => _FixtureLink(match: match),
+                  ),
+                  const SizedBox(height: AppSpacing.lg),
+                ],
+                if (recentMatches.isNotEmpty) ...[
+                  const _SectionTitle('SONUÇLANAN MAÇLAR'),
+                  ...recentMatches.map(
+                    (match) => _FixtureLink(match: match),
+                  ),
+                ],
+              ],
             );
           },
         ),
+      ),
+    );
+  }
+}
+
+class _SectionTitle extends StatelessWidget {
+  const _SectionTitle(this.title);
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.arcaColors;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+      child: Text(
+        title,
+        style: AppTypography.labelSmall.copyWith(color: colors.textSecondary),
+      ),
+    );
+  }
+}
+
+class _FixtureLink extends StatelessWidget {
+  const _FixtureLink({required this.match});
+
+  final MatchModel match;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+      child: GestureDetector(
+        onTap: () => context.push(RouteNames.matchCenterPath(match.id)),
+        child: _FixtureTile(match: match),
       ),
     );
   }
@@ -93,58 +133,81 @@ class _FixtureTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
         border: Border.all(color: colors.border),
       ),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            width: 50,
-            child: Column(
-              children: [
-                Text('${date.day}', style: AppTypography.headlineMedium),
-                Text(
-                  _monthShort(date.month),
-                  style: AppTypography.labelSmall
-                      .copyWith(color: colors.textSecondary),
+          Row(
+            children: [
+              SizedBox(
+                width: 42,
+                child: Column(
+                  children: [
+                    Text('${date.day}', style: AppTypography.headlineMedium),
+                    Text(
+                      _monthShort(date.month),
+                      style: AppTypography.labelSmall
+                          .copyWith(color: colors.textSecondary),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-          const SizedBox(width: AppSpacing.md),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '${match.homeTeam} vs ${match.awayTeam}',
+              ),
+              const SizedBox(width: AppSpacing.sm),
+              Expanded(
+                child: Text(
+                  hasScore ? 'Play-off Final Sonucu' : 'Yeni Sezon Başlangıcı',
                   style: AppTypography.titleMedium,
                 ),
-                Text(
+              ),
+              Flexible(
+                child: Text(
                   match.competition ?? 'Lig',
                   style: AppTypography.bodySmall,
+                  overflow: TextOverflow.ellipsis,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-          if (hasScore)
-            Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.md,
-                vertical: AppSpacing.xs,
+          const SizedBox(height: AppSpacing.md),
+          Row(
+            children: [
+              TeamCrest(teamName: match.homeTeam, size: 38),
+              const SizedBox(width: AppSpacing.sm),
+              Expanded(
+                child: Text(
+                  match.homeTeam,
+                  style: AppTypography.bodyMedium,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-              decoration: BoxDecoration(
-                color: AppColors.primaryRed.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
+                child: Text(
+                  hasScore
+                      ? '${match.homeScore} - ${match.awayScore}'
+                      : '${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}',
+                  style: AppTypography.titleMedium
+                      .copyWith(color: AppColors.primaryRed),
+                ),
               ),
-              child: Text(
-                '${match.homeScore} - ${match.awayScore}',
-                style: AppTypography.titleMedium
-                    .copyWith(color: AppColors.primaryRed),
+              Expanded(
+                child: Text(
+                  match.awayTeam,
+                  style: AppTypography.bodyMedium,
+                  textAlign: TextAlign.end,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-            )
-          else
+              const SizedBox(width: AppSpacing.sm),
+              TeamCrest(teamName: match.awayTeam, size: 38),
+            ],
+          ),
+          if (!hasScore) ...[
+            const SizedBox(height: AppSpacing.sm),
             Text(
-              '${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}',
-              style: AppTypography.bodyMedium,
+              'Rakip, fikstür açıklandığında güncellenecek.',
+              style: AppTypography.bodySmall,
             ),
+          ],
         ],
       ),
     );

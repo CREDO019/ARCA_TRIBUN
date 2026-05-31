@@ -3,9 +3,11 @@ import 'package:arca_tribun/core/storage/onboarding_preferences.dart';
 import 'package:arca_tribun/core/theme/theme_preference_provider.dart';
 import 'package:arca_tribun/features/auth/presentation/login_screen.dart';
 import 'package:arca_tribun/features/fan_profile/domain/fan_profile_model.dart';
+import 'package:arca_tribun/features/fan_profile/data/fan_profile_repository.dart';
 import 'package:arca_tribun/features/fan_profile/presentation/fan_profile_provider.dart';
 import 'package:arca_tribun/features/fan_profile/presentation/profile_screen.dart';
 import 'package:arca_tribun/features/home/presentation/widgets/store_banner_card.dart';
+import 'package:arca_tribun/features/home/presentation/widgets/next_match_countdown.dart';
 import 'package:arca_tribun/features/notification_preferences/presentation/notification_prefs_screen.dart';
 import 'package:arca_tribun/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:arca_tribun/features/splash/presentation/splash_screen.dart';
@@ -149,6 +151,7 @@ void main() {
   testWidgets('profile shows real fields and account delete confirmation', (
     WidgetTester tester,
   ) async {
+    final repository = _FakeFanProfileRepository();
     final profile = FanProfileModel(
       uid: 'user-id',
       displayName: 'Tribun Taraftari',
@@ -168,6 +171,7 @@ void main() {
       ProviderScope(
         overrides: [
           fanProfileProvider.overrideWith((ref) => Stream.value(profile)),
+          fanProfileRepositoryProvider.overrideWithValue(repository),
           currentUserEmailProvider.overrideWith(
             (ref) => 'taraftar@example.com',
           ),
@@ -195,6 +199,19 @@ void main() {
       preferences.getString('theme_preference'),
       ThemePreference.dark.name,
     );
+
+    await tester.ensureVisible(find.byKey(const Key('edit_profile_tile')));
+    await tester.tap(find.byKey(const Key('edit_profile_tile')));
+    await tester.pumpAndSettle();
+    await tester.enterText(
+      find.byKey(const Key('display_name_field')),
+      'Yeni Taraftar',
+    );
+    await tester.tap(find.byKey(const Key('save_display_name_button')));
+    await tester.pumpAndSettle();
+
+    expect(repository.updatedDisplayName, 'Yeni Taraftar');
+    expect(find.text('Profil bilgileriniz güncellendi.'), findsOneWidget);
 
     await tester.scrollUntilVisible(
       find.byKey(const Key('project_info_tile')),
@@ -245,6 +262,29 @@ void main() {
     expect(find.text('Bildirim Ayarları'), findsOneWidget);
     expect(find.text('GOL BİLDİRİMLERİ'), findsOneWidget);
     expect(find.text('MAÇ BİLDİRİMLERİ'), findsOneWidget);
+    expect(find.text('Kadro bilgileri güncellendi'), findsOneWidget);
+  });
+
+  testWidgets('countdown scales down on a narrow screen', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: SizedBox(
+            width: 230,
+            child: NextMatchCountdown(
+              matchTime: DateTime.now().add(const Duration(days: 120)),
+              title: 'Yeni Sezon Başlangıcı',
+              description: 'Süper Lig 2026/2027 sezonu başlangıç haftası.',
+            ),
+          ),
+        ),
+      ),
+    );
+
+    await tester.pump();
+    expect(tester.takeException(), isNull);
   });
 
   testWidgets('store banner explains missing pilot link', (
@@ -262,6 +302,15 @@ void main() {
       findsOneWidget,
     );
   });
+}
+
+class _FakeFanProfileRepository extends FanProfileRepository {
+  String? updatedDisplayName;
+
+  @override
+  Future<void> updateDisplayName(String displayName) async {
+    updatedDisplayName = displayName;
+  }
 }
 
 GoRouter _createOnboardingTestRouter() => GoRouter(

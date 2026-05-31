@@ -5,6 +5,7 @@ import 'package:arca_tribun/features/squad/domain/player_model.dart';
 import 'package:arca_tribun/features/squad/presentation/squad_provider.dart';
 import 'package:arca_tribun/shared/widgets/content_state.dart';
 import 'package:arca_tribun/shared/widgets/loading_shimmer.dart';
+import 'package:arca_tribun/shared/widgets/player_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -71,16 +72,7 @@ class _PlayerDetailContent extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CircleAvatar(
-                      radius: 56,
-                      backgroundColor:
-                          AppColors.primaryRed.withValues(alpha: 0.3),
-                      child: const Icon(
-                        Icons.person,
-                        size: 56,
-                        color: AppColors.white,
-                      ),
-                    ),
+                    PlayerAvatar(player: player, size: 112),
                     const SizedBox(height: AppSpacing.md),
                     Text(
                       player.name,
@@ -89,7 +81,7 @@ class _PlayerDetailContent extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '${_positionText(player.position)} · #${player.number}',
+                      '${_positionText(player.position)} · ${_numberText(player.number)}',
                       style: AppTypography.bodyMedium.copyWith(
                         color: AppColors.white.withValues(alpha: 0.76),
                       ),
@@ -146,6 +138,8 @@ class _PlayerDetailContent extends StatelessWidget {
         return raw;
     }
   }
+
+  String _numberText(int number) => number > 0 ? '#$number' : 'Numara yok';
 }
 
 class _StatCard extends StatelessWidget {

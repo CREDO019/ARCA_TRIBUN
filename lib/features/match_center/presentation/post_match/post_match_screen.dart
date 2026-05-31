@@ -132,7 +132,10 @@ class _PostMatchContent extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    Text('${event.minute}’', style: AppTypography.titleMedium),
+                    Text(
+                      _minuteText(event.minute),
+                      style: AppTypography.titleMedium,
+                    ),
                     const SizedBox(width: AppSpacing.md),
                     Icon(
                       event.type == MatchEventType.redCard
@@ -175,5 +178,9 @@ class _PostMatchContent extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _minuteText(int minute) {
+    return minute > 90 ? '90+${minute - 90}’' : '$minute’';
   }
 }

@@ -5,6 +5,7 @@ import 'package:arca_tribun/features/standings/domain/standing_model.dart';
 import 'package:arca_tribun/features/standings/presentation/standings_provider.dart';
 import 'package:arca_tribun/shared/widgets/content_state.dart';
 import 'package:arca_tribun/shared/widgets/loading_shimmer.dart';
+import 'package:arca_tribun/shared/widgets/team_crest.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -27,11 +28,18 @@ class StandingsScreen extends ConsumerWidget {
         ),
         data: (teams) {
           if (teams.isEmpty) {
-            return const BrandedEmptyState(
-              icon: Icons.leaderboard_outlined,
-              title: 'Puan durumu hazırlanıyor',
-              message:
-                  'Lig tablosu doğrulanmış veri kaynağına bağlandığında yayınlanacak.',
+            return ListView(
+              padding: const EdgeInsets.all(AppSpacing.screenPadding),
+              children: const [
+                _VerifiedFinalContextCard(),
+                SizedBox(height: AppSpacing.xl),
+                BrandedEmptyState(
+                  icon: Icons.leaderboard_outlined,
+                  title: 'Puan durumu hazırlanıyor',
+                  message:
+                      'Sezon puan durumu doğrulandığında burada görünecek.',
+                ),
+              ],
             );
           }
 
@@ -45,6 +53,7 @@ class StandingsScreen extends ConsumerWidget {
                 child: Row(
                   children: [
                     const SizedBox(width: 30),
+                    const SizedBox(width: 38),
                     Expanded(
                       child: Text(
                         'KULÜP',
@@ -127,7 +136,7 @@ class _StandingRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isOurTeam = team.teamName.toLowerCase().contains('arca çorum');
+    final isOurTeam = isArcaCorumFk(team.teamName);
     final colors = context.arcaColors;
 
     return Container(
@@ -144,15 +153,31 @@ class _StandingRow extends StatelessWidget {
             width: 30,
             child: Text('${team.position}', style: AppTypography.bodyMedium),
           ),
+          TeamCrest(teamName: team.teamName, size: 30),
+          const SizedBox(width: AppSpacing.sm),
           Expanded(
-            child: Text(
-              team.teamName,
-              style: isOurTeam
-                  ? AppTypography.titleMedium
-                      .copyWith(color: AppColors.primaryRed)
-                  : AppTypography.bodyMedium
-                      .copyWith(color: colors.textPrimary),
-              overflow: TextOverflow.ellipsis,
+            child: Row(
+              children: [
+                Flexible(
+                  child: Text(
+                    team.teamName,
+                    style: isOurTeam
+                        ? AppTypography.titleMedium
+                            .copyWith(color: AppColors.primaryRed)
+                        : AppTypography.bodyMedium
+                            .copyWith(color: colors.textPrimary),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                if (isOurTeam) ...[
+                  const SizedBox(width: AppSpacing.xs),
+                  const Icon(
+                    Icons.verified,
+                    size: 15,
+                    color: AppColors.primaryRed,
+                  ),
+                ],
+              ],
             ),
           ),
           SizedBox(
@@ -195,6 +220,53 @@ class _StandingRow extends StatelessWidget {
                   AppTypography.titleMedium.copyWith(color: colors.textPrimary),
               textAlign: TextAlign.center,
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _VerifiedFinalContextCard extends StatelessWidget {
+  const _VerifiedFinalContextCard();
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.arcaColors;
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.cardPadding),
+      decoration: BoxDecoration(
+        color: colors.surface,
+        borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
+        border: Border.all(
+          color: AppColors.primaryRed.withValues(alpha: 0.45),
+        ),
+      ),
+      child: Column(
+        children: [
+          Text(
+            'PLAY-OFF FİNAL SONUCU',
+            style:
+                AppTypography.labelSmall.copyWith(color: AppColors.primaryRed),
+          ),
+          const SizedBox(height: AppSpacing.md),
+          Row(
+            children: [
+              const TeamCrest(teamName: 'Esenler Erokspor', size: 42),
+              const SizedBox(width: AppSpacing.sm),
+              const Expanded(child: Text('Esenler Erokspor')),
+              Text('0 - 2', style: AppTypography.headlineMedium),
+              const Expanded(
+                child: Text('Çorum FK', textAlign: TextAlign.end),
+              ),
+              const SizedBox(width: AppSpacing.sm),
+              const TeamCrest(teamName: 'Çorum FK', size: 42),
+            ],
+          ),
+          const SizedBox(height: AppSpacing.md),
+          Text(
+            'Çorum FK bu sonuçla Süper Lig’e yükseldi.',
+            style: AppTypography.bodySmall,
           ),
         ],
       ),

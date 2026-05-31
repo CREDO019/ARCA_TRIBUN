@@ -9,14 +9,17 @@ class PilotData {
   static final newsRows = <Map<String, dynamic>>[
     {
       'id': '10000000-0000-0000-0000-000000000001',
-      'title': 'Play-off finalinde zafer',
-      'summary': 'Çorum FK, Esenler Erokspor’u 2-0 mağlup etti.',
-      'content': '24 Mayıs 2026 tarihinde Konya Büyükşehir Belediye '
+      'title': 'Çorum FK Süper Lig’e yükseldi',
+      'summary': 'Çorum FK, play-off finalinde Esenler Erokspor’u 2-0 '
+          'mağlup ederek Süper Lig’e yükseldi.',
+      'content': '24 Mayıs 2026 tarihinde Medaş Konya Büyükşehir '
           'Stadyumu’nda oynanan Trendyol 1. Lig Play-Off Finali’nde '
-          'Çorum FK, Esenler Erokspor’u 2-0 mağlup etti. Goller 37. '
-          'dakikada Serdar Gürler ve 53. dakikada Mame Thiam’dan geldi.',
+          'Çorum FK, Esenler Erokspor’u 2-0 mağlup ederek Süper Lig’e '
+          'yükseldi. Goller 37. dakikada Serdar Gürler ve 53. dakikada '
+          'Mame Thiam’dan geldi. Bu içerik pilot uygulama için doğrulanmış '
+          'sonuçlardan hazırlanmıştır.',
       'author_name': appName,
-      'category': 'Maç',
+      'category': 'Yükseliş',
       'status': 'published',
       'published_at': '2026-05-24T22:10:00+03:00',
     },
@@ -43,7 +46,7 @@ class PilotData {
       'away_team': 'Çorum FK',
       'opponent': 'Esenler Erokspor',
       'is_home': false,
-      'stadium': 'Konya Büyükşehir Belediye Stadyumu',
+      'stadium': 'Medaş Konya Büyükşehir Stadyumu',
       'match_date': '2026-05-24T19:00:00+03:00',
       'status': 'finished',
       'home_score': 0,
@@ -89,18 +92,18 @@ class PilotData {
     {
       'id': '30000000-0000-0000-0000-000000000003',
       'match_id': finalMatchId,
-      'minute': 93,
+      'minute': 92,
       'event_type': 'red_card',
       'team': 'Esenler Erokspor',
       'player_name': 'Guélor Kanga',
-      'description': '90+3’ Guélor Kanga kırmızı kart gördü.',
+      'description': '90+2’ Guélor Kanga kırmızı kart gördü.',
     },
   ];
 
   static final squadRows = <Map<String, dynamic>>[
     _player('40000000-0000-0000-0000-000000000001', 'Ibrahim Sehic', 13,
         'goalkeeper', 'Bosna-Hersek'),
-    _player('40000000-0000-0000-0000-000000000002', 'Ahmet Kıvanç', 1,
+    _player('40000000-0000-0000-0000-000000000002', 'Ahmet Said Kıvanç', 1,
         'goalkeeper', 'Türkiye'),
     _player('40000000-0000-0000-0000-000000000003', 'Hasan Hüseyin Akınay', 27,
         'goalkeeper', 'Türkiye'),
@@ -130,11 +133,11 @@ class PilotData {
         'midfielder', 'Portekiz'),
     _player('40000000-0000-0000-0000-000000000016', 'Ahmed Ildız', 66,
         'midfielder', 'Türkiye / Avusturya'),
-    _player('40000000-0000-0000-0000-000000000017', 'Fredy', 16, 'midfielder',
-        'Angola / Portekiz'),
+    _player('40000000-0000-0000-0000-000000000017', 'Fredy Ribeiro', 16,
+        'midfielder', 'Angola / Portekiz'),
     _player('40000000-0000-0000-0000-000000000018', 'Oğuz Gürbulak', 20,
         'midfielder', 'Türkiye'),
-    _player('40000000-0000-0000-0000-000000000019', 'Danijel Aleksic', 9,
+    _player('40000000-0000-0000-0000-000000000019', 'Danijel Aleksić', 9,
         'midfielder', 'Sırbistan'),
     _player('40000000-0000-0000-0000-000000000020', 'Ibrahim Zubairu', 21,
         'forward', 'Gana / Sırbistan'),
@@ -146,28 +149,26 @@ class PilotData {
         'forward', 'Türkiye / Fransa'),
     _player('40000000-0000-0000-0000-000000000024', 'Eren Karadağ', 99,
         'forward', 'Türkiye'),
-    _player('40000000-0000-0000-0000-000000000025', 'Geraldo', 29, 'forward',
-        'Angola / Brezilya'),
+    _player('40000000-0000-0000-0000-000000000025', 'Furkan Çetinkaya', 45,
+        'midfielder', 'Türkiye'),
     _player('40000000-0000-0000-0000-000000000026', 'Mame Thiam', 17, 'forward',
         'Senegal / İtalya'),
     _player('40000000-0000-0000-0000-000000000027', 'Braian Samudio', 18,
         'forward', 'Paraguay'),
-    _player('40000000-0000-0000-0000-000000000028', 'Mert Aktaş', null,
-        'forward', 'Türkiye'),
   ];
 
   static final notificationCards = <Map<String, String>>[
     {
-      'title': 'Yeni sezon hazırlığı',
-      'body': 'Süper Lig 2026/2027 sezonu başlangıç haftası bekleniyor.',
+      'title': 'Çorum FK 2-0 Esenler Erokspor',
+      'body': 'Play-off final zaferiyle Süper Lig’e yükseldik.',
     },
     {
-      'title': 'Play-off final sonucu: Çorum FK 2-0 Esenler Erokspor',
-      'body': '24 Mayıs 2026, Konya Büyükşehir Belediye Stadyumu.',
+      'title': 'Yeni sezon fikstürü',
+      'body': 'Yeni sezon fikstürü açıklandığında bildirim alacaksın.',
     },
     {
-      'title': 'Fikstür bildirimi',
-      'body': 'Fikstür açıklandığında anlık bildirim alacaksın.',
+      'title': 'Kadro bilgileri güncellendi',
+      'body': 'Doğrulanmış A takım kadrosu yayınlandı.',
     },
   ];
 

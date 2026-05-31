@@ -4,6 +4,7 @@ import 'package:arca_tribun/core/theme/app_spacing.dart';
 import 'package:arca_tribun/core/theme/app_typography.dart';
 import 'package:arca_tribun/features/standings/presentation/standings_provider.dart';
 import 'package:arca_tribun/shared/widgets/content_state.dart';
+import 'package:arca_tribun/shared/widgets/team_crest.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -66,8 +67,7 @@ class StandingsMiniCard extends ConsumerWidget {
               final visibleTeams = teams.take(3);
               return Column(
                 children: visibleTeams.map((team) {
-                  final isOurTeam =
-                      team.teamName.toLowerCase().contains('arca çorum');
+                  final isOurTeam = isArcaCorumFk(team.teamName);
                   return Padding(
                     padding:
                         const EdgeInsets.symmetric(vertical: AppSpacing.xs),
@@ -80,6 +80,8 @@ class StandingsMiniCard extends ConsumerWidget {
                             style: AppTypography.bodyMedium,
                           ),
                         ),
+                        TeamCrest(teamName: team.teamName, size: 24),
+                        const SizedBox(width: AppSpacing.sm),
                         Expanded(
                           child: Text(
                             team.teamName,

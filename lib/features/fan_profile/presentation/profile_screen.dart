@@ -448,18 +448,66 @@ Future<void> _editDisplayName(
   WidgetRef ref,
   FanProfileModel profile,
 ) async {
-  final controller = TextEditingController(text: profile.displayName);
-  final formKey = GlobalKey<FormState>();
-
   final displayName = await showDialog<String>(
     context: context,
-    builder: (context) => AlertDialog(
+    builder: (_) => _EditDisplayNameDialog(
+      initialDisplayName: profile.displayName,
+    ),
+  );
+
+  if (displayName == null || !context.mounted) return;
+
+  try {
+    await ref.read(fanProfileRepositoryProvider).updateDisplayName(displayName);
+    ref.invalidate(fanProfileProvider);
+    if (context.mounted) {
+      _showInfo(context, 'Profil bilgileriniz güncellendi.');
+    }
+  } catch (_) {
+    if (context.mounted) {
+      _showInfo(
+        context,
+        'Profil bilgileriniz güncellenemedi. Lütfen tekrar deneyin.',
+        isError: true,
+      );
+    }
+  }
+}
+
+class _EditDisplayNameDialog extends StatefulWidget {
+  const _EditDisplayNameDialog({required this.initialDisplayName});
+
+  final String initialDisplayName;
+
+  @override
+  State<_EditDisplayNameDialog> createState() => _EditDisplayNameDialogState();
+}
+
+class _EditDisplayNameDialogState extends State<_EditDisplayNameDialog> {
+  final _formKey = GlobalKey<FormState>();
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.initialDisplayName);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
       title: const Text('Kullanıcı Adını Düzenle'),
       content: Form(
-        key: formKey,
+        key: _formKey,
         child: TextFormField(
           key: const Key('display_name_field'),
-          controller: controller,
+          controller: _controller,
           autofocus: true,
           maxLength: 40,
           textInputAction: TextInputAction.done,
@@ -479,32 +527,13 @@ Future<void> _editDisplayName(
         ElevatedButton(
           key: const Key('save_display_name_button'),
           onPressed: () {
-            if (!formKey.currentState!.validate()) return;
-            Navigator.of(context).pop(controller.text.trim());
+            if (!_formKey.currentState!.validate()) return;
+            Navigator.of(context).pop(_controller.text.trim());
           },
           child: const Text('Kaydet'),
         ),
       ],
-    ),
-  );
-  controller.dispose();
-
-  if (displayName == null || !context.mounted) return;
-
-  try {
-    await ref.read(fanProfileRepositoryProvider).updateDisplayName(displayName);
-    ref.invalidate(fanProfileProvider);
-    if (context.mounted) {
-      _showInfo(context, 'Profil bilgileriniz güncellendi.');
-    }
-  } catch (_) {
-    if (context.mounted) {
-      _showInfo(
-        context,
-        'Profil bilgileriniz güncellenemedi. Lütfen tekrar deneyin.',
-        isError: true,
-      );
-    }
+    );
   }
 }
 

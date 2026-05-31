@@ -4,6 +4,7 @@ import 'package:arca_tribun/core/theme/app_spacing.dart';
 import 'package:arca_tribun/core/theme/app_typography.dart';
 import 'package:arca_tribun/features/match_center/domain/match_model.dart';
 import 'package:arca_tribun/features/match_center/presentation/match_provider.dart';
+import 'package:arca_tribun/shared/widgets/team_crest.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -62,7 +63,8 @@ class _LiveMatchHeroCardState extends ConsumerState<LiveMatchHeroCard>
           ? null
           : () => context.push(RouteNames.matchCenterPath(match.id)),
       child: Container(
-        height: AppSpacing.matchCardHeight,
+        constraints:
+            const BoxConstraints(minHeight: AppSpacing.matchCardHeight),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
@@ -82,11 +84,15 @@ class _LiveMatchHeroCardState extends ConsumerState<LiveMatchHeroCard>
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    match?.competition ?? 'Maç Merkezi',
-                    style: AppTypography.labelSmall
-                        .copyWith(color: AppColors.white),
+                  Expanded(
+                    child: Text(
+                      match?.competition ?? 'Maç Merkezi',
+                      style: AppTypography.labelSmall
+                          .copyWith(color: AppColors.white),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
+                  const SizedBox(width: AppSpacing.sm),
                   if (isLive)
                     _buildLiveBadge()
                   else
@@ -94,7 +100,7 @@ class _LiveMatchHeroCardState extends ConsumerState<LiveMatchHeroCard>
                 ],
               ),
 
-              const Spacer(),
+              const SizedBox(height: AppSpacing.lg),
 
               // ─── Score Row ─────────────────────────────────────────
               if (match == null)
@@ -114,45 +120,64 @@ class _LiveMatchHeroCardState extends ConsumerState<LiveMatchHeroCard>
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Expanded(
-                      child: Text(
-                        match.homeTeam,
-                        style: AppTypography.titleMedium.copyWith(
-                          color: AppColors.white,
-                        ),
-                        textAlign: TextAlign.center,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
+                      child: Column(
+                        children: [
+                          TeamCrest(teamName: match.homeTeam, size: 42),
+                          const SizedBox(height: AppSpacing.xs),
+                          Text(
+                            match.homeTeam,
+                            style: AppTypography.titleMedium.copyWith(
+                              color: AppColors.white,
+                            ),
+                            textAlign: TextAlign.center,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
                       ),
                     ),
-                    Column(
-                      children: [
-                        Text(
-                          _scoreText(match, isLive: isLive),
-                          style: AppTypography.scoreDisplay,
+                    Padding(
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Column(
+                          children: [
+                            Text(
+                              _scoreText(match, isLive: isLive),
+                              style: AppTypography.scoreDisplay,
+                            ),
+                            Text(
+                              _statusText(match, isLive: isLive),
+                              style: AppTypography.bodySmall.copyWith(
+                                color: AppColors.primaryRed,
+                              ),
+                            ),
+                          ],
                         ),
-                        Text(
-                          _statusText(match, isLive: isLive),
-                          style: AppTypography.bodySmall.copyWith(
-                            color: AppColors.primaryRed,
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                     Expanded(
-                      child: Text(
-                        match.awayTeam,
-                        style: AppTypography.titleMedium.copyWith(
-                          color: AppColors.white,
-                        ),
-                        textAlign: TextAlign.center,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
+                      child: Column(
+                        children: [
+                          TeamCrest(teamName: match.awayTeam, size: 42),
+                          const SizedBox(height: AppSpacing.xs),
+                          Text(
+                            match.awayTeam,
+                            style: AppTypography.titleMedium.copyWith(
+                              color: AppColors.white,
+                            ),
+                            textAlign: TextAlign.center,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 ),
 
-              const Spacer(),
+              const SizedBox(height: AppSpacing.lg),
 
               // ─── CTA Button ────────────────────────────────────────
               SizedBox(

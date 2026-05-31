@@ -4,6 +4,7 @@ import 'package:arca_tribun/core/theme/app_typography.dart';
 import 'package:arca_tribun/features/match_center/presentation/match_provider.dart';
 import 'package:arca_tribun/shared/widgets/content_state.dart';
 import 'package:arca_tribun/shared/widgets/loading_shimmer.dart';
+import 'package:arca_tribun/shared/widgets/team_crest.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -49,6 +50,7 @@ class PreGameScreen extends ConsumerWidget {
           awayTeam: match.awayTeam,
           kickoff: kickoff,
           venue: match.venue ?? 'Stadyum bilgisi bekleniyor',
+          fixturePending: match.awayTeam == 'Rakip açıklanacak',
         );
       },
     );
@@ -61,12 +63,14 @@ class _PreGameContent extends StatelessWidget {
     required this.awayTeam,
     required this.kickoff,
     required this.venue,
+    required this.fixturePending,
   });
 
   final String homeTeam;
   final String awayTeam;
   final String kickoff;
   final String venue;
+  final bool fixturePending;
 
   @override
   Widget build(BuildContext context) {
@@ -89,12 +93,22 @@ class _PreGameContent extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  Text(
-                    '$homeTeam vs $awayTeam',
-                    style: AppTypography.headlineMedium.copyWith(
-                      color: AppColors.white,
-                    ),
-                    textAlign: TextAlign.center,
+                  Row(
+                    children: [
+                      TeamCrest(teamName: homeTeam, size: 44),
+                      const SizedBox(width: AppSpacing.sm),
+                      Expanded(
+                        child: Text(
+                          '$homeTeam\nvs\n$awayTeam',
+                          style: AppTypography.titleMedium.copyWith(
+                            color: AppColors.white,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      const SizedBox(width: AppSpacing.sm),
+                      TeamCrest(teamName: awayTeam, size: 44),
+                    ],
                   ),
                   const SizedBox(height: AppSpacing.sm),
                   Text(
@@ -110,7 +124,7 @@ class _PreGameContent extends StatelessWidget {
 
             // Muhtemel 11
             Text(
-              'MUHTEMEL 11',
+              fixturePending ? 'FİKSTÜR NOTU' : 'MUHTEMEL 11',
               style: AppTypography.labelSmall
                   .copyWith(color: colors.textSecondary),
             ),
@@ -124,8 +138,12 @@ class _PreGameContent extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  'Doğrulanmış kadro bilgileri bekleniyor.',
+                  fixturePending
+                      ? 'Yeni sezon fikstürü açıklandığında rakip ve maç '
+                          'detayları burada güncellenecek.'
+                      : 'Doğrulanmış kadro bilgileri bekleniyor.',
                   style: TextStyle(color: colors.textSecondary),
+                  textAlign: TextAlign.center,
                 ),
               ),
             ),
@@ -154,18 +172,20 @@ class _PreGameContent extends StatelessWidget {
                     size: 40,
                   ),
                   const SizedBox(width: AppSpacing.md),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Hava durumu verisi hazırlanıyor',
-                        style: AppTypography.titleLarge,
-                      ),
-                      Text(
-                        'Doğrulanmış bilgiler maç öncesinde yayınlanacak.',
-                        style: AppTypography.bodySmall,
-                      ),
-                    ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Hava durumu verisi hazırlanıyor',
+                          style: AppTypography.titleLarge,
+                        ),
+                        Text(
+                          'Doğrulanmış bilgiler maç öncesinde yayınlanacak.',
+                          style: AppTypography.bodySmall,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

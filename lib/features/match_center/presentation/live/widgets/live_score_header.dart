@@ -51,7 +51,7 @@ class LiveScoreHeader extends StatelessWidget {
 
             const SizedBox(height: AppSpacing.sm),
             Text(
-              'Arca Çorum FK vs Rakip',
+              'ARCA ÇORUM FK vs Rakip',
               style: AppTypography.bodyMedium.copyWith(
                 color: AppColors.white.withValues(alpha: 0.76),
               ),

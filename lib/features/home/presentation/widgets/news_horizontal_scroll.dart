@@ -4,6 +4,7 @@ import 'package:arca_tribun/core/theme/app_spacing.dart';
 import 'package:arca_tribun/core/theme/app_typography.dart';
 import 'package:arca_tribun/features/news/presentation/news_provider.dart';
 import 'package:arca_tribun/shared/widgets/content_state.dart';
+import 'package:arca_tribun/shared/widgets/promotion_news_graphic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -125,11 +126,15 @@ class NewsHorizontalScroll extends ConsumerWidget {
                             ),
                           ),
                           const SizedBox(height: AppSpacing.sm),
+                          if (item.category == 'Yükseliş') ...[
+                            const PromotionNewsGraphic(height: 58),
+                            const SizedBox(height: AppSpacing.sm),
+                          ],
                           Expanded(
                             child: Text(
                               item.title,
                               style: AppTypography.titleMedium,
-                              maxLines: 3,
+                              maxLines: item.category == 'Yükseliş' ? 2 : 3,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),

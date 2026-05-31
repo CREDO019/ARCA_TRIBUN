@@ -123,17 +123,24 @@ class _NextMatchCountdownState extends State<NextMatchCountdown> {
                 AppTypography.labelSmall.copyWith(color: colors.textSecondary),
           ),
           const SizedBox(height: AppSpacing.sm),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _CountdownBlock(value: days, label: 'GÜN'),
-              _Divider(),
-              _CountdownBlock(value: hours, label: 'SAAT'),
-              _Divider(),
-              _CountdownBlock(value: minutes, label: 'DAK'),
-              _Divider(),
-              _CountdownBlock(value: seconds, label: 'SN'),
-            ],
+          SizedBox(
+            width: double.infinity,
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerLeft,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _CountdownBlock(value: days, label: 'GÜN'),
+                  _Divider(),
+                  _CountdownBlock(value: hours, label: 'SAAT'),
+                  _Divider(),
+                  _CountdownBlock(value: minutes, label: 'DAK'),
+                  _Divider(),
+                  _CountdownBlock(value: seconds, label: 'SN'),
+                ],
+              ),
+            ),
           ),
           if (widget.description != null) ...[
             const SizedBox(height: AppSpacing.sm),
